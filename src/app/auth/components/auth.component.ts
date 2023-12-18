@@ -13,6 +13,8 @@ import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
 import { PasswordValidators } from '../../shared/validators/passwordValidator';
 import { PasswordModule } from 'primeng/password';
+import { AuthServices } from '../services/auth.services';
+import { AuthRequestI } from '../types/authRequest.interface';
 
 @Component({
   selector: 'app-auth',
@@ -28,15 +30,17 @@ import { PasswordModule } from 'primeng/password';
     ReactiveFormsModule,
     PasswordModule,
   ],
+  providers: [AuthServices],
 })
 export class AuthComponent implements OnInit, OnDestroy {
   form!: FormGroup;
   title: AuthTitle = 'REGISTER';
   subscription!: Subscription;
-
+  user!: AuthRequestI;
   constructor(
     private readonly route: ActivatedRoute,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private authService: AuthServices
   ) {}
 
   ngOnInit(): void {
@@ -108,6 +112,31 @@ export class AuthComponent implements OnInit, OnDestroy {
   }
   get requiresSpecialCharsValid() {
     return !this.form.controls['password'].hasError('requiresSpecialChars');
+  }
+
+  onSubmit(): void {
+    if (
+      this.title === 'LOGIN' &&
+      this.form.controls['email'].valid &&
+      this.form.controls['password'].valid
+    ) {
+      this.authService.login({
+        user: {
+          email: this.form.controls['email'].value,
+          password: this.form.controls['password'].value,
+        },
+      });
+    }
+    if (this.title === 'REGISTER' && this.form.valid) {
+      this.authService.login({
+        user: {
+          email: this.form.controls['email'].value,
+          password: this.form.controls['password'].value,
+        },
+      });
+    } else {
+      return;
+    }
   }
 
   ngOnDestroy(): void {

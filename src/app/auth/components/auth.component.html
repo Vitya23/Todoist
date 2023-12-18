@@ -14,7 +14,7 @@
     </div>
     }
 
-    <form class="form" [formGroup]="form">
+    <form class="form" [formGroup]="form" (ngSubmit)="onSubmit()">
       <label for="email" class="label">Почта</label>
       <input
         id="email"
@@ -97,6 +97,7 @@
       </div>
       }
       <p-button
+        type="submit"
         [disabled]="
           title === 'REGISTER'
             ? form.invalid
