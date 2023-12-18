@@ -1,0 +1,41 @@
+<div class="wrapper">
+  <div class="block">
+    @if(title ==='LOGIN'){
+    <div class="header">
+      <p>Добро пожаловать</p>
+      <span>У Вас нет аккаунта?</span>
+      <a routerLink="/register">Создай сегодня!</a>
+    </div>
+    } @else{
+    <div class="header">
+      <p>Добро пожаловать</p>
+      <span>У Вас есть аккаунт</span>
+      <a routerLink="/login">Войти!</a>
+    </div>
+    }
+
+    <form class="form">
+      <label for="email" class="label">Почта</label>
+      <input
+        id="email"
+        type="text"
+        placeholder="Введите почту"
+        pInputText
+        class="input"
+      />
+      <label for="password" class="label">Почта</label>
+      <input
+        id="password"
+        type="text"
+        placeholder="Введите почту"
+        pInputText
+        class="input"
+      />
+
+      <p-button
+        [label]="title === 'LOGIN' ? 'Войти' : 'Зарегистрироваться'"
+        icon="pi pi-user"
+      ></p-button>
+    </form>
+  </div>
+</div>
