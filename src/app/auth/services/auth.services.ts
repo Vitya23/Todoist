@@ -5,10 +5,13 @@ Injectable();
 export class AuthServices {
   constructor() {}
   login(user: AuthRequestI) {
-    try {
-      loginFunction(user);
-    } catch (err) {
-      console.log(err);
-    }
+    loginFunction(user).subscribe({
+      next(value) {
+        console.log(value);
+      },
+      error(err) {
+        console.log(err);
+      },
+    });
   }
 }
