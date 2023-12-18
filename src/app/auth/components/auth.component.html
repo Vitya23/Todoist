@@ -14,25 +14,95 @@
     </div>
     }
 
-    <form class="form">
+    <form class="form" [formGroup]="form">
       <label for="email" class="label">Почта</label>
       <input
         id="email"
         type="text"
         placeholder="Введите почту"
         pInputText
-        class="input"
+        class="input p-inputtext-sm"
+        formControlName="email"
       />
-      <label for="password" class="label">Почта</label>
+      <div
+        *ngIf="form.controls['email'].errors && form.controls['email'].dirty"
+        class="invalid-feedback"
+      >
+        <small *ngIf="form.controls['email'].errors['required']"
+          >Требуется адрес электронной почты</small
+        >
+        <small *ngIf="form.controls['email'].errors['email']"
+          >Введите коректную электронную почту</small
+        >
+      </div>
+      <label for="password1" class="label">Пароль</label>
       <input
-        id="password"
-        type="text"
-        placeholder="Введите почту"
-        pInputText
-        class="input"
+        id="password1"
+        type="password"
+        placeholder="Введите пароль"
+        pPassword
+        aria-describedby="password-error"
+        class="input p-inputtext-sm"
+        [feedback]="false"
+        [ngClass]="{ 'ng-invalid': passwordValid === false }"
+        formControlName="password"
       />
+      <div *ngIf="requireValid" class="invalid-feedback">
+        <small *ngIf="!requiresDigitValid"
+          >Должен содержать по крайней мере 1 цифру</small
+        >
+        <small *ngIf="!minLengthValid"
+          >Длина должна быть не менее 8 символов</small
+        >
+        <small *ngIf="!requiresLowercaseValid"
+          >Должен содержать по краней мере 1 символ нижнего регистра</small
+        >
+        <small *ngIf="!requiresUppercaseValid"
+          >Должен содержать по краней мере 1 символ верхнего регистра</small
+        >
+        <small *ngIf="!requiresSpecialCharsValid"
+          >Должен содержать по крайней мере 1 специальный символ
+          {{ "!@#$%^&*" }}</small
+        >
+      </div>
+      @if(title === 'REGISTER'){
+      <label for="password2" class="label">Подтвердите пароль</label>
+      <input
+        id="password2"
+        type="password"
+        placeholder="Подтвердите пароль"
+        pPassword
+        [feedback]="false"
+        class="input p-inputtext-sm"
+        [ngClass]="{ 'ng-invalid': passwordValid === false }"
+        formControlName="confirmPassword"
+      />
+      <div
+        *ngIf="
+          form.controls['confirmPassword'].errors &&
+          form.controls['confirmPassword'].dirty
+        "
+        class="invalid-feedback"
+      >
+        <small *ngIf="form.controls['confirmPassword'].errors['required']"
+          >Подтвердите свой пароль!</small
+        >
 
+        <small *ngIf="form.controls['confirmPassword'].errors['minLength']"
+          >Длина должна быть не менее 8 символов</small
+        >
+        <small *ngIf="form.controls['confirmPassword'].errors['misMatch']"
+          >Пароли не совпадают</small
+        >
+      </div>
+      }
       <p-button
+        [disabled]="
+          title === 'REGISTER'
+            ? form.invalid
+            : form.controls['password'].invalid &&
+              form.controls['email'].invalid
+        "
         [label]="title === 'LOGIN' ? 'Войти' : 'Зарегистрироваться'"
         icon="pi pi-user"
       ></p-button>
