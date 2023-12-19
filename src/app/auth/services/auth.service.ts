@@ -5,7 +5,7 @@ import { BehaviorSubject, Observable, map } from 'rxjs';
 import { AuthResponseI } from '../types/authResponse.interface';
 
 @Injectable()
-export class AuthServices {
+export class AuthService {
   private userSubject: BehaviorSubject<string>;
   constructor(private http: HttpClient) {
     this.userSubject = new BehaviorSubject(

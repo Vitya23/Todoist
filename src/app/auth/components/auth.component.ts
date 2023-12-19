@@ -7,13 +7,13 @@ import {
   Validators,
 } from '@angular/forms';
 import { AuthTitle } from '../types/authTitle.type';
-import { ActivatedRoute, RouterModule } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
 import { PasswordValidators } from '../../shared/validators/passwordValidator';
 import { PasswordModule } from 'primeng/password';
-import { AuthServices } from '../services/auth.services';
+import { AuthService } from '../services/auth.service';
 import { AuthRequestI } from '../types/authRequest.interface';
 import { HttpClientModule } from '@angular/common/http';
 
@@ -43,8 +43,9 @@ export class AuthComponent implements OnInit, OnDestroy {
   backendError: string = '';
   constructor(
     private readonly route: ActivatedRoute,
+    private readonly router: Router,
     private fb: FormBuilder,
-    private authService: AuthServices
+    private authService: AuthService
   ) {}
 
   ngOnInit(): void {
@@ -133,7 +134,7 @@ export class AuthComponent implements OnInit, OnDestroy {
           },
         })
         .subscribe({
-          next: (response) => (this.submitting = false),
+          next: () => this.router.navigateByUrl('/todo'),
           error: (err) => {
             this.backendError = err.error.message;
             this.submitting = false;
@@ -149,7 +150,7 @@ export class AuthComponent implements OnInit, OnDestroy {
           },
         })
         .subscribe({
-          next: (response) => (this.submitting = false),
+          next: () => this.router.navigateByUrl('/todo'),
           error: (err) => {
             this.backendError = err.error.message;
             this.submitting = false;
