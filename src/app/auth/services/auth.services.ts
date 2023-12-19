@@ -1,17 +1,31 @@
 import { Injectable } from '@angular/core';
 import { AuthRequestI } from '../types/authRequest.interface';
-import { loginFunction } from '../../backend/dataBaseFunctions';
-Injectable();
+import { HttpClient } from '@angular/common/http';
+import { BehaviorSubject, Observable, map } from 'rxjs';
+import { AuthResponseI } from '../types/authResponse.interface';
+
+@Injectable()
 export class AuthServices {
-  constructor() {}
-  login(user: AuthRequestI) {
-    loginFunction(user).subscribe({
-      next(value) {
-        console.log(value);
-      },
-      error(err) {
-        console.log(err);
-      },
-    });
+  private userSubject: BehaviorSubject<string>;
+  constructor(private http: HttpClient) {
+    this.userSubject = new BehaviorSubject(
+      JSON.parse(localStorage.getItem('accessToken')!)
+    );
+  }
+
+  public get userValue() {
+    return this.userSubject.value;
+  }
+
+  login(user: AuthRequestI): Observable<string> {
+    return this.http
+      .post<AuthResponseI>(`http://localhost:4200/user/login`, user)
+      .pipe(
+        map((user: AuthResponseI) => {
+          localStorage.setItem('accessToken', JSON.stringify(user.accessToken));
+          this.userSubject.next(user.accessToken);
+          return user.email;
+        })
+      );
   }
 }

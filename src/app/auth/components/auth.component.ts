@@ -15,6 +15,7 @@ import { PasswordValidators } from '../../shared/validators/passwordValidator';
 import { PasswordModule } from 'primeng/password';
 import { AuthServices } from '../services/auth.services';
 import { AuthRequestI } from '../types/authRequest.interface';
+import { HttpClientModule } from '@angular/common/http';
 
 @Component({
   selector: 'app-auth',
@@ -27,15 +28,16 @@ import { AuthRequestI } from '../types/authRequest.interface';
     RouterModule,
     ButtonModule,
     InputTextModule,
+    HttpClientModule,
     ReactiveFormsModule,
     PasswordModule,
   ],
-  providers: [AuthServices],
 })
 export class AuthComponent implements OnInit, OnDestroy {
   form!: FormGroup;
   title: AuthTitle = 'REGISTER';
-  subscription!: Subscription;
+  routeSubs!: Subscription;
+  authSubs!: Subscription;
   user!: AuthRequestI;
   constructor(
     private readonly route: ActivatedRoute,
@@ -81,7 +83,7 @@ export class AuthComponent implements OnInit, OnDestroy {
   }
 
   initializeValues(): void {
-    this.subscription = this.route.url.subscribe((e) => {
+    this.routeSubs = this.route.url.subscribe((e) => {
       if (e[0].path === 'login') {
         this.title = 'LOGIN';
       } else {
@@ -120,26 +122,34 @@ export class AuthComponent implements OnInit, OnDestroy {
       this.form.controls['email'].valid &&
       this.form.controls['password'].valid
     ) {
-      this.authService.login({
-        user: {
-          email: this.form.controls['email'].value,
-          password: this.form.controls['password'].value,
-        },
-      });
+      this.authSubs = this.authService
+        .login({
+          user: {
+            email: this.form.controls['email'].value,
+            password: this.form.controls['password'].value,
+          },
+        })
+        .subscribe();
     }
     if (this.title === 'REGISTER' && this.form.valid) {
-      this.authService.login({
-        user: {
-          email: this.form.controls['email'].value,
-          password: this.form.controls['password'].value,
-        },
-      });
+      this.authSubs = this.authService
+        .login({
+          user: {
+            email: this.form.controls['email'].value,
+            password: this.form.controls['password'].value,
+          },
+        })
+        .subscribe();
     } else {
       return;
     }
   }
 
   ngOnDestroy(): void {
-    this.subscription.unsubscribe();
+    if (this.authSubs) {
+      this.authSubs.unsubscribe();
+    }
+
+    this.routeSubs.unsubscribe();
   }
 }
