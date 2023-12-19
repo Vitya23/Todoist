@@ -1,3 +1,12 @@
+# Login information
+
+1.Account:
+email: test@email.com,
+password:123456Aa@
+2.Account:
+email: test2@email.com,
+password:1234567Aa@
+
 # Todoist
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 17.0.7.
