@@ -6,11 +6,13 @@ import { AuthResponseI } from '../types/authResponse.interface';
 
 @Injectable()
 export class AuthService {
-  private userSubject: BehaviorSubject<string>;
+  private userSubject: BehaviorSubject<AuthResponseI | null>;
+  public user: Observable<AuthResponseI | null>;
   constructor(private http: HttpClient) {
     this.userSubject = new BehaviorSubject(
-      JSON.parse(localStorage.getItem('accessToken')!)
+      JSON.parse(localStorage.getItem('user')!)
     );
+    this.user = this.userSubject.asObservable();
   }
 
   public get userValue() {
@@ -22,8 +24,8 @@ export class AuthService {
       .post<AuthResponseI>(`http://localhost:4200/user/login`, user)
       .pipe(
         map((user: AuthResponseI) => {
-          localStorage.setItem('accessToken', JSON.stringify(user.accessToken));
-          this.userSubject.next(user.accessToken);
+          localStorage.setItem('user', JSON.stringify(user));
+          this.userSubject.next(user);
           return user.email;
         })
       );
@@ -33,8 +35,8 @@ export class AuthService {
       .post<AuthResponseI>(`http://localhost:4200/user/register`, user)
       .pipe(
         map((user: AuthResponseI) => {
-          localStorage.setItem('accessToken', JSON.stringify(user.accessToken));
-          this.userSubject.next(user.accessToken);
+          localStorage.setItem('user', JSON.stringify(user));
+          this.userSubject.next(user);
           return user.email;
         })
       );

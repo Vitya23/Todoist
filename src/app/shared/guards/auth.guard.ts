@@ -1,4 +1,4 @@
-import { Injectable, inject } from '@angular/core';
+import { inject } from '@angular/core';
 import {
   ActivatedRouteSnapshot,
   CanActivateFn,
@@ -12,8 +12,8 @@ export const authGuard: CanActivateFn = (
   state: RouterStateSnapshot
 ): boolean => {
   const router = inject(Router);
-  const token = inject(AuthService).userValue;
-  if (token) {
+  const user = inject(AuthService).userValue;
+  if (user) {
     return true;
   }
 

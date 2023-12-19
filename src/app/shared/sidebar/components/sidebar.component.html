@@ -1,0 +1,21 @@
+<div class="top-bar">
+  <p-button
+    (click)="sideBarVisible = true"
+    icon="pi pi-bars"
+    [text]="true"
+    label="Меню"
+    severity="info"
+  ></p-button>
+</div>
+
+<p-sidebar [modal]="false" [(visible)]="sideBarVisible">
+  <ng-template pTemplate="header">
+    <p-avatar
+      [label]="(user | async).email[0]"
+      [style]="{ 'margin-right': '10px' }"
+      size="large"
+      shape="circle"
+    ></p-avatar>
+    <span>{{ (user | async).email }}</span>
+  </ng-template>
+</p-sidebar>
