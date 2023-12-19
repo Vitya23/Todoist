@@ -36,9 +36,15 @@ export class FakeBackendInterceptor implements HttpInterceptor {
       switch (true) {
         case url.endsWith('/user/login') && method === 'POST':
           return login();
+        case url.endsWith('/user/register') && method === 'POST':
+          return register();
         default:
           return next.handle(req);
       }
+    }
+
+    function generateToken() {
+      return Math.random().toString(18).substring(2);
     }
 
     function login() {
@@ -48,6 +54,20 @@ export class FakeBackendInterceptor implements HttpInterceptor {
       );
       if (!user) return error('Неправильная почта или пароль');
       return ok({ email: user.email, accessToken: user.accessToken });
+    }
+    function register() {
+      const { email, password } = body.user;
+      const user = userDataBase.users.find((res) => res.email === email);
+      if (user) return error('Аккаунт с данной почтой уже существует');
+      const newId = userDataBase.users[userDataBase.users.length - 1].id + 1;
+      const token = generateToken();
+      userDataBase.users.push({
+        id: newId,
+        email: email,
+        password: password,
+        accessToken: token,
+      });
+      return ok({ email: email, accessToken: token });
     }
 
     function ok(body?: any) {

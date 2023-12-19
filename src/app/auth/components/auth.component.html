@@ -99,14 +99,18 @@
       <p-button
         type="submit"
         [disabled]="
-          title === 'REGISTER'
+          submitting ||
+          (title === 'REGISTER'
             ? form.invalid
-            : form.controls['password'].invalid &&
-              form.controls['email'].invalid
+            : form.controls['password'].invalid ||
+              form.controls['email'].invalid)
         "
         [label]="title === 'LOGIN' ? 'Войти' : 'Зарегистрироваться'"
         icon="pi pi-user"
       ></p-button>
+      <div class="backend-errors" *ngIf="backendError">
+        <small *ngIf="backendError">{{ backendError }}</small>
+      </div>
     </form>
   </div>
 </div>

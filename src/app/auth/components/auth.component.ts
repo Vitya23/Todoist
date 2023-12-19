@@ -39,6 +39,8 @@ export class AuthComponent implements OnInit, OnDestroy {
   routeSubs!: Subscription;
   authSubs!: Subscription;
   user!: AuthRequestI;
+  submitting = false;
+  backendError: string = '';
   constructor(
     private readonly route: ActivatedRoute,
     private fb: FormBuilder,
@@ -117,6 +119,7 @@ export class AuthComponent implements OnInit, OnDestroy {
   }
 
   onSubmit(): void {
+    this.submitting = true;
     if (
       this.title === 'LOGIN' &&
       this.form.controls['email'].valid &&
@@ -129,17 +132,29 @@ export class AuthComponent implements OnInit, OnDestroy {
             password: this.form.controls['password'].value,
           },
         })
-        .subscribe();
+        .subscribe({
+          next: (response) => (this.submitting = false),
+          error: (err) => {
+            this.backendError = err.error.message;
+            this.submitting = false;
+          },
+        });
     }
     if (this.title === 'REGISTER' && this.form.valid) {
       this.authSubs = this.authService
-        .login({
+        .register({
           user: {
             email: this.form.controls['email'].value,
             password: this.form.controls['password'].value,
           },
         })
-        .subscribe();
+        .subscribe({
+          next: (response) => (this.submitting = false),
+          error: (err) => {
+            this.backendError = err.error.message;
+            this.submitting = false;
+          },
+        });
     } else {
       return;
     }

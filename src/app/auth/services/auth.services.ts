@@ -28,4 +28,15 @@ export class AuthServices {
         })
       );
   }
+  register(user: AuthRequestI): Observable<string> {
+    return this.http
+      .post<AuthResponseI>(`http://localhost:4200/user/register`, user)
+      .pipe(
+        map((user: AuthResponseI) => {
+          localStorage.setItem('accessToken', JSON.stringify(user.accessToken));
+          this.userSubject.next(user.accessToken);
+          return user.email;
+        })
+      );
+  }
 }
