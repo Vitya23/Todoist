@@ -11,13 +11,17 @@
 
 <p-sidebar [modal]="false" [(visible)]="sideBarVisible">
   <ng-template pTemplate="header">
-    <p-avatar
-      [label]="currentUser.email[0]"
-      [style]="{ 'margin-right': '10px' }"
-      size="large"
-      shape="circle"
-    ></p-avatar>
-    <span>{{ currentUser.email }}</span>
+    <p-menu #menu [model]="items" [popup]="true"> </p-menu>
+    <div class="user" (click)="menu.toggle($event)">
+      <p-avatar
+        [label]="currentUser.email[0]"
+        [style]="{ 'margin-right': '10px' }"
+        size="large"
+        shape="circle"
+      ></p-avatar>
+      <span>{{ currentUser.email.slice(0, 18) }}</span>
+      <i class="pi pi-chevron-down icon"></i>
+    </div>
   </ng-template>
 </p-sidebar>
 }
