@@ -6,6 +6,7 @@ import { TagModule } from 'primeng/tag';
 import { ButtonModule } from 'primeng/button';
 import { Observable } from 'rxjs';
 import { TaskI } from '../types/task.interface';
+import { CategoriesI } from '../types/categories.interface';
 @Component({
   standalone: true,
   selector: 'app-todo-list',
@@ -16,9 +17,13 @@ import { TaskI } from '../types/task.interface';
 })
 export class TodoList implements OnInit {
   tasks$!: Observable<TaskI[]>;
+  categories!: CategoriesI[];
   constructor(private todoListService: TodoListService) {}
   ngOnInit() {
     this.tasks$ = this.todoListService.getTasks();
+    this.todoListService
+      .getCategories()
+      .subscribe((res) => (this.categories = res));
   }
 
   getSeverity(status: string) {

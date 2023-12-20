@@ -66,7 +66,7 @@ export const toDoDataBase = {
       id: 1,
       userId: 1,
       description: 'Убраться дома',
-      category: 2,
+      category: 3,
       status: 'Выполнено',
     },
   ],
@@ -74,8 +74,8 @@ export const toDoDataBase = {
 
 export const categoriesDataBase = {
   categories: [
-    { id: 1, title: 'Работа' },
-    { id: 2, title: 'Дела по дому' },
-    { id: 3, title: 'Купить продукты' },
+    { id: 1, userId: 1, title: 'Работа' },
+    { id: 2, userId: 1, title: 'Дела по дому' },
+    { id: 3, userId: 2, title: 'Купить продукты' },
   ],
 };

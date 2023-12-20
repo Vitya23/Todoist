@@ -7,7 +7,7 @@ import {
   of,
   throwError,
 } from 'rxjs';
-import { toDoDataBase, userDataBase } from './dataBase';
+import { categoriesDataBase, toDoDataBase, userDataBase } from './dataBase';
 import {
   HTTP_INTERCEPTORS,
   HttpEvent,
@@ -40,8 +40,10 @@ export class FakeBackendInterceptor implements HttpInterceptor {
           return register();
         case url.endsWith('/user') && method === 'GET':
           return getUser();
-        case url.endsWith('tasks') && method === 'GET':
+        case url.endsWith('/tasks') && method === 'GET':
           return getTasks();
+        case url.endsWith('/categories') && method === 'GET':
+          return getCategories();
         default:
           return next.handle(req);
       }
@@ -90,6 +92,16 @@ export class FakeBackendInterceptor implements HttpInterceptor {
       );
       const tasks = toDoDataBase.tasks.filter((res) => res.userId === user?.id);
       return ok(tasks);
+    }
+    function getCategories() {
+      const token = headers.get('Authorization');
+      const user = userDataBase.users.find(
+        (res) => `Token ${res.accessToken}` === token
+      );
+      const categories = categoriesDataBase.categories.filter(
+        (res) => res.userId === user?.id
+      );
+      return ok(categories);
     }
 
     function ok(body?: any) {
