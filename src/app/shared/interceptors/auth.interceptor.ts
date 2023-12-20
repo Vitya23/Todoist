@@ -15,8 +15,7 @@ export class AuthInterceptor implements HttpInterceptor {
     req: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
-    const user = this.authService.userValue;
-    const token = user?.accessToken;
+    const token = JSON.parse(localStorage.getItem('accessToken')!);
     const isApiUrl = req.url.startsWith('http://localhost:4200');
 
     if (token && isApiUrl) {

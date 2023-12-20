@@ -1,5 +1,6 @@
-@if(currentUser$|async;as currentUser){
-<app-sidebar [currentUser]="currentUser"></app-sidebar>
+@if(isLoggedIn){
+<app-sidebar></app-sidebar>
+
 }
 <main class="main">
   <router-outlet></router-outlet>

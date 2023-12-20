@@ -40,7 +40,7 @@ export class AuthComponent implements OnInit, OnDestroy {
   authSubs!: Subscription;
   user!: AuthRequestI;
   submitting = false;
-  backendError: string = '';
+  backendError!: string;
   constructor(
     private readonly route: ActivatedRoute,
     private readonly router: Router,
@@ -121,6 +121,7 @@ export class AuthComponent implements OnInit, OnDestroy {
 
   onSubmit(): void {
     this.submitting = true;
+    this.backendError = '';
     if (
       this.title === 'LOGIN' &&
       this.form.controls['email'].valid &&

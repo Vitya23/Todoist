@@ -74,7 +74,9 @@ export class FakeBackendInterceptor implements HttpInterceptor {
 
     function getUser() {
       const token = headers.get('Authorization');
-      const user = userDataBase.users.find((res) => res.accessToken === token);
+      const user = userDataBase.users.find(
+        (res) => `Token ${res.accessToken}` === token
+      );
       if (!user) return error('Пожалуйста войдите снова');
       return ok({ email: user.email });
     }
