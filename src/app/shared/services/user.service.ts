@@ -12,6 +12,7 @@ export class UserService {
     return this.http.get<CurrentUserI>('http://localhost:4200/user').pipe(
       map((currentUser) => {
         this.authState.isLoggedInState.set(true);
+        this.authState.currentUserState.set(currentUser);
         return currentUser;
       })
     );
