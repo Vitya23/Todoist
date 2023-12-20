@@ -1,16 +1,19 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { SidebarModule } from 'primeng/sidebar';
 import { SideBarComponent } from './shared/sidebar/components/sidebar.component';
+import { UserService } from './shared/services/user.service';
+import { CommonModule } from '@angular/common';
+import { Observable } from 'rxjs';
+import { CurrentUserI } from './shared/types/currentUser.interface';
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, SideBarComponent],
-  providers: [],
+  imports: [CommonModule, RouterOutlet, SideBarComponent],
+  providers: [UserService],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
 })
 export class AppComponent {
   title = 'Todoist';
-  isAuth = true;
+  currentUser$: Observable<CurrentUserI> = inject(UserService).getCurrentUser();
 }

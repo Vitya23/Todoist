@@ -38,6 +38,8 @@ export class FakeBackendInterceptor implements HttpInterceptor {
           return login();
         case url.endsWith('/user/register') && method === 'POST':
           return register();
+        case url.endsWith('/user') && method === 'GET':
+          return getUser();
         default:
           return next.handle(req);
       }
@@ -68,6 +70,13 @@ export class FakeBackendInterceptor implements HttpInterceptor {
         accessToken: token,
       });
       return ok({ email: email, accessToken: token });
+    }
+
+    function getUser() {
+      const token = headers.get('Authorization');
+      const user = userDataBase.users.find((res) => res.accessToken === token);
+      if (!user) return error('Пожалуйста войдите снова');
+      return ok({ email: user.email });
     }
 
     function ok(body?: any) {

@@ -1,10 +1,10 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { ButtonModule } from 'primeng/button';
 import { SidebarModule } from 'primeng/sidebar';
 import { AvatarModule } from 'primeng/avatar';
-import { AuthService } from '../../../auth/services/auth.service';
-import { Observable } from 'rxjs';
+import { SideBarService } from '../services/sidebar.services';
+import { CurrentUserI } from '../../types/currentUser.interface';
 
 @Component({
   standalone: true,
@@ -12,13 +12,11 @@ import { Observable } from 'rxjs';
   templateUrl: './sidebar.component.html',
   styleUrl: './sidebar.component.scss',
   imports: [CommonModule, SidebarModule, ButtonModule, AvatarModule],
+  providers: [SideBarService],
 })
 export class SideBarComponent implements OnInit {
   sideBarVisible = false;
-  user!: Observable<any>;
-  constructor(private authService: AuthService) {}
-  ngOnInit(): void {
-    this.user = this.authService.user;
-    console.log(this.authService.user);
-  }
+  @Input() currentUser!: CurrentUserI;
+  constructor() {}
+  ngOnInit(): void {}
 }

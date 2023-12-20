@@ -11,11 +11,11 @@
 <p-sidebar [modal]="false" [(visible)]="sideBarVisible">
   <ng-template pTemplate="header">
     <p-avatar
-      [label]="(user | async).email[0]"
+      [label]="currentUser.email[0]"
       [style]="{ 'margin-right': '10px' }"
       size="large"
       shape="circle"
     ></p-avatar>
-    <span>{{ (user | async).email }}</span>
+    <span>{{ currentUser.email }}</span>
   </ng-template>
 </p-sidebar>
