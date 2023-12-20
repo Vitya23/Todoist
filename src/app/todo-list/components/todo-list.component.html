@@ -1,0 +1,36 @@
+<div class="card" *ngIf="tasks$ | async as tasks">
+  <p-table [value]="tasks" [tableStyle]="{ 'min-width': '60rem' }">
+    <ng-template pTemplate="caption">
+      <div class="flex align-items-center justify-content-between">
+        ToDo
+        <p-button icon="pi pi-refresh"></p-button>
+      </div>
+    </ng-template>
+    <ng-template pTemplate="header">
+      <tr>
+        <th>Name</th>
+
+        <th>Category</th>
+        <th>Status</th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-task>
+      <tr>
+        <td>{{ task.description }}</td>
+
+        <td>{{ task.category }}</td>
+        <td>
+          <p-tag
+            [value]="task.status"
+            [severity]="getSeverity(task.status)"
+          ></p-tag>
+        </td>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="summary">
+      <div class="flex align-items-center justify-content-between">
+        In total there are {{ tasks ? tasks.length : 0 }} products.
+      </div>
+    </ng-template>
+  </p-table>
+</div>

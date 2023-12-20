@@ -7,7 +7,7 @@ import {
   of,
   throwError,
 } from 'rxjs';
-import { userDataBase } from './dataBase';
+import { toDoDataBase, userDataBase } from './dataBase';
 import {
   HTTP_INTERCEPTORS,
   HttpEvent,
@@ -40,6 +40,8 @@ export class FakeBackendInterceptor implements HttpInterceptor {
           return register();
         case url.endsWith('/user') && method === 'GET':
           return getUser();
+        case url.endsWith('tasks') && method === 'GET':
+          return getTasks();
         default:
           return next.handle(req);
       }
@@ -79,6 +81,15 @@ export class FakeBackendInterceptor implements HttpInterceptor {
       );
       if (!user) return error('Пожалуйста войдите снова');
       return ok({ email: user.email });
+    }
+
+    function getTasks() {
+      const token = headers.get('Authorization');
+      const user = userDataBase.users.find(
+        (res) => `Token ${res.accessToken}` === token
+      );
+      const tasks = toDoDataBase.tasks.filter((res) => res.userId === user?.id);
+      return ok(tasks);
     }
 
     function ok(body?: any) {

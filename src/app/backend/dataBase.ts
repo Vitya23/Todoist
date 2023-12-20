@@ -39,6 +39,43 @@ export const userDataBase = {
   ],
 };
 
-export const toDoDataBase = {};
+export const toDoDataBase = {
+  tasks: [
+    {
+      id: 1,
+      userId: 1,
+      description: 'Закрыть таску',
+      category: 1,
+      status: 'Ожидает',
+    },
+    {
+      id: 1,
+      userId: 1,
+      description: 'Купить корм',
+      category: 3,
+      status: 'Ожидает',
+    },
+    {
+      id: 1,
+      userId: 2,
+      description: 'Купить молоко',
+      category: 3,
+      status: 'Ожидает',
+    },
+    {
+      id: 1,
+      userId: 1,
+      description: 'Убраться дома',
+      category: 2,
+      status: 'Выполнено',
+    },
+  ],
+};
 
-export const categoriesDataBase = {};
+export const categoriesDataBase = {
+  categories: [
+    { id: 1, title: 'Работа' },
+    { id: 2, title: 'Дела по дому' },
+    { id: 3, title: 'Купить продукты' },
+  ],
+};
