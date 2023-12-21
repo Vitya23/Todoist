@@ -5,25 +5,42 @@
       [value]="tasksByCategories(category, tasks)"
       [tableStyle]="{
         'min-width': '20rem',
-        'margin-bottom': '20px'
+        'margin-top': '20px',
       }"
     >
-      <ng-template pTemplate="caption">
-        <div>
-          {{ category.title }}
-        </div>
+      <ng-template pTemplate="header">
+        <tr>
+          <th class="table__category">{{ category.title }}</th>
+          <th class=""></th>
+        </tr>
       </ng-template>
-
       <ng-template pTemplate="body" let-task>
         <tr>
-          <td>{{ task.description }}</td>
-          <td style="align-items: end">
+          <td>
+            <div class="table__description">
+              {{ task.description }}
+              <small class="date" title="Время окончания задачи">{{
+                task.endDate | date : "d MMMM y"
+              }}</small>
+            </div>
+          </td>
+          <td class="table__status">
             <p-tag
+              [style]="{ width: '7rem' }"
               [value]="task.status"
               [severity]="getSeverity(task.status)"
+              [icon]="task.status === 'Ожидает' ? 'pi pi-check' : 'pi pi-times'"
             ></p-tag>
           </td>
         </tr>
+      </ng-template>
+      <ng-template pTemplate="footer">
+        <p-button
+          label="Добавить задачу"
+          icon="pi pi-plus"
+          [text]="true"
+          size="small"
+        ></p-button>
       </ng-template>
     </p-table>
     }
