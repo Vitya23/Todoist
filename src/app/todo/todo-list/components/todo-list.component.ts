@@ -27,9 +27,9 @@ export class TodoList implements OnInit {
   getSeverity(status: string) {
     switch (status) {
       case 'Ожидает':
-        return 'info';
-      case 'Выполнено':
         return 'success';
+      case 'Выполнено':
+        return 'danger';
     }
     return;
   }
