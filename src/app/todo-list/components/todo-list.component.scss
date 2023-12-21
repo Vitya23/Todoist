@@ -1,0 +1,15 @@
+.block {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.card {
+  width: 50%;
+  min-width: 20rem;
+}
+.category {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}

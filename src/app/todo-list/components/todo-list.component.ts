@@ -17,13 +17,11 @@ import { CategoriesI } from '../types/categories.interface';
 })
 export class TodoList implements OnInit {
   tasks$!: Observable<TaskI[]>;
-  categories!: CategoriesI[];
+  categories$!: Observable<CategoriesI[]>;
   constructor(private todoListService: TodoListService) {}
   ngOnInit() {
     this.tasks$ = this.todoListService.getTasks();
-    this.todoListService
-      .getCategories()
-      .subscribe((res) => (this.categories = res));
+    this.categories$ = this.todoListService.getCategories();
   }
 
   getSeverity(status: string) {
@@ -34,5 +32,8 @@ export class TodoList implements OnInit {
         return 'success;';
     }
     return;
+  }
+  tasksByCategories(category: CategoriesI, tasks: TaskI[]) {
+    return tasks.filter((task) => task.category === category.id);
   }
 }

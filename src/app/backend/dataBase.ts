@@ -46,6 +46,8 @@ export const toDoDataBase = {
       userId: 1,
       description: 'Закрыть таску',
       category: 1,
+      priority: 1,
+      endDate: '2023-12-24T20:00.000Z',
       status: 'Ожидает',
     },
     {
@@ -53,20 +55,26 @@ export const toDoDataBase = {
       userId: 1,
       description: 'Купить корм',
       category: 3,
-      status: 'Ожидает',
-    },
-    {
-      id: 1,
-      userId: 2,
-      description: 'Купить молоко',
-      category: 3,
+      priority: 2,
+      endDate: '2023-12-23T20:00.000Z',
       status: 'Ожидает',
     },
     {
       id: 1,
       userId: 1,
-      description: 'Убраться дома',
+      description: 'Купить молоко',
       category: 3,
+      priority: 3,
+      endDate: '2023-12-26T20:00.000Z',
+      status: 'Выполнено',
+    },
+    {
+      id: 1,
+      userId: 2,
+      description: 'Убраться дома',
+      category: 2,
+      priority: 4,
+      endDate: '2023-12-29T20:00.000Z',
       status: 'Выполнено',
     },
   ],
@@ -75,7 +83,7 @@ export const toDoDataBase = {
 export const categoriesDataBase = {
   categories: [
     { id: 1, userId: 1, title: 'Работа' },
-    { id: 2, userId: 1, title: 'Дела по дому' },
-    { id: 3, userId: 2, title: 'Купить продукты' },
+    { id: 2, userId: 2, title: 'Дела по дому' },
+    { id: 3, userId: 1, title: 'Купить продукты' },
   ],
 };
