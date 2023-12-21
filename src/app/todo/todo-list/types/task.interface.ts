@@ -1,7 +1,9 @@
 export interface TaskI {
-  id: number;
-  userId: number;
+  id?: number;
+  userId?: number;
   category: number;
   description: string;
-  status: string;
+  status?: string;
+  priority: number;
+  endDate: Date;
 }

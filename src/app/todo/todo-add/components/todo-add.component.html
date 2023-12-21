@@ -1,0 +1,66 @@
+<ng-content></ng-content>
+<p-dialog
+  header="Добавление задачи"
+  (onHide)="onClose()"
+  [(visible)]="visible"
+  [style]="{ width: '60vw' }"
+>
+  <form action="" [formGroup]="form" class="form">
+    <input
+      type="text"
+      placeholder="Название задачи"
+      pInputText
+      class="input p-inputtext-sm"
+      formControlName="task"
+    />
+    <div class="footer">
+      <p-calendar
+        [inputStyle]="{
+          width: '9rem',
+          height: '2rem',
+          'font-size': '10px',
+          'margin-right': '10px'
+        }"
+        placeholder="Дата окончания"
+        [showButtonBar]="true"
+        appendTo="body"
+        icon="pi pi-calendar"
+        [showIcon]="true"
+        [iconDisplay]="'input'"
+        formControlName="date"
+      >
+      </p-calendar>
+      <p-dropdown
+        placeholder="selected"
+        [style]="{
+          height: '2rem',
+          'align-items': 'center'
+        }"
+        formControlName="selectedPriority"
+        appendTo="body"
+        optionLabel="title"
+        [options]="priorities"
+      >
+        <ng-template pTemplate="selectedItem">
+          <div
+            class="select__items"
+            *ngIf="
+              this.form.controls['selectedPriority'].value as selectedPriority
+            "
+          >
+            <i style="width: 18px" class="pi pi-flag"></i>
+            <div>{{ selectedPriority.title }}</div>
+          </div>
+        </ng-template>
+        <ng-template let-country pTemplate="item">
+          <div class="select__items">
+            <i style="width: 18px" class="pi pi-flag"></i>
+            <div>{{ country.title }}</div>
+          </div>
+        </ng-template>
+      </p-dropdown>
+
+      <button pButton class="button" label="Добавить"></button>
+    </div>
+  </form>
+</p-dialog>
