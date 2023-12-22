@@ -46,13 +46,7 @@
                 (click)="generateTodoEditComponent(task)"
               ></p-button>
             </td>
-            <td>
-              <p-button
-                [text]="true"
-                size="small"
-                icon="pi pi-times"
-              ></p-button>
-            </td>
+            <td><app-todo-delete [id]="task.id"></app-todo-delete></td>
           </tr>
         </ng-template>
         <ng-template pTemplate="footer">

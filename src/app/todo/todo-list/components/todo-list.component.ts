@@ -1,40 +1,41 @@
 import { CommonModule } from '@angular/common';
 import {
+  ChangeDetectionStrategy,
   Component,
-  ComponentRef,
-  OnChanges,
+  OnDestroy,
   OnInit,
-  SimpleChanges,
-  VERSION,
   ViewChild,
   ViewContainerRef,
-  effect,
-  signal,
 } from '@angular/core';
 import { TodoListService } from '../services/todo-list.service';
 import { TableModule } from 'primeng/table';
 import { TagModule } from 'primeng/tag';
 import { ButtonModule } from 'primeng/button';
-import { Observable, Subscription, single } from 'rxjs';
+import { Subscription, single } from 'rxjs';
 import { TaskI } from '../types/task.interface';
 import { CategoriesI } from '../types/categories.interface';
 import { TodoAddComponent } from '../../todo-add/components/todo-add.component';
 import { AppState } from '../../../shared/services/appState.state';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { TodoDeleteComponent } from '../../todo-delete/components/todo-delete.component';
 @Component({
   standalone: true,
   selector: 'app-todo-list',
   templateUrl: './todo-list.component.html',
   styleUrl: './todo-list.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     CommonModule,
     TableModule,
     TagModule,
     ButtonModule,
     TodoAddComponent,
+    ConfirmDialogModule,
+    TodoDeleteComponent,
   ],
   providers: [TodoListService],
 })
-export class TodoListComponent implements OnInit {
+export class TodoListComponent implements OnInit, OnDestroy {
   @ViewChild('ChildInsertionPoint', { read: ViewContainerRef })
   childInsertionPoint!: ViewContainerRef;
 
@@ -52,8 +53,8 @@ export class TodoListComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.todoListService.getTasks().subscribe();
-    this.todoListService.getCategories().subscribe();
+    this.taskSub = this.todoListService.getTasks().subscribe();
+    this.categoriesSub = this.todoListService.getCategories().subscribe();
   }
 
   generateTodoAddComponent(category: number) {
@@ -88,5 +89,10 @@ export class TodoListComponent implements OnInit {
 
   tasksByCategories(category: CategoriesI, tasks: TaskI[]) {
     return tasks.filter((task) => task.category === category.id);
+  }
+
+  ngOnDestroy(): void {
+    this.taskSub.unsubscribe();
+    this.categoriesSub.unsubscribe();
   }
 }

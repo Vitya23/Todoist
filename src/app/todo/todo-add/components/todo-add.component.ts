@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { ButtonModule } from 'primeng/button';
 import { TodoAddService } from '../services/todo-add.service';
 import { DialogModule } from 'primeng/dialog';
@@ -9,6 +9,7 @@ import { CalendarModule } from 'primeng/calendar';
 import { DropdownModule } from 'primeng/dropdown';
 import { TaskI } from '../../todo-list/types/task.interface';
 import { PriorityI } from '../types/priority.interface';
+import { Subscription } from 'rxjs';
 @Component({
   standalone: true,
   selector: 'app-todo-add',
@@ -25,10 +26,14 @@ import { PriorityI } from '../types/priority.interface';
   ],
   providers: [TodoAddService],
 })
-export class TodoAddComponent implements OnInit {
-  visible: boolean = true;
+export class TodoAddComponent implements OnInit, OnDestroy {
   @Input() category!: number;
   @Input() task!: TaskI;
+
+  addSubs!: Subscription;
+  editSubs!: Subscription;
+  visible: boolean = true;
+
   form!: FormGroup;
   priorities: PriorityI[] = [
     { title: 'Приоритет 1', priority: 1 },
@@ -40,6 +45,7 @@ export class TodoAddComponent implements OnInit {
     private fb: FormBuilder,
     private todoAddService: TodoAddService
   ) {}
+
   ngOnInit(): void {
     this.initializeForm();
   }
@@ -66,11 +72,19 @@ export class TodoAddComponent implements OnInit {
   }
   onSubmit() {
     if (this.task) {
-      this.todoAddService.editTask(this.form.value).subscribe();
+      this.editSubs = this.todoAddService.editTask(this.form.value).subscribe();
     } else {
-      this.todoAddService.addTask(this.form.value).subscribe();
+      this.addSubs = this.todoAddService.addTask(this.form.value).subscribe();
     }
 
     this.visible = false;
+  }
+
+  ngOnDestroy(): void {
+    if (this.editSubs) {
+      this.editSubs.unsubscribe();
+    } else {
+      this.addSubs.unsubscribe();
+    }
   }
 }

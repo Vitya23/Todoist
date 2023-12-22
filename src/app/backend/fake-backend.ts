@@ -38,7 +38,7 @@ export class FakeBackendInterceptor implements HttpInterceptor {
           return login();
         case url.endsWith('/user/register') && method === 'POST':
           return register();
-        case url.endsWith('task') && method === 'POST':
+        case url.endsWith('/task') && method === 'POST':
           return addTask();
         case url.endsWith('/user') && method === 'GET':
           return getUser();
@@ -46,8 +46,10 @@ export class FakeBackendInterceptor implements HttpInterceptor {
           return getTasks();
         case url.endsWith('/categories') && method === 'GET':
           return getCategories();
-        case url.endsWith('task') && method === 'PUT':
+        case url.endsWith('/task') && method === 'PUT':
           return editTask();
+        case url.endsWith('/task') && method === 'DELETE':
+          return deleteTask();
         default:
           return next.handle(req);
       }
@@ -65,6 +67,7 @@ export class FakeBackendInterceptor implements HttpInterceptor {
       if (!user) return error('Неправильная почта или пароль');
       return ok({ email: user.email, accessToken: user.accessToken });
     }
+
     function register() {
       const { email, password } = body.user;
       const user = userDataBase.users.find((res) => res.email === email);
@@ -97,6 +100,7 @@ export class FakeBackendInterceptor implements HttpInterceptor {
       const tasks = toDoDataBase.tasks.filter((res) => res.userId === user?.id);
       return ok(tasks);
     }
+
     function getCategories() {
       const token = headers.get('Authorization');
       const user = userDataBase.users.find(
@@ -127,8 +131,9 @@ export class FakeBackendInterceptor implements HttpInterceptor {
         status: 'Ожидает',
       };
       toDoDataBase.tasks.push(task);
-      console.log(toDoDataBase.tasks);
-      return ok(toDoDataBase.tasks);
+      const tasks = toDoDataBase.tasks.filter((res) => res.userId === user?.id);
+      console.log(tasks);
+      return ok(tasks);
     }
 
     function editTask() {
@@ -151,16 +156,30 @@ export class FakeBackendInterceptor implements HttpInterceptor {
       const newTasks = toDoDataBase.tasks
         .filter((res) => res.userId === user?.id)
         .map((defaultTask) => {
-          console.log(defaultTask.id === reqTask.id);
           if (defaultTask.id === reqTask.id) {
-            console.log(reqTask);
             return reqTask;
           } else {
             return defaultTask;
           }
         });
-      console.log(newTasks);
       return ok(newTasks);
+    }
+
+    function deleteTask() {
+      const token = headers.get('Authorization');
+      const user = userDataBase.users.find(
+        (res) => `Token ${res.accessToken}` === token
+      );
+      if (!user) {
+        return error('Не найден пользователь');
+      }
+      toDoDataBase.tasks = toDoDataBase.tasks.filter(
+        (res) => res.id !== body?.id
+      );
+      const resTasks = toDoDataBase.tasks.filter(
+        (res) => res.userId === user?.id
+      );
+      return ok(resTasks);
     }
 
     function ok(body?: any) {
