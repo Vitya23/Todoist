@@ -3,11 +3,11 @@ import { AuthRequestI } from '../types/authRequest.interface';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable, map } from 'rxjs';
 import { AuthResponseI } from '../types/authResponse.interface';
-import { AuthState } from '../../shared/services/authState.state';
+import { AppState } from '../../shared/services/appState.state';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
-  constructor(private http: HttpClient, private authState: AuthState) {}
+  constructor(private http: HttpClient, private appState: AppState) {}
 
   login(user: AuthRequestI): Observable<string> {
     return this.http
@@ -15,7 +15,7 @@ export class AuthService {
       .pipe(
         map((user: AuthResponseI) => {
           localStorage.setItem('accessToken', JSON.stringify(user.accessToken));
-          this.authState.isLoggedInState.set(true);
+          this.appState.isLoggedInState.set(true);
           return user.email;
         })
       );
@@ -26,7 +26,7 @@ export class AuthService {
       .pipe(
         map((user: AuthResponseI) => {
           localStorage.setItem('accessToken', JSON.stringify(user.accessToken));
-          this.authState.isLoggedInState.set(true);
+          this.appState.isLoggedInState.set(true);
           return user.email;
         })
       );

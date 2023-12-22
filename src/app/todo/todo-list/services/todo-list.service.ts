@@ -1,15 +1,21 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, map, tap } from 'rxjs';
 import { TaskI } from '../types/task.interface';
 import { CategoriesI } from '../types/categories.interface';
+import { AppState } from '../../../shared/services/appState.state';
 
 @Injectable()
 export class TodoListService {
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private appState: AppState) {}
 
   getTasks(): Observable<TaskI[]> {
-    return this.http.get<TaskI[]>('http://localhost:4200/tasks');
+    return this.http.get<TaskI[]>('http://localhost:4200/tasks').pipe(
+      map((tasks: TaskI[]) => {
+        this.appState.task.set(tasks);
+        return tasks;
+      })
+    );
   }
   getCategories(): Observable<CategoriesI[]> {
     return this.http.get<CategoriesI[]>('http://localhost:4200/categories');

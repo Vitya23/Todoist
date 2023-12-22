@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { AuthState } from '../../services/authState.state';
+import { AppState } from '../../services/appState.state';
 import { Router } from '@angular/router';
 import { MenuItem } from 'primeng/api';
 
@@ -24,9 +24,9 @@ export class SideBarService {
     return this.items;
   }
 
-  constructor(private authState: AuthState, private router: Router) {}
+  constructor(private appState: AppState, private router: Router) {}
   logout(): void {
-    this.authState.isLoggedInState.set(false);
+    this.appState.isLoggedInState.set(false);
     localStorage.clear();
     this.router.navigateByUrl('/login');
   }

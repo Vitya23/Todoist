@@ -7,7 +7,7 @@ import { MenuModule } from 'primeng/menu';
 import { SideBarService } from '../services/sidebar.services';
 import { CurrentUserI } from '../../types/currentUser.interface';
 import { UserService } from '../../services/user.service';
-import { AuthState } from '../../services/authState.state';
+import { AppState } from '../../services/appState.state';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { MenuItem } from 'primeng/api';

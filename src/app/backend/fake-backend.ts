@@ -38,6 +38,8 @@ export class FakeBackendInterceptor implements HttpInterceptor {
           return login();
         case url.endsWith('/user/register') && method === 'POST':
           return register();
+        case url.endsWith('task') && method === 'POST':
+          return addTask();
         case url.endsWith('/user') && method === 'GET':
           return getUser();
         case url.endsWith('/tasks') && method === 'GET':
@@ -102,6 +104,31 @@ export class FakeBackendInterceptor implements HttpInterceptor {
         (res) => res.userId === user?.id
       );
       return ok(categories);
+    }
+
+    function addTask() {
+      console.log('a');
+      const token = headers.get('Authorization');
+      const user = userDataBase.users.find(
+        (res) => `Token ${res.accessToken}` === token
+      );
+      if (!user) {
+        return error('Не найден пользователь');
+      }
+      const newId = toDoDataBase.tasks[toDoDataBase.tasks.length - 1].id + 1;
+      console.log(body);
+      const task = {
+        id: newId,
+        userId: user.id,
+        description: body.description,
+        category: body.category,
+        priority: body.selectedPriority.priority,
+        endDate: body.date,
+        status: 'Ожидает',
+      };
+      toDoDataBase.tasks.push(task);
+      console.log(toDoDataBase.tasks);
+      return ok(toDoDataBase.tasks);
     }
 
     function ok(body?: any) {

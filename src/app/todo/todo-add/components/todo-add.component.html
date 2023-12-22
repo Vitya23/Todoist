@@ -1,17 +1,16 @@
 <ng-content></ng-content>
 <p-dialog
   header="Добавление задачи"
-  (onHide)="onClose()"
   [(visible)]="visible"
   [style]="{ width: '60vw' }"
 >
-  <form action="" [formGroup]="form" class="form">
+  <form (ngSubmit)="onSubmit()" [formGroup]="form" class="form">
     <input
       type="text"
       placeholder="Название задачи"
       pInputText
       class="input p-inputtext-sm"
-      formControlName="task"
+      formControlName="description"
     />
     <div class="footer">
       <p-calendar

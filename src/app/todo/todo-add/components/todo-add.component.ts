@@ -34,9 +34,8 @@ import { CategoriesI } from '../../todo-list/types/categories.interface';
   providers: [TodoAddService],
 })
 export class TodoAddComponent implements OnInit {
-  @Input() visible: boolean = false;
-  @Input() categories: CategoriesI[] = [];
-  @Output() visibleChange = new EventEmitter();
+  visible: boolean = true;
+  @Input() category!: number;
   form!: FormGroup;
   priorities: object[] = [
     { title: 'Priority 1', priority: 1 },
@@ -44,22 +43,25 @@ export class TodoAddComponent implements OnInit {
     { title: 'Priority 3', priority: 3 },
     { title: 'Priority 4', priority: 4 },
   ];
-  constructor(private fb: FormBuilder) {}
+  constructor(
+    private fb: FormBuilder,
+    private todoAddService: TodoAddService
+  ) {}
   ngOnInit(): void {
     this.initializeForm();
+    console.log(this.category);
   }
   initializeForm() {
+    let a = [...this.priorities];
     this.form = this.fb.group({
-      task: '',
+      description: '',
       date: '',
       selectedPriority: '',
+      category: this.category,
     });
   }
-  onClose() {
-    this.visibleChange.emit(false);
-    console.log(this.form.value);
-  }
-  ngOnDestroy() {
-    this.visibleChange.unsubscribe();
+  onSubmit() {
+    this.todoAddService.addTask(this.form.value).subscribe();
+    this.visible = false;
   }
 }

@@ -1,5 +1,5 @@
 <div class="block">
-  <div class="card" *ngIf="tasks$ | async as tasks">
+  <div class="card" *ngIf="tasks() as tasks">
     <ng-container *ngIf="categories$ | async as categories">
       @for (category of categories ;track category){
       <p-table
@@ -43,16 +43,13 @@
             icon="pi pi-plus"
             [text]="true"
             size="small"
-            (click)="dialogShow()"
+            (click)="generateAnotherComponent(category.id)"
           ></p-button>
         </ng-template>
       </p-table>
       }
-      <app-todo-add
-        [visible]="visible"
-        [categories]="categories"
-        (visibleChange)="dialogClose($event)"
-      ></app-todo-add>
+
+      <ng-container #ChildInsertionPoint></ng-container>
     </ng-container>
   </div>
 </div>

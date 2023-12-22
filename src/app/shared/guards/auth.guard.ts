@@ -5,14 +5,14 @@ import {
   Router,
   RouterStateSnapshot,
 } from '@angular/router';
-import { AuthState } from '../services/authState.state';
+import { AppState } from '../services/appState.state';
 
 export const authGuard: CanActivateFn = (
   route: ActivatedRouteSnapshot,
   state: RouterStateSnapshot
 ): boolean => {
   const router = inject(Router);
-  const isLoggedIn = inject(AuthState).isLoggedInState();
+  const isLoggedIn = inject(AppState).isLoggedInState();
   if (isLoggedIn) {
     return true;
   }

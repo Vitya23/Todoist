@@ -3,7 +3,7 @@ import { RouterOutlet } from '@angular/router';
 import { SideBarComponent } from './shared/sidebar/components/sidebar.component';
 import { UserService } from './shared/services/user.service';
 import { CommonModule } from '@angular/common';
-import { AuthState } from './shared/services/authState.state';
+import { AppState } from './shared/services/appState.state';
 
 @Component({
   selector: 'app-root',
@@ -15,11 +15,11 @@ import { AuthState } from './shared/services/authState.state';
 })
 export class AppComponent {
   title = 'Todoist';
-  authState = inject(AuthState);
+  appState = inject(AppState);
   isLoggedIn!: boolean;
   constructor() {
     effect(() => {
-      this.isLoggedIn = this.authState.isLoggedInState();
+      this.isLoggedIn = this.appState.isLoggedInState();
     });
   }
 }

@@ -11,13 +11,13 @@ import {
 } from '@angular/common/http';
 import { AuthInterceptor } from './shared/interceptors/auth.interceptor';
 import { AuthService } from './auth/services/auth.service';
-import { AuthState } from './shared/services/authState.state';
+import { AppState } from './shared/services/appState.state';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideRouter(routes),
     provideAnimations(),
-    AuthState,
+    AppState,
     provideHttpClient(withInterceptorsFromDi()),
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
     fakeBackendProvider,
