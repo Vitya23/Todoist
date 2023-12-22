@@ -7,6 +7,8 @@ import { InputTextModule } from 'primeng/inputtext';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { CalendarModule } from 'primeng/calendar';
 import { DropdownModule } from 'primeng/dropdown';
+import { TaskI } from '../../todo-list/types/task.interface';
+import { PriorityI } from '../types/priority.interface';
 @Component({
   standalone: true,
   selector: 'app-todo-add',
@@ -26,8 +28,9 @@ import { DropdownModule } from 'primeng/dropdown';
 export class TodoAddComponent implements OnInit {
   visible: boolean = true;
   @Input() category!: number;
+  @Input() task!: TaskI;
   form!: FormGroup;
-  priorities: object[] = [
+  priorities: PriorityI[] = [
     { title: 'Приоритет 1', priority: 1 },
     { title: 'Приоритет 2', priority: 2 },
     { title: 'Приоритет 3', priority: 3 },
@@ -39,18 +42,35 @@ export class TodoAddComponent implements OnInit {
   ) {}
   ngOnInit(): void {
     this.initializeForm();
-    console.log(this.category);
   }
   initializeForm() {
-    this.form = this.fb.group({
-      description: '',
-      date: '',
-      selectedPriority: '',
-      category: this.category,
-    });
+    if (!this.task) {
+      this.form = this.fb.group({
+        description: '',
+        date: '',
+        selectedPriority: '',
+        category: this.category,
+      });
+    } else {
+      let priority = this.priorities.find(
+        (priority) => priority.priority === this.task.priority
+      );
+      this.form = this.fb.group({
+        id: this.task.id,
+        description: this.task.description,
+        date: new Date(this.task.endDate),
+        selectedPriority: priority,
+        category: this.task.category,
+      });
+    }
   }
   onSubmit() {
-    this.todoAddService.addTask(this.form.value).subscribe();
+    if (this.task) {
+      this.todoAddService.editTask(this.form.value).subscribe();
+    } else {
+      this.todoAddService.addTask(this.form.value).subscribe();
+    }
+
     this.visible = false;
   }
 }

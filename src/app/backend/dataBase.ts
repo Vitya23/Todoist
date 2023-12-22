@@ -51,7 +51,7 @@ export const toDoDataBase = {
       status: 'Ожидает',
     },
     {
-      id: 1,
+      id: 2,
       userId: 1,
       description: 'Купить корм',
       category: 3,
@@ -60,7 +60,7 @@ export const toDoDataBase = {
       status: 'Ожидает',
     },
     {
-      id: 1,
+      id: 3,
       userId: 1,
       description: 'Купить молоко',
       category: 3,
@@ -69,7 +69,7 @@ export const toDoDataBase = {
       status: 'Выполнено',
     },
     {
-      id: 1,
+      id: 4,
       userId: 2,
       description: 'Убраться дома',
       category: 2,

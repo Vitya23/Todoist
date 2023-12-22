@@ -1,7 +1,7 @@
 <div class="block">
   <div class="card" *ngIf="tasks() as tasks">
-    <ng-container *ngIf="categories$ | async as categories">
-      @for (category of categories ;track category){
+    <ng-container *ngIf="categories()">
+      @for (category of categories() ;track category){
       <p-table
         [value]="tasksByCategories(category, tasks)"
         [tableStyle]="{
@@ -12,7 +12,9 @@
         <ng-template pTemplate="header">
           <tr>
             <th class="table__category">{{ category.title }}</th>
-            <th class=""></th>
+            <th></th>
+            <th></th>
+            <th></th>
           </tr>
         </ng-template>
         <ng-template pTemplate="body" let-task>
@@ -25,6 +27,7 @@
                 }}</small>
               </div>
             </td>
+
             <td class="table__status">
               <p-tag
                 [style]="{ width: '7rem' }"
@@ -35,6 +38,21 @@
                 "
               ></p-tag>
             </td>
+            <td>
+              <p-button
+                [text]="true"
+                size="small"
+                icon="pi pi-pencil"
+                (click)="generateTodoEditComponent(task)"
+              ></p-button>
+            </td>
+            <td>
+              <p-button
+                [text]="true"
+                size="small"
+                icon="pi pi-times"
+              ></p-button>
+            </td>
           </tr>
         </ng-template>
         <ng-template pTemplate="footer">
@@ -43,7 +61,7 @@
             icon="pi pi-plus"
             [text]="true"
             size="small"
-            (click)="generateAnotherComponent(category.id)"
+            (click)="generateTodoAddComponent(category.id)"
           ></p-button>
         </ng-template>
       </p-table>

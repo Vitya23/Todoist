@@ -1,8 +1,7 @@
-<ng-content></ng-content>
 <p-dialog
-  header="Добавление задачи"
+  [header]="task ? 'Изменение задачи' : 'Добавление задачи'"
   [(visible)]="visible"
-  [style]="{ width: '60vw' }"
+  [style]="{ width: '70vw' }"
 >
   <form (ngSubmit)="onSubmit()" [formGroup]="form" class="form">
     <input
@@ -13,33 +12,35 @@
       formControlName="description"
     />
     <div class="footer">
-      <p-calendar
-        [inputStyle]="{
-          width: '11.5rem',
+      <div class="calendar">
+        <p-calendar
+          [inputStyle]="{
+          width: '100%',
           height: '2rem',
-          'margin-right': '10px',
+          
         }"
-        placeholder="Дата окончания"
-        [showButtonBar]="true"
-        appendTo="body"
-        icon="pi pi-calendar"
-        [showIcon]="true"
-        [iconDisplay]="'input'"
-        formControlName="date"
-      >
-      </p-calendar>
+          placeholder="Дата окончания"
+          [showButtonBar]="true"
+          appendTo="body"
+          icon="pi pi-calendar"
+          [showIcon]="true"
+          [iconDisplay]="'input'"
+          formControlName="date"
+        >
+        </p-calendar>
+      </div>
+
       <div class="dropdown">
         <p-dropdown
           placeholder="Приоритет"
           [style]="{
             height: '2rem',
             'align-items': 'center',
-            'margin-right': '5px',
             width: '100%'
           }"
           formControlName="selectedPriority"
           appendTo="body"
-          optionLabel="title"
+          optionLabel="priority"
           [options]="priorities"
         >
           <ng-template pTemplate="selectedItem">
@@ -53,16 +54,20 @@
               <div>{{ selectedPriority.title }}</div>
             </div>
           </ng-template>
-          <ng-template let-country pTemplate="item">
+          <ng-template let-priority pTemplate="item">
             <div class="select__items">
               <i style="width: 18px" class="pi pi-flag"></i>
-              <div>{{ country.title }}</div>
+              <div>{{ priority.title }}</div>
             </div>
           </ng-template>
         </p-dropdown>
       </div>
 
-      <button pButton class="button" label="Добавить"></button>
+      <button
+        pButton
+        class="button"
+        [label]="task ? 'Изменить' : 'Добавить'"
+      ></button>
     </div>
   </form>
 </p-dialog>

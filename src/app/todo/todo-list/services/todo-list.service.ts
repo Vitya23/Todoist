@@ -18,6 +18,13 @@ export class TodoListService {
     );
   }
   getCategories(): Observable<CategoriesI[]> {
-    return this.http.get<CategoriesI[]>('http://localhost:4200/categories');
+    return this.http
+      .get<CategoriesI[]>('http://localhost:4200/categories')
+      .pipe(
+        map((categories: CategoriesI[]) => {
+          this.appState.categories.set(categories);
+          return categories;
+        })
+      );
   }
 }

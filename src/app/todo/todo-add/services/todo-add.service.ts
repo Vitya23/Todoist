@@ -15,4 +15,11 @@ export class TodoAddService {
       })
     );
   }
+  editTask(task: TaskI) {
+    return this.http.put<TaskI[]>('http://localhost:4200/task', task).pipe(
+      map((response) => {
+        this.appState.task.set(response);
+      })
+    );
+  }
 }

@@ -15,7 +15,7 @@ import { TodoListService } from '../services/todo-list.service';
 import { TableModule } from 'primeng/table';
 import { TagModule } from 'primeng/tag';
 import { ButtonModule } from 'primeng/button';
-import { Observable, single } from 'rxjs';
+import { Observable, Subscription, single } from 'rxjs';
 import { TaskI } from '../types/task.interface';
 import { CategoriesI } from '../types/categories.interface';
 import { TodoAddComponent } from '../../todo-add/components/todo-add.component';
@@ -39,22 +39,34 @@ export class TodoListComponent implements OnInit {
   childInsertionPoint!: ViewContainerRef;
 
   visible: boolean = false;
+
   tasks = this.appState.task;
-  categories$!: Observable<CategoriesI[]>;
+  categories = this.appState.categories;
+
+  taskSub!: Subscription;
+  categoriesSub!: Subscription;
+
   constructor(
     private todoListService: TodoListService,
     private appState: AppState
   ) {}
+
   ngOnInit() {
     this.todoListService.getTasks().subscribe();
-    this.categories$ = this.todoListService.getCategories();
+    this.todoListService.getCategories().subscribe();
   }
 
-  generateAnotherComponent(category: number) {
+  generateTodoAddComponent(category: number) {
     this.childInsertionPoint.clear();
     let componentRef =
       this.childInsertionPoint.createComponent(TodoAddComponent);
     componentRef.instance.category = category;
+  }
+  generateTodoEditComponent(task: TaskI) {
+    this.childInsertionPoint.clear();
+    let componentRef =
+      this.childInsertionPoint.createComponent(TodoAddComponent);
+    componentRef.instance.task = task;
   }
 
   dialogShow() {
@@ -73,6 +85,7 @@ export class TodoListComponent implements OnInit {
     }
     return;
   }
+
   tasksByCategories(category: CategoriesI, tasks: TaskI[]) {
     return tasks.filter((task) => task.category === category.id);
   }
