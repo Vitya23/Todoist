@@ -9,16 +9,15 @@
       type="text"
       placeholder="Название задачи"
       pInputText
-      class="input p-inputtext-sm"
+      class="input"
       formControlName="description"
     />
     <div class="footer">
       <p-calendar
         [inputStyle]="{
-          width: '9rem',
+          width: '11.5rem',
           height: '2rem',
-          'font-size': '10px',
-          'margin-right': '10px'
+          'margin-right': '10px',
         }"
         placeholder="Дата окончания"
         [showButtonBar]="true"
@@ -29,35 +28,39 @@
         formControlName="date"
       >
       </p-calendar>
-      <p-dropdown
-        placeholder="selected"
-        [style]="{
-          height: '2rem',
-          'align-items': 'center'
-        }"
-        formControlName="selectedPriority"
-        appendTo="body"
-        optionLabel="title"
-        [options]="priorities"
-      >
-        <ng-template pTemplate="selectedItem">
-          <div
-            class="select__items"
-            *ngIf="
-              this.form.controls['selectedPriority'].value as selectedPriority
-            "
-          >
-            <i style="width: 18px" class="pi pi-flag"></i>
-            <div>{{ selectedPriority.title }}</div>
-          </div>
-        </ng-template>
-        <ng-template let-country pTemplate="item">
-          <div class="select__items">
-            <i style="width: 18px" class="pi pi-flag"></i>
-            <div>{{ country.title }}</div>
-          </div>
-        </ng-template>
-      </p-dropdown>
+      <div class="dropdown">
+        <p-dropdown
+          placeholder="Приоритет"
+          [style]="{
+            height: '2rem',
+            'align-items': 'center',
+            'margin-right': '5px',
+            width: '100%'
+          }"
+          formControlName="selectedPriority"
+          appendTo="body"
+          optionLabel="title"
+          [options]="priorities"
+        >
+          <ng-template pTemplate="selectedItem">
+            <div
+              class="select__items"
+              *ngIf="
+                this.form.controls['selectedPriority'].value as selectedPriority
+              "
+            >
+              <i style="width: 18px" class="pi pi-flag"></i>
+              <div>{{ selectedPriority.title }}</div>
+            </div>
+          </ng-template>
+          <ng-template let-country pTemplate="item">
+            <div class="select__items">
+              <i style="width: 18px" class="pi pi-flag"></i>
+              <div>{{ country.title }}</div>
+            </div>
+          </ng-template>
+        </p-dropdown>
+      </div>
 
       <button pButton class="button" label="Добавить"></button>
     </div>
