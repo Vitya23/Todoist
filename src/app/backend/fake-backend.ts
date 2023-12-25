@@ -65,6 +65,15 @@ export class FakeBackendInterceptor implements HttpInterceptor {
       return Math.random().toString(18).substring(2);
     }
 
+    function getUserByToken() {
+      const token = headers.get('Authorization');
+      const user = userDataBase.users.find(
+        (res) => `Token ${res.accessToken}` === token
+      );
+
+      return user;
+    }
+
     function login() {
       const { email, password } = body.user;
       const user = userDataBase.users.find(
@@ -90,28 +99,24 @@ export class FakeBackendInterceptor implements HttpInterceptor {
     }
 
     function getUser() {
-      const token = headers.get('Authorization');
-      const user = userDataBase.users.find(
-        (res) => `Token ${res.accessToken}` === token
-      );
+      const user = getUserByToken();
       if (!user) return error('Пожалуйста войдите снова');
+
       return ok({ email: user.email });
     }
 
     function getTasks() {
-      const token = headers.get('Authorization');
-      const user = userDataBase.users.find(
-        (res) => `Token ${res.accessToken}` === token
-      );
+      const user = getUserByToken();
+      if (!user) return error('Пожалуйста войдите снова');
+
       const tasks = toDoDataBase.tasks.filter((res) => res.userId === user?.id);
       return ok(tasks);
     }
 
     function getCategories() {
-      const token = headers.get('Authorization');
-      const user = userDataBase.users.find(
-        (res) => `Token ${res.accessToken}` === token
-      );
+      const user = getUserByToken();
+      if (!user) return error('Пожалуйста войдите снова');
+
       const categories = categoriesDataBase.categories.filter(
         (res) => res.userId === user?.id
       );
@@ -119,13 +124,9 @@ export class FakeBackendInterceptor implements HttpInterceptor {
     }
 
     function addTask() {
-      const token = headers.get('Authorization');
-      const user = userDataBase.users.find(
-        (res) => `Token ${res.accessToken}` === token
-      );
-      if (!user) {
-        return error('Не найден пользователь');
-      }
+      const user = getUserByToken();
+      if (!user) return error('Пожалуйста войдите снова');
+
       const newId = toDoDataBase.tasks[toDoDataBase.tasks.length - 1].id + 1;
       const task = {
         id: newId,
@@ -143,13 +144,9 @@ export class FakeBackendInterceptor implements HttpInterceptor {
     }
 
     function editTask() {
-      const token = headers.get('Authorization');
-      const user = userDataBase.users.find(
-        (res) => `Token ${res.accessToken}` === token
-      );
-      if (!user) {
-        return error('Не найден пользователь');
-      }
+      const user = getUserByToken();
+      if (!user) return error('Пожалуйста войдите снова');
+
       const reqTask = {
         id: body.id,
         userId: user.id,
@@ -172,13 +169,9 @@ export class FakeBackendInterceptor implements HttpInterceptor {
     }
 
     function deleteTask() {
-      const token = headers.get('Authorization');
-      const user = userDataBase.users.find(
-        (res) => `Token ${res.accessToken}` === token
-      );
-      if (!user) {
-        return error('Не найден пользователь');
-      }
+      const user = getUserByToken();
+      if (!user) return error('Пожалуйста войдите снова');
+
       toDoDataBase.tasks = toDoDataBase.tasks.filter(
         (res) => res.id !== body?.id
       );
@@ -188,13 +181,9 @@ export class FakeBackendInterceptor implements HttpInterceptor {
       return ok(resTasks);
     }
     function addCategory() {
-      const token = headers.get('Authorization');
-      const user = userDataBase.users.find(
-        (res) => `Token ${res.accessToken}` === token
-      );
-      if (!user) {
-        return error('Не найден пользователь');
-      }
+      const user = getUserByToken();
+      if (!user) return error('Пожалуйста войдите снова');
+
       const newId =
         categoriesDataBase.categories[categoriesDataBase.categories.length - 1]
           .id + 1;
@@ -203,7 +192,6 @@ export class FakeBackendInterceptor implements HttpInterceptor {
         userId: user.id,
         title: body,
       };
-      console.log(newCategory);
       categoriesDataBase.categories.push(newCategory);
       const newCategories = categoriesDataBase.categories.filter(
         (category) => category.userId === user.id
@@ -211,13 +199,9 @@ export class FakeBackendInterceptor implements HttpInterceptor {
       return ok(newCategories);
     }
     function editCategory() {
-      const token = headers.get('Authorization');
-      const user = userDataBase.users.find(
-        (res) => `Token ${res.accessToken}` === token
-      );
-      if (!user) {
-        return error('Не найден пользователь');
-      }
+      const user = getUserByToken();
+      if (!user) return error('Пожалуйста войдите снова');
+
       const reqTask = { id: body.id, userId: user.id, title: body.title };
 
       const newCategories = categoriesDataBase.categories
@@ -232,13 +216,9 @@ export class FakeBackendInterceptor implements HttpInterceptor {
       return ok(newCategories);
     }
     function deleteCategory() {
-      const token = headers.get('Authorization');
-      const user = userDataBase.users.find(
-        (res) => `Token ${res.accessToken}` === token
-      );
-      if (!user) {
-        return error('Не найден пользователь');
-      }
+      const user = getUserByToken();
+      if (!user) return error('Пожалуйста войдите снова');
+
       categoriesDataBase.categories = categoriesDataBase.categories.filter(
         (res) => res.id !== body.id
       );
