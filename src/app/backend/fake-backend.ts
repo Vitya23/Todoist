@@ -40,6 +40,8 @@ export class FakeBackendInterceptor implements HttpInterceptor {
           return register();
         case url.endsWith('/task') && method === 'POST':
           return addTask();
+        case url.endsWith('/category') && method === 'POST':
+          return addCategory();
         case url.endsWith('/user') && method === 'GET':
           return getUser();
         case url.endsWith('/tasks') && method === 'GET':
@@ -48,6 +50,8 @@ export class FakeBackendInterceptor implements HttpInterceptor {
           return getCategories();
         case url.endsWith('/task') && method === 'PUT':
           return editTask();
+        case url.endsWith('/category') && method === 'PUT':
+          return editCategory();
         case url.endsWith('/task') && method === 'DELETE':
           return deleteTask();
         default:
@@ -180,6 +184,50 @@ export class FakeBackendInterceptor implements HttpInterceptor {
         (res) => res.userId === user?.id
       );
       return ok(resTasks);
+    }
+    function addCategory() {
+      const token = headers.get('Authorization');
+      const user = userDataBase.users.find(
+        (res) => `Token ${res.accessToken}` === token
+      );
+      if (!user) {
+        return error('Не найден пользователь');
+      }
+      const newId =
+        categoriesDataBase.categories[categoriesDataBase.categories.length - 1]
+          .id + 1;
+      const newCategory = {
+        id: newId,
+        userId: user.id,
+        title: body,
+      };
+      console.log(newCategory);
+      categoriesDataBase.categories.push(newCategory);
+      const newCategories = categoriesDataBase.categories.filter(
+        (category) => category.userId === user.id
+      );
+      return ok(newCategories);
+    }
+    function editCategory() {
+      const token = headers.get('Authorization');
+      const user = userDataBase.users.find(
+        (res) => `Token ${res.accessToken}` === token
+      );
+      if (!user) {
+        return error('Не найден пользователь');
+      }
+      const reqTask = { id: body.id, userId: user.id, title: body.title };
+
+      const newCategories = categoriesDataBase.categories
+        .filter((res) => res.userId === user?.id)
+        .map((defaultCategory) => {
+          if (defaultCategory.id === body.id) {
+            return reqTask;
+          } else {
+            return defaultCategory;
+          }
+        });
+      return ok(newCategories);
     }
 
     function ok(body?: any) {

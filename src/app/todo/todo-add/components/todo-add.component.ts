@@ -10,6 +10,7 @@ import { DropdownModule } from 'primeng/dropdown';
 import { TaskI } from '../../todo-list/types/task.interface';
 import { PriorityI } from '../types/priority.interface';
 import { Subscription } from 'rxjs';
+import { CategoriesI } from '../../../shared/category-add/types/categories.interface';
 @Component({
   standalone: true,
   selector: 'app-todo-add',
@@ -27,7 +28,7 @@ import { Subscription } from 'rxjs';
   providers: [TodoAddService],
 })
 export class TodoAddComponent implements OnInit, OnDestroy {
-  @Input() category!: number;
+  @Input() category!: CategoriesI;
   @Input() task!: TaskI;
 
   addSubs!: Subscription;
@@ -55,7 +56,7 @@ export class TodoAddComponent implements OnInit, OnDestroy {
         description: '',
         date: '',
         selectedPriority: '',
-        category: this.category,
+        category: this.category.id,
       });
     } else {
       let priority = this.priorities.find(
@@ -83,7 +84,8 @@ export class TodoAddComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     if (this.editSubs) {
       this.editSubs.unsubscribe();
-    } else {
+    }
+    if (this.addSubs) {
       this.addSubs.unsubscribe();
     }
   }

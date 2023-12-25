@@ -1,0 +1,50 @@
+@if(!category.title){
+<div class="wrapper">
+  <div class="block">
+    <h3
+      class="title-side title-side-center"
+      [hidden]="active === true"
+      (click)="active = true"
+    >
+      Добавить категорию
+    </h3>
+  </div>
+</div>
+} @if(category.title && !active){
+<div class="title">
+  <span>{{ category.title }}</span>
+  <div class="menu">
+    <p-menu #menu [model]="items" [popup]="true" appendTo="body"></p-menu>
+    <p-button
+      (click)="menu.toggle($event)"
+      icon="pi pi-ellipsis-h"
+      [text]="true"
+      severity="danger "
+      size="small"
+    ></p-button>
+  </div>
+</div>
+
+}
+<p-inplace [hidden]="!active" [active]="active">
+  <ng-template pTemplate="content">
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+      <input class="input" formControlName="category" type="text" pInputText />
+      <p-button
+        [style]="{ 'margin-right': '10px' }"
+        type="submit"
+        size="small"
+        [label]="category.title ? 'Сохранить' : 'Добавить'"
+        severity="danger"
+        [plain]="true"
+      ></p-button>
+      <p-button
+        (click)="active = false"
+        size="small"
+        label="Отмена"
+        [text]="true"
+        [plain]="true"
+      ></p-button>
+    </form>
+  </ng-template>
+</p-inplace>

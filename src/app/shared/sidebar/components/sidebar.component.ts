@@ -1,5 +1,12 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input, OnDestroy, OnInit, inject } from '@angular/core';
+import {
+  Component,
+  Input,
+  OnDestroy,
+  OnInit,
+  effect,
+  inject,
+} from '@angular/core';
 import { ButtonModule } from 'primeng/button';
 import { SidebarModule } from 'primeng/sidebar';
 import { AvatarModule } from 'primeng/avatar';
@@ -11,6 +18,11 @@ import { AppState } from '../../services/appState.state';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { MenuItem } from 'primeng/api';
+import { CategoriesI } from '../../category-add/types/categories.interface';
+import { InplaceModule } from 'primeng/inplace';
+import { InputTextModule } from 'primeng/inputtext';
+import { PanelMenuModule } from 'primeng/panelmenu';
+import { TableModule } from 'primeng/table';
 
 @Component({
   standalone: true,
@@ -22,7 +34,11 @@ import { MenuItem } from 'primeng/api';
     SidebarModule,
     ButtonModule,
     AvatarModule,
+    InputTextModule,
     MenuModule,
+    InplaceModule,
+    PanelMenuModule,
+    TableModule,
   ],
   providers: [SideBarService],
 })
@@ -31,10 +47,16 @@ export class SideBarComponent implements OnInit, OnDestroy {
   currentUser!: CurrentUserI;
   subscription!: Subscription;
   items: MenuItem[] = this.sidebarService.userItems;
+  categories!: CategoriesI[] | undefined | null;
   constructor(
     private userService: UserService,
-    private sidebarService: SideBarService
-  ) {}
+    private sidebarService: SideBarService,
+    private appState: AppState
+  ) {
+    effect(() => {
+      this.categories = this.appState.categories();
+    });
+  }
   ngOnInit(): void {
     this.initializeValues();
   }

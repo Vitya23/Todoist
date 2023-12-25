@@ -1,7 +1,7 @@
 import { Injectable, WritableSignal, effect, signal } from '@angular/core';
 import { CurrentUserI } from '../types/currentUser.interface';
 import { TaskI } from '../../todo/todo-list/types/task.interface';
-import { CategoriesI } from '../../todo/todo-list/types/categories.interface';
+import { CategoriesI } from '../category-add/types/categories.interface';
 
 Injectable();
 export class AppState {

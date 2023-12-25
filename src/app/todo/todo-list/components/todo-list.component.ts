@@ -13,11 +13,12 @@ import { TagModule } from 'primeng/tag';
 import { ButtonModule } from 'primeng/button';
 import { Subscription, single } from 'rxjs';
 import { TaskI } from '../types/task.interface';
-import { CategoriesI } from '../types/categories.interface';
+import { CategoriesI } from '../../../shared/category-add/types/categories.interface';
 import { TodoAddComponent } from '../../todo-add/components/todo-add.component';
 import { AppState } from '../../../shared/services/appState.state';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { TodoDeleteComponent } from '../../todo-delete/components/todo-delete.component';
+import { CategoryComponent } from '../../../shared/category-add/components/category.component';
 @Component({
   standalone: true,
   selector: 'app-todo-list',
@@ -32,6 +33,7 @@ import { TodoDeleteComponent } from '../../todo-delete/components/todo-delete.co
     TodoAddComponent,
     ConfirmDialogModule,
     TodoDeleteComponent,
+    CategoryComponent,
   ],
   providers: [TodoListService],
 })
@@ -57,7 +59,7 @@ export class TodoListComponent implements OnInit, OnDestroy {
     this.categoriesSub = this.todoListService.getCategories().subscribe();
   }
 
-  generateTodoAddComponent(category: number) {
+  generateTodoAddComponent(category: CategoriesI) {
     this.childInsertionPoint.clear();
     let componentRef =
       this.childInsertionPoint.createComponent(TodoAddComponent);

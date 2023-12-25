@@ -6,15 +6,14 @@
         [value]="tasksByCategories(category, tasks)"
         [tableStyle]="{
         'min-width': '20rem',
-        'margin-top': '20px',
+        'margin-top': '40px',
       }"
       >
         <ng-template pTemplate="header">
           <tr>
-            <th class="table__category">{{ category.title }}</th>
-            <th></th>
-            <th></th>
-            <th></th>
+            <th colspan="4" class="table__category">
+              <app-category [category]="category"></app-category>
+            </th>
           </tr>
         </ng-template>
         <ng-template pTemplate="body" let-task>
@@ -55,10 +54,11 @@
             icon="pi pi-plus"
             [text]="true"
             size="small"
-            (click)="generateTodoAddComponent(category.id)"
+            (click)="generateTodoAddComponent(category)"
           ></p-button>
         </ng-template>
       </p-table>
+      <app-category></app-category>
       }
 
       <ng-container #ChildInsertionPoint></ng-container>
