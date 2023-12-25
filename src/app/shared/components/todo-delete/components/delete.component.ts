@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
-import { TodoDeleteService } from '../services/todo-delete.service';
+import { DeleteService } from '../services/delete.service';
 import { ButtonModule } from 'primeng/button';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { ConfirmationService, MessageService } from 'primeng/api';
@@ -8,26 +8,27 @@ import { Subscription } from 'rxjs';
 
 @Component({
   standalone: true,
-  selector: 'app-todo-delete',
-  templateUrl: './todo-delete.component.html',
-  styleUrl: './todo-delete.component.scss',
+  selector: 'app-delete',
+  templateUrl: './delete.component.html',
+  styleUrl: './delete.component.scss',
   imports: [CommonModule, ButtonModule, ConfirmDialogModule],
-  providers: [TodoDeleteService, ConfirmationService, MessageService],
+  providers: [DeleteService, ConfirmationService, MessageService],
 })
-export class TodoDeleteComponent implements OnDestroy {
+export class DeleteComponent implements OnDestroy {
   @Input() id!: number;
+  @Input() mode: string = 'task';
   deleteSubs!: Subscription;
 
   constructor(
-    private todoDeleteService: TodoDeleteService,
+    private deleteService: DeleteService,
     private confirmationService: ConfirmationService,
     private messageService: MessageService
   ) {}
-
-  deleteTask(event: Event) {
+  ngOnInit() {
     this.confirmationService.confirm({
-      target: event.target as EventTarget,
-      message: 'Вы действительно хотите удалить задачу?',
+      message: `Вы действительно хотите удалить ${
+        this.mode === 'task' ? 'задачу?' : 'категорию'
+      }`,
       header: 'Информация',
       icon: 'pi pi-info-circle',
       acceptLabel: 'Да',
@@ -43,9 +44,14 @@ export class TodoDeleteComponent implements OnDestroy {
           summary: 'Confirmed',
           detail: 'Record deleted',
         });
-        this.deleteSubs = this.todoDeleteService
-          .deleteTask(this.id)
-          .subscribe();
+        if (this.mode === 'task') {
+          this.deleteSubs = this.deleteService.deleteTask(this.id).subscribe();
+        }
+        if (this.mode === 'category') {
+          this.deleteSubs = this.deleteService
+            .deleteCategory(this.id)
+            .subscribe();
+        }
       },
       reject: () => {
         this.messageService.add({

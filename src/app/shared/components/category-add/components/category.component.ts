@@ -1,18 +1,26 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import {
+  Component,
+  Input,
+  OnDestroy,
+  OnInit,
+  ViewChild,
+  ViewContainerRef,
+} from '@angular/core';
 import { ButtonModule } from 'primeng/button';
 import { DialogModule } from 'primeng/dialog';
 import { InputTextModule } from 'primeng/inputtext';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { CalendarModule } from 'primeng/calendar';
 import { DropdownModule } from 'primeng/dropdown';
-
+import { ConfirmPopupModule } from 'primeng/confirmpopup';
 import { InplaceModule } from 'primeng/inplace';
 import { CategoryService } from '../services/category.service';
 import { CategoriesI } from '../types/categories.interface';
 import { MenuModule } from 'primeng/menu';
-import { MenuItem } from 'primeng/api';
+import { ConfirmationService, MenuItem, MessageService } from 'primeng/api';
 import { Subject, takeUntil } from 'rxjs';
+import { DeleteComponent } from '../../todo-delete/components/delete.component';
 
 @Component({
   standalone: true,
@@ -30,10 +38,14 @@ import { Subject, takeUntil } from 'rxjs';
     DropdownModule,
     InplaceModule,
     ReactiveFormsModule,
+    ConfirmPopupModule,
   ],
-  providers: [CategoryService],
+  providers: [CategoryService, ConfirmationService, MessageService],
 })
 export class CategoryComponent implements OnInit, OnDestroy {
+  @ViewChild('ChildInsertionPoint', { read: ViewContainerRef })
+  childInsertionPoint!: ViewContainerRef;
+
   form!: FormGroup;
   active = false;
   items!: MenuItem[];
@@ -41,7 +53,9 @@ export class CategoryComponent implements OnInit, OnDestroy {
   @Input() category: CategoriesI = { title: '' };
   constructor(
     private fb: FormBuilder,
-    private categoryService: CategoryService
+    private categoryService: CategoryService,
+    private confirmationService: ConfirmationService,
+    private messageService: MessageService
   ) {}
 
   ngOnInit(): void {
@@ -92,7 +106,11 @@ export class CategoryComponent implements OnInit, OnDestroy {
   }
 
   deleteCategory() {
-    console.log('del');
+    this.childInsertionPoint.clear();
+    let componentRef =
+      this.childInsertionPoint.createComponent(DeleteComponent);
+    componentRef.instance.id = this.category.id!;
+    componentRef.instance.mode = 'category';
   }
   ngOnDestroy(): void {
     this.destroy$.next(true);

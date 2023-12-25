@@ -10,7 +10,7 @@ import { DropdownModule } from 'primeng/dropdown';
 import { TaskI } from '../../todo-list/types/task.interface';
 import { PriorityI } from '../types/priority.interface';
 import { Subscription } from 'rxjs';
-import { CategoriesI } from '../../../shared/category-add/types/categories.interface';
+import { CategoriesI } from 'src/app/shared/components/category-add/types/categories.interface';
 @Component({
   standalone: true,
   selector: 'app-todo-add',

@@ -2,8 +2,9 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
 import { map } from 'rxjs';
-import { AppState } from '../../services/appState.state';
+
 import { CategoriesI } from '../types/categories.interface';
+import { AppState } from 'src/app/shared/services/appState.state';
 
 @Injectable()
 export class CategoryService {

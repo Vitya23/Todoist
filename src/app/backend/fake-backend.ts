@@ -54,6 +54,8 @@ export class FakeBackendInterceptor implements HttpInterceptor {
           return editCategory();
         case url.endsWith('/task') && method === 'DELETE':
           return deleteTask();
+        case url.endsWith('/category') && method === 'DELETE':
+          return deleteCategory();
         default:
           return next.handle(req);
       }
@@ -228,6 +230,26 @@ export class FakeBackendInterceptor implements HttpInterceptor {
           }
         });
       return ok(newCategories);
+    }
+    function deleteCategory() {
+      const token = headers.get('Authorization');
+      const user = userDataBase.users.find(
+        (res) => `Token ${res.accessToken}` === token
+      );
+      if (!user) {
+        return error('Не найден пользователь');
+      }
+      categoriesDataBase.categories = categoriesDataBase.categories.filter(
+        (res) => res.id !== body.id
+      );
+
+      toDoDataBase.tasks = toDoDataBase.tasks.filter(
+        (res) => res.category !== body?.id
+      );
+      const resTasks = categoriesDataBase.categories.filter(
+        (res) => res.userId === user?.id
+      );
+      return ok(resTasks);
     }
 
     function ok(body?: any) {

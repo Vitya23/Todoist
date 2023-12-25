@@ -1,3 +1,5 @@
+<ng-container #ChildInsertionPoint></ng-container>
+
 @if(!category.title){
 <div class="wrapper">
   <div class="block">
@@ -14,6 +16,7 @@
 <div class="title">
   <span>{{ category.title }}</span>
   <div class="menu">
+    <p-confirmPopup></p-confirmPopup>
     <p-menu #menu [model]="items" [popup]="true" appendTo="body"></p-menu>
     <p-button
       (click)="menu.toggle($event)"

@@ -1,21 +1,11 @@
 import { CommonModule } from '@angular/common';
-import {
-  Component,
-  Input,
-  OnDestroy,
-  OnInit,
-  effect,
-  inject,
-} from '@angular/core';
+import { Component, OnDestroy, OnInit, effect } from '@angular/core';
 import { ButtonModule } from 'primeng/button';
 import { SidebarModule } from 'primeng/sidebar';
 import { AvatarModule } from 'primeng/avatar';
 import { MenuModule } from 'primeng/menu';
 import { SideBarService } from '../services/sidebar.services';
-import { CurrentUserI } from '../../types/currentUser.interface';
-import { UserService } from '../../services/user.service';
-import { AppState } from '../../services/appState.state';
-import { Router } from '@angular/router';
+
 import { Subscription } from 'rxjs';
 import { MenuItem } from 'primeng/api';
 import { CategoriesI } from '../../category-add/types/categories.interface';
@@ -23,6 +13,9 @@ import { InplaceModule } from 'primeng/inplace';
 import { InputTextModule } from 'primeng/inputtext';
 import { PanelMenuModule } from 'primeng/panelmenu';
 import { TableModule } from 'primeng/table';
+import { CurrentUserI } from 'src/app/shared/types/currentUser.interface';
+import { UserService } from 'src/app/shared/services/user.service';
+import { AppState } from 'src/app/shared/services/appState.state';
 
 @Component({
   standalone: true,

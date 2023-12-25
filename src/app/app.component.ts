@@ -1,9 +1,9 @@
 import { Component, effect, inject } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { SideBarComponent } from './shared/sidebar/components/sidebar.component';
 import { UserService } from './shared/services/user.service';
 import { CommonModule } from '@angular/common';
 import { AppState } from './shared/services/appState.state';
+import { SideBarComponent } from './shared/components/sidebar/components/sidebar.component';
 
 @Component({
   selector: 'app-root',

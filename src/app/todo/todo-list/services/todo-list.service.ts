@@ -2,8 +2,8 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, map, tap } from 'rxjs';
 import { TaskI } from '../types/task.interface';
-import { CategoriesI } from '../../../shared/category-add/types/categories.interface';
 import { AppState } from '../../../shared/services/appState.state';
+import { CategoriesI } from 'src/app/shared/components/category-add/types/categories.interface';
 
 @Injectable()
 export class TodoListService {

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { AppState } from '../../services/appState.state';
 import { Router } from '@angular/router';
 import { MenuItem } from 'primeng/api';
+import { AppState } from 'src/app/shared/services/appState.state';
 
 @Injectable()
 export class SideBarService {
