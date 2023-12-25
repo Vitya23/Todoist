@@ -6,27 +6,25 @@
         [value]="tasksByCategories(category, tasks)"
         [tableStyle]="{
         'min-width': '20rem',
-        'margin-top': '40px',
+        
       }"
       >
+        <ng-template pTemplate="caption">
+          <app-category [category]="category"> </app-category>
+        </ng-template>
         <ng-template pTemplate="header">
           <tr>
-            <th class="table__category">
-              <app-category [category]="category">
-                <p-sortIcon
-                  field="description"
-                  pSortableColumn="description"
-                ></p-sortIcon>
-              </app-category>
-            </th>
-            <th class="table">
+            <th>
               <p-sortIcon
-                class="p-sortIcon2"
-                field="status"
-                pSortableColumn="status"
+                field="description"
+                pSortableColumn="description"
               ></p-sortIcon>
             </th>
-            <th colspan="2"></th>
+            <th class="table">
+              <p-sortIcon field="status" pSortableColumn="status"></p-sortIcon>
+            </th>
+            <th></th>
+            <th></th>
           </tr>
         </ng-template>
         <ng-template pTemplate="body" let-task>
