@@ -13,8 +13,12 @@
   </div>
 </div>
 } @if(category.title && !active){
-<div class="title">
-  <span>{{ category.title }}</span>
+
+<div class="header">
+  <div class="title">
+    <span> {{ category.title }}</span>
+    <ng-content></ng-content>
+  </div>
   <div class="menu">
     <p-confirmPopup></p-confirmPopup>
     <p-menu #menu [model]="items" [popup]="true" appendTo="body"></p-menu>

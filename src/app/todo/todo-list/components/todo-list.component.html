@@ -12,7 +12,12 @@
         <ng-template pTemplate="header">
           <tr>
             <th colspan="4" class="table__category">
-              <app-category [category]="category"></app-category>
+              <app-category [category]="category">
+                <p-sortIcon
+                  field="description"
+                  pSortableColumn="description"
+                ></p-sortIcon
+              ></app-category>
             </th>
           </tr>
         </ng-template>

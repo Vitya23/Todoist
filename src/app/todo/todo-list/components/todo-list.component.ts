@@ -44,7 +44,7 @@ export class TodoListComponent implements OnInit, OnDestroy {
   childInsertionPoint!: ViewContainerRef;
 
   visible: boolean = false;
-
+  sortedBy!: string;
   tasks = this.appState.task;
   categories = this.appState.categories;
 
@@ -96,6 +96,9 @@ export class TodoListComponent implements OnInit, OnDestroy {
         return 'danger';
     }
     return;
+  }
+  todoSorted(sortedBy: string) {
+    this.sortedBy = sortedBy;
   }
 
   tasksByCategories(category: CategoriesI, tasks: TaskI[]) {
