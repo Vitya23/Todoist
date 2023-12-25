@@ -17,14 +17,17 @@
 <div class="header">
   <div class="title">
     <span> {{ category.title }}</span>
+  </div>
+  <div class="status">
     <ng-content></ng-content>
   </div>
+
   <div class="menu">
     <p-confirmPopup></p-confirmPopup>
     <p-menu #menu [model]="items" [popup]="true" appendTo="body"></p-menu>
     <p-button
       (click)="menu.toggle($event)"
-      icon="pi pi-ellipsis-h"
+      icon="pi pi-pencil "
       [text]="true"
       severity="danger "
       size="small"
@@ -33,6 +36,7 @@
 </div>
 
 }
+
 <p-inplace [hidden]="!active" [active]="active">
   <ng-template pTemplate="content">
     <form [formGroup]="form" (ngSubmit)="onSubmit()">
