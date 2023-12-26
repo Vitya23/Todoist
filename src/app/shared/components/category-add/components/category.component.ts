@@ -28,6 +28,7 @@ import { Subject, takeUntil } from 'rxjs';
 import { DeleteComponent } from '../../todo-delete/components/delete.component';
 import { CategoryFormI } from '../types/categoryForm.interface';
 import { TrimOnBlurDirective } from 'src/app/shared/directives/trim-on-blur.directive';
+import { AppState } from 'src/app/shared/services/appState.state';
 
 @Component({
   standalone: true,
@@ -55,6 +56,7 @@ export class CategoryComponent implements OnInit, OnDestroy {
   DelCategoryInsertionPoint!: ViewContainerRef;
   @Input() category: CategoryI = { title: null, id: null };
 
+  categories: CategoryI[] | null = this.appState.categories();
   form!: FormGroup<CategoryFormI>;
   active = false;
   items!: MenuItem[];
@@ -63,6 +65,7 @@ export class CategoryComponent implements OnInit, OnDestroy {
   constructor(
     private fb: FormBuilder,
     private categoryService: CategoryService,
+    private appState: AppState,
     private confirmationService: ConfirmationService,
     private messageService: MessageService
   ) {}

@@ -1,8 +1,10 @@
 <ng-container #DelCategoryInsertionPoint></ng-container>
-
-@if(!category.title && !active){
-<div class="wrapper">
-  <div class="block">
+@if(!category.title?.length && !active){
+<div class="category_add">
+  <div
+    class="block"
+    [ngClass]="categories?.length ? 'block__hidden' : 'block__display'"
+  >
     <h3 class="title-side title-side-center" (click)="active = true">
       Добавить категорию
     </h3>
@@ -29,32 +31,34 @@
 </div>
 
 }
-<p-inplace [hidden]="!active" [active]="active">
-  <ng-template pTemplate="content">
-    <form [formGroup]="form" (ngSubmit)="onSubmit()">
-      <input
-        trimOnBlur
-        class="input"
-        formControlName="title"
-        type="text"
-        pInputText
-      />
-      <p-button
-        [style]="{ 'margin-right': '10px' }"
-        type="submit"
-        size="small"
-        [label]="category.title ? 'Сохранить' : 'Добавить'"
-        severity="danger"
-        [plain]="true"
-        [disabled]="this.form.invalid"
-      ></p-button>
-      <p-button
-        (click)="active = false"
-        size="small"
-        label="Отмена"
-        [text]="true"
-        [plain]="true"
-      ></p-button>
-    </form>
-  </ng-template>
-</p-inplace>
+<div [ngClass]="categories?.length ? '' : 'inplace'">
+  <p-inplace [hidden]="!active" [active]="active">
+    <ng-template pTemplate="content">
+      <form [formGroup]="form" (ngSubmit)="onSubmit()">
+        <input
+          trimOnBlur
+          class="input"
+          formControlName="title"
+          type="text"
+          pInputText
+        />
+        <p-button
+          [style]="{ 'margin-right': '10px' }"
+          type="submit"
+          size="small"
+          [label]="category.title ? 'Сохранить' : 'Добавить'"
+          severity="danger"
+          [plain]="true"
+          [disabled]="this.form.invalid"
+        ></p-button>
+        <p-button
+          (click)="active = false"
+          size="small"
+          label="Отмена"
+          [text]="true"
+          [plain]="true"
+        ></p-button>
+      </form>
+    </ng-template>
+  </p-inplace>
+</div>

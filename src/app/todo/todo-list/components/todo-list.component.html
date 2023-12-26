@@ -1,3 +1,5 @@
+<app-category *ngIf="!categories()?.length"></app-category>
+
 <div class="wrapper">
   <div class="table" *ngIf="tasks() as tasks">
     <ng-container *ngIf="categories() as categories">

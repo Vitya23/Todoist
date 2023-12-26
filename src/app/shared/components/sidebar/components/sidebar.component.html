@@ -1,27 +1,23 @@
 @if(currentUser){
-<div class="side-bar">
-  <p-button
-    (click)="sideBarVisible = true"
-    icon="pi pi-bars"
-    [text]="true"
-    label="Меню"
-    severity="info"
-  ></p-button>
+<div class="wrapper">
+  <p-menubar>
+    <ng-template pTemplate="end">
+      <p-menu #menu [model]="items" [popup]="true"> </p-menu>
+      <div class="user" (click)="menu.toggle($event)">
+        <p-avatar
+          [label]="currentUser.email[0]"
+          [style]="{ 'margin-right': '10px' }"
+          size="large"
+          shape="circle"
+        ></p-avatar>
+        <span>{{ currentUser.email.slice(0, 18) }}</span>
+        <i class="pi pi-chevron-down icon"></i>
+      </div>
+    </ng-template>
+  </p-menubar>
+  <p-sidebar [modal]="false" [(visible)]="sideBarVisible">
+    <ng-template pTemplate="header"> </ng-template>
+  </p-sidebar>
 </div>
 
-<p-sidebar [modal]="false" [(visible)]="sideBarVisible">
-  <ng-template pTemplate="header">
-    <p-menu #menu [model]="items" [popup]="true"> </p-menu>
-    <div class="user" (click)="menu.toggle($event)">
-      <p-avatar
-        [label]="currentUser.email[0]"
-        [style]="{ 'margin-right': '10px' }"
-        size="large"
-        shape="circle"
-      ></p-avatar>
-      <span>{{ currentUser.email.slice(0, 18) }}</span>
-      <i class="pi pi-chevron-down icon"></i>
-    </div>
-  </ng-template>
-</p-sidebar>
 }

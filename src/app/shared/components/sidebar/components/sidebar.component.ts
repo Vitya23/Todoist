@@ -14,6 +14,7 @@ import { PanelMenuModule } from 'primeng/panelmenu';
 import { TableModule } from 'primeng/table';
 import { CurrentUserI } from 'src/app/shared/types/currentUser.interface';
 import { UserService } from 'src/app/shared/services/user.service';
+import { MenubarModule } from 'primeng/menubar';
 
 @Component({
   standalone: true,
@@ -30,6 +31,7 @@ import { UserService } from 'src/app/shared/services/user.service';
     InplaceModule,
     PanelMenuModule,
     TableModule,
+    MenubarModule,
   ],
   providers: [SideBarService],
 })

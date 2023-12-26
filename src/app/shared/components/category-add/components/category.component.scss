@@ -7,9 +7,14 @@
 .title span {
   margin-right: 5px;
 }
-.wrapper {
-  cursor: pointer;
+.category_add {
   height: 20px;
+  width: 100%;
+}
+
+.inplace {
+  display: flex;
+  justify-content: center;
 }
 
 .menu {
@@ -22,12 +27,19 @@
   margin-bottom: 10px;
   width: 100%;
 }
-
 .block {
+  cursor: pointer;
+}
+.block__hidden {
   display: none;
 }
+.block__display {
+  display: block;
+  width: 300px;
+  margin: 0 auto;
+}
 
-.wrapper:hover .block {
+.category_add:hover .block__hidden {
   display: block;
 }
 
@@ -64,7 +76,7 @@
   .block {
     display: block;
   }
-  .wrapper {
+  .category_add {
     margin-top: 20px;
   }
 }
