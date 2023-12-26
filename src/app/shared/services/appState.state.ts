@@ -6,8 +6,8 @@ import { CategoriesI } from '../components/category-add/types/categories.interfa
 Injectable();
 export class AppState {
   public isLoggedInState = signal(false);
-  public task = signal<TaskI[] | undefined | null>(null);
-  public categories = signal<CategoriesI[] | undefined | null>(null);
+  public task = signal<TaskI[] | null>(null);
+  public categories = signal<CategoriesI[] | null>(null);
   public currentUserState = signal<CurrentUserI | null>(null);
 
   constructor() {

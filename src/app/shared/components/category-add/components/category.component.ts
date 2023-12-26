@@ -43,14 +43,15 @@ import { DeleteComponent } from '../../todo-delete/components/delete.component';
   providers: [CategoryService, ConfirmationService, MessageService],
 })
 export class CategoryComponent implements OnInit, OnDestroy {
-  @ViewChild('ChildInsertionPoint', { read: ViewContainerRef })
-  childInsertionPoint!: ViewContainerRef;
+  @ViewChild('DelCategoryInsertionPoint', { read: ViewContainerRef })
+  DelCategoryInsertionPoint!: ViewContainerRef;
+  @Input() category: CategoriesI = { title: '' };
 
   form!: FormGroup;
   active = false;
   items!: MenuItem[];
   destroy$ = new Subject();
-  @Input() category: CategoriesI = { title: '' };
+
   constructor(
     private fb: FormBuilder,
     private categoryService: CategoryService,
@@ -89,6 +90,7 @@ export class CategoryComponent implements OnInit, OnDestroy {
   }
   onSubmit() {
     if (!this.category.title) {
+      console.log(this.form.controls['category'].value);
       this.categoryService
         .addCategory(this.form.controls['category'].value)
         .pipe(takeUntil(this.destroy$))
@@ -106,9 +108,9 @@ export class CategoryComponent implements OnInit, OnDestroy {
   }
 
   deleteCategory() {
-    this.childInsertionPoint.clear();
+    this.DelCategoryInsertionPoint.clear();
     let componentRef =
-      this.childInsertionPoint.createComponent(DeleteComponent);
+      this.DelCategoryInsertionPoint.createComponent(DeleteComponent);
     componentRef.instance.id = this.category.id!;
     componentRef.instance.mode = 'category';
   }

@@ -1,13 +1,9 @@
-<ng-container #ChildInsertionPoint></ng-container>
+<ng-container #DelCategoryInsertionPoint></ng-container>
 
-@if(!category.title){
+@if(!category.title && !active){
 <div class="wrapper">
   <div class="block">
-    <h3
-      class="title-side title-side-center"
-      [hidden]="active === true"
-      (click)="active = true"
-    >
+    <h3 class="title-side title-side-center" (click)="active = true">
       Добавить категорию
     </h3>
   </div>
@@ -33,7 +29,6 @@
 </div>
 
 }
-
 <p-inplace [hidden]="!active" [active]="active">
   <ng-template pTemplate="content">
     <form [formGroup]="form" (ngSubmit)="onSubmit()">

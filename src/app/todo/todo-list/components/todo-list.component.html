@@ -1,13 +1,12 @@
-<div class="block">
-  <div class="card" *ngIf="tasks() as tasks">
-    <ng-container *ngIf="categories()">
-      @for (category of categories() ;track category){
+<div class="wrapper">
+  <div class="table" *ngIf="tasks() as tasks">
+    <ng-container *ngIf="categories() as categories">
+      @for (category of categories ;track category){
       <p-table
         [value]="tasksByCategories(category, tasks)"
         [tableStyle]="{
-        'min-width': '20rem',
-        
-      }"
+          'min-width': '30rem',
+        }"
       >
         <ng-template pTemplate="caption">
           <app-category [category]="category"> </app-category>
@@ -16,25 +15,28 @@
           <tr>
             <th>
               <p-sortIcon
-                field="description"
-                pSortableColumn="description"
+                field="priority"
+                pSortableColumn="priority"
               ></p-sortIcon>
             </th>
-            <th class="table">
+            <th class="table__col">
               <p-sortIcon field="status" pSortableColumn="status"></p-sortIcon>
             </th>
-            <th></th>
-            <th></th>
+            <th colspan="2"></th>
           </tr>
         </ng-template>
         <ng-template pTemplate="body" let-task>
           <tr>
             <td>
               <div class="table__description">
-                {{ task.description }}
-                <small class="date" title="Время окончания задачи">{{
-                  task.endDate | date : "d MMMM y"
-                }}</small>
+                <p highlightPriority [priority]="task.priority">
+                  {{ task.description }}
+                </p>
+                <small
+                  class="table__description_date"
+                  title="Время окончания задачи"
+                  >{{ task.endDate | date : "d MMMM y" }}</small
+                >
               </div>
             </td>
 
@@ -77,7 +79,10 @@
           ></p-button>
         </ng-template>
       </p-table>
-      <app-category></app-category>
+      <div class="table__category-create">
+        <app-category></app-category>
+      </div>
+
       }
 
       <ng-container #ChildInsertionPoint></ng-container>

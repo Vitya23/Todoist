@@ -21,6 +21,7 @@ import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { DeleteComponent } from 'src/app/shared/components/todo-delete/components/delete.component';
 import { CategoryComponent } from 'src/app/shared/components/category-add/components/category.component';
 import { CategoriesI } from 'src/app/shared/components/category-add/types/categories.interface';
+import { PriorityDirective } from 'src/app/shared/directives/priority.directive';
 @Component({
   standalone: true,
   selector: 'app-todo-list',
@@ -36,7 +37,9 @@ import { CategoriesI } from 'src/app/shared/components/category-add/types/catego
     ConfirmDialogModule,
     DeleteComponent,
     CategoryComponent,
+    PriorityDirective,
   ],
+
   providers: [TodoListService],
 })
 export class TodoListComponent implements OnInit, OnDestroy {
