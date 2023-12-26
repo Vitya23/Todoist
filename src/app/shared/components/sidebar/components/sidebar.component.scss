@@ -1,12 +1,11 @@
 .wrapper {
   margin-bottom: 30px;
 }
-.side-bar {
-  background-color: var(--surface-50);
-}
+
 .user {
   width: 100%;
   border-radius: 2px;
+  margin-right: 15px;
   display: flex;
   align-items: center;
   cursor: pointer;
@@ -18,8 +17,4 @@
 .icon {
   margin-left: 5px;
   font-size: 12px;
-}
-
-.input {
-  width: 60%;
 }

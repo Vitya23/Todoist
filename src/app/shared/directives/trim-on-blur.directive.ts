@@ -1,4 +1,4 @@
-import { Directive, ElementRef, HostListener, Optional } from '@angular/core';
+import { Directive, HostListener, Optional } from '@angular/core';
 import { FormControlDirective, FormControlName } from '@angular/forms';
 
 @Directive({

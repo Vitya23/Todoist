@@ -21,7 +21,7 @@
         type="text"
         placeholder="Введите почту"
         pInputText
-        class="input p-inputtext-sm"
+        class="input"
         formControlName="email"
       />
       <div
@@ -35,16 +35,14 @@
           >Введите коректную электронную почту</small
         >
       </div>
-      <label for="password1" class="label">Пароль</label>
+      <label for="password" class="label">Пароль</label>
       <input
-        id="password1"
+        id="password"
         type="password"
         placeholder="Введите пароль"
         pPassword
-        aria-describedby="password-error"
-        class="input p-inputtext-sm"
+        class="input"
         [feedback]="false"
-        [ngClass]="{ 'ng-invalid': passwordValid === false }"
         formControlName="password"
       />
       <div *ngIf="requireValid" class="invalid-feedback">
@@ -66,15 +64,14 @@
         >
       </div>
       @if(title === 'REGISTER'){
-      <label for="password2" class="label">Подтвердите пароль</label>
+      <label for="confirmPassword" class="label">Подтвердите пароль</label>
       <input
-        id="password2"
+        id="confirmPassord"
         type="password"
         placeholder="Подтвердите пароль"
         pPassword
         [feedback]="false"
-        class="input p-inputtext-sm"
-        [ngClass]="{ 'ng-invalid': passwordValid === false }"
+        class="input"
         formControlName="confirmPassword"
       />
       <div
@@ -96,20 +93,24 @@
         >
       </div>
       }
-      <p-button
-        type="submit"
-        [disabled]="
-          submitting ||
-          (title === 'REGISTER'
-            ? form.invalid
-            : form.controls['password'].invalid ||
-              form.controls['email'].invalid)
-        "
-        [label]="title === 'LOGIN' ? 'Войти' : 'Зарегистрироваться'"
-        icon="pi pi-user"
-      ></p-button>
-      <div class="backend-errors" *ngIf="backendError">
-        <small *ngIf="backendError">{{ backendError }}</small>
+      <div class="footer">
+        <div class="backend-errors" *ngIf="backendError">
+          <small *ngIf="backendError">{{ backendError }}</small>
+        </div>
+        <button
+          class="btn"
+          pButton
+          type="submit"
+          [disabled]="
+            submitting ||
+            (title === 'REGISTER'
+              ? form.invalid
+              : form.controls['password'].invalid ||
+                form.controls['email'].invalid)
+          "
+          [label]="title === 'LOGIN' ? 'Войти' : 'Зарегистрироваться'"
+          icon="pi pi-user"
+        ></button>
       </div>
     </form>
   </div>

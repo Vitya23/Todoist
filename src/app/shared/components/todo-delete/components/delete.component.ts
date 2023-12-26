@@ -4,20 +4,19 @@ import { DeleteService } from '../services/delete.service';
 import { ButtonModule } from 'primeng/button';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { ConfirmationService, MessageService } from 'primeng/api';
-import { Subscription } from 'rxjs';
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
   standalone: true,
   selector: 'app-delete',
-  templateUrl: './delete.component.html',
-  styleUrl: './delete.component.scss',
+  template: '<p-confirmDialog></p-confirmDialog>',
   imports: [CommonModule, ButtonModule, ConfirmDialogModule],
-  providers: [DeleteService, ConfirmationService, MessageService],
+  providers: [DeleteService, ConfirmationService],
 })
 export class DeleteComponent implements OnDestroy {
   @Input() id!: number;
   @Input() mode: string = 'task';
-  deleteSubs!: Subscription;
+  destroy$ = new Subject<void>();
 
   constructor(
     private deleteService: DeleteService,
@@ -39,32 +38,37 @@ export class DeleteComponent implements OnDestroy {
       rejectIcon: 'none',
 
       accept: () => {
+        this.messageService.clear();
         this.messageService.add({
-          severity: 'info',
-          summary: 'Confirmed',
-          detail: 'Record deleted',
+          severity: 'success',
+          summary: 'Удаление',
+          detail: 'Успешно удалено',
         });
         if (this.mode === 'task') {
-          this.deleteSubs = this.deleteService.deleteTask(this.id).subscribe();
+          this.deleteService
+            .deleteTask(this.id)
+            .pipe(takeUntil(this.destroy$))
+            .subscribe();
         }
         if (this.mode === 'category') {
-          this.deleteSubs = this.deleteService
+          this.deleteService
             .deleteCategory(this.id)
+            .pipe(takeUntil(this.destroy$))
             .subscribe();
         }
       },
       reject: () => {
+        this.messageService.clear();
         this.messageService.add({
           severity: 'error',
-          summary: 'Rejected',
-          detail: 'You have rejected',
+          summary: 'Удаление',
+          detail: 'Не удалено',
         });
       },
     });
   }
   ngOnDestroy(): void {
-    if (this.deleteSubs) {
-      this.deleteSubs.unsubscribe();
-    }
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 }

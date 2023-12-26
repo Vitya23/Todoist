@@ -15,7 +15,6 @@ import { PasswordValidators } from '../../shared/validators/passwordValidator';
 import { PasswordModule } from 'primeng/password';
 import { AuthService } from '../services/auth.service';
 import { AuthRequestI } from '../types/authRequest.interface';
-import { HttpClientModule } from '@angular/common/http';
 import { AuthFormI } from '../types/authForm.interface';
 
 @Component({
@@ -29,8 +28,6 @@ import { AuthFormI } from '../types/authForm.interface';
     RouterModule,
     ButtonModule,
     InputTextModule,
-    HttpClientModule,
-    ReactiveFormsModule,
     PasswordModule,
   ],
 })

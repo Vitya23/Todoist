@@ -2,8 +2,7 @@
   padding: 1.5rem;
   border-radius: 2px;
   background-color: rgb(40, 33, 25);
-
-  width: 90%;
+  width: 80%;
 }
 
 .wrapper {
@@ -48,16 +47,6 @@
   margin-bottom: 0.75rem;
   width: 100%;
 }
-.input:first-child {
-  margin-bottom: 20rem;
-}
-
-.p-input {
-  min-width: 100% !important ;
-}
-.p-password {
-  min-width: 100% !important;
-}
 
 .invalid-feedback {
   margin-bottom: 20px;
@@ -67,12 +56,28 @@
   flex-wrap: wrap;
 }
 .backend-errors {
-  padding-top: 5px;
+  height: 2px;
   color: red;
+}
+
+.btn {
+  display: block;
+  margin-left: auto;
 }
 
 @media screen and (min-width: 900px) {
   .block {
     width: 50%;
+  }
+}
+@media screen and (max-width: 768px) {
+  .header p {
+    font-size: 1.5rem;
+  }
+  .header a {
+    font-size: 0.9rem;
+  }
+  .header span {
+    font-size: 0.9rem;
   }
 }

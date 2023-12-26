@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { AuthRequestI } from '../types/authRequest.interface';
 import { HttpClient } from '@angular/common/http';
-import { BehaviorSubject, Observable, map } from 'rxjs';
+import { Observable, map } from 'rxjs';
 import { AuthResponseI } from '../types/authResponse.interface';
 import { AppState } from '../../shared/services/appState.state';
 

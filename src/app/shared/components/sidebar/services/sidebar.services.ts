@@ -5,6 +5,8 @@ import { AppState } from 'src/app/shared/services/appState.state';
 
 @Injectable()
 export class SideBarService {
+  constructor(private appState: AppState, private router: Router) {}
+
   private readonly items: MenuItem[] = [
     {
       label: 'Меню',
@@ -24,7 +26,6 @@ export class SideBarService {
     return this.items;
   }
 
-  constructor(private appState: AppState, private router: Router) {}
   logout(): void {
     this.appState.isLoggedInState.set(false);
     localStorage.clear();

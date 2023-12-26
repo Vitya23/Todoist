@@ -23,8 +23,8 @@ import { InplaceModule } from 'primeng/inplace';
 import { CategoryService } from '../services/category.service';
 import { CategoryI } from '../types/category.interface';
 import { MenuModule } from 'primeng/menu';
-import { ConfirmationService, MenuItem, MessageService } from 'primeng/api';
-import { Subject, takeUntil } from 'rxjs';
+import { ConfirmationService, MenuItem } from 'primeng/api';
+import { Subject, interval, takeUntil } from 'rxjs';
 import { DeleteComponent } from '../../todo-delete/components/delete.component';
 import { CategoryFormI } from '../types/categoryForm.interface';
 import { TrimOnBlurDirective } from 'src/app/shared/directives/trim-on-blur.directive';
@@ -43,13 +43,12 @@ import { AppState } from 'src/app/shared/services/appState.state';
     MenuModule,
     InputTextModule,
     CalendarModule,
+    ConfirmPopupModule,
     DropdownModule,
     InplaceModule,
-    ReactiveFormsModule,
-    ConfirmPopupModule,
     TrimOnBlurDirective,
   ],
-  providers: [CategoryService, ConfirmationService, MessageService],
+  providers: [CategoryService, ConfirmationService],
 })
 export class CategoryComponent implements OnInit, OnDestroy {
   @ViewChild('DelCategoryInsertionPoint', { read: ViewContainerRef })
@@ -60,14 +59,12 @@ export class CategoryComponent implements OnInit, OnDestroy {
   form!: FormGroup<CategoryFormI>;
   active = false;
   items!: MenuItem[];
-  destroy$ = new Subject();
+  destroy$ = new Subject<void>();
 
   constructor(
     private fb: FormBuilder,
     private categoryService: CategoryService,
-    private appState: AppState,
-    private confirmationService: ConfirmationService,
-    private messageService: MessageService
+    private appState: AppState
   ) {}
 
   ngOnInit(): void {
@@ -79,7 +76,7 @@ export class CategoryComponent implements OnInit, OnDestroy {
       id: this.fb.control(this.category.id),
       title: this.fb.control(this.category.title, [
         Validators.required,
-        Validators.maxLength(20),
+        Validators.maxLength(30),
       ]),
     });
   }
@@ -127,7 +124,8 @@ export class CategoryComponent implements OnInit, OnDestroy {
     componentRef.instance.mode = 'category';
   }
   ngOnDestroy(): void {
-    this.destroy$.next(true);
+    console.log('destroy');
+    this.destroy$.next();
     this.destroy$.complete;
   }
 }

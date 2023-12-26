@@ -12,12 +12,14 @@ import {
 import { AuthInterceptor } from './shared/interceptors/auth.interceptor';
 import { AuthService } from './auth/services/auth.service';
 import { AppState } from './shared/services/appState.state';
+import { MessageService } from 'primeng/api';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideRouter(routes),
     provideAnimations(),
     AppState,
+    MessageService,
     provideHttpClient(withInterceptorsFromDi()),
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
     fakeBackendProvider,
