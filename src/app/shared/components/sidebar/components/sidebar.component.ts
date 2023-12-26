@@ -8,14 +8,12 @@ import { SideBarService } from '../services/sidebar.services';
 
 import { Subscription } from 'rxjs';
 import { MenuItem } from 'primeng/api';
-import { CategoriesI } from '../../category-add/types/categories.interface';
 import { InplaceModule } from 'primeng/inplace';
 import { InputTextModule } from 'primeng/inputtext';
 import { PanelMenuModule } from 'primeng/panelmenu';
 import { TableModule } from 'primeng/table';
 import { CurrentUserI } from 'src/app/shared/types/currentUser.interface';
 import { UserService } from 'src/app/shared/services/user.service';
-import { AppState } from 'src/app/shared/services/appState.state';
 
 @Component({
   standalone: true,
@@ -40,16 +38,11 @@ export class SideBarComponent implements OnInit, OnDestroy {
   currentUser!: CurrentUserI;
   subscription!: Subscription;
   items: MenuItem[] = this.sidebarService.userItems;
-  categories!: CategoriesI[] | undefined | null;
+
   constructor(
     private userService: UserService,
-    private sidebarService: SideBarService,
-    private appState: AppState
-  ) {
-    effect(() => {
-      this.categories = this.appState.categories();
-    });
-  }
+    private sidebarService: SideBarService
+  ) {}
   ngOnInit(): void {
     this.initializeValues();
   }

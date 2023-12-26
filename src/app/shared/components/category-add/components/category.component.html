@@ -32,7 +32,13 @@
 <p-inplace [hidden]="!active" [active]="active">
   <ng-template pTemplate="content">
     <form [formGroup]="form" (ngSubmit)="onSubmit()">
-      <input class="input" formControlName="category" type="text" pInputText />
+      <input
+        trimOnBlur
+        class="input"
+        formControlName="title"
+        type="text"
+        pInputText
+      />
       <p-button
         [style]="{ 'margin-right': '10px' }"
         type="submit"
@@ -40,6 +46,7 @@
         [label]="category.title ? 'Сохранить' : 'Добавить'"
         severity="danger"
         [plain]="true"
+        [disabled]="this.form.invalid"
       ></p-button>
       <p-button
         (click)="active = false"

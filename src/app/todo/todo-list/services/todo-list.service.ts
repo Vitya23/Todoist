@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable, map, tap } from 'rxjs';
 import { TaskI } from '../types/task.interface';
 import { AppState } from '../../../shared/services/appState.state';
-import { CategoriesI } from 'src/app/shared/components/category-add/types/categories.interface';
+import { CategoryI } from 'src/app/shared/components/category-add/types/category.interface';
 
 @Injectable()
 export class TodoListService {
@@ -16,14 +16,12 @@ export class TodoListService {
       })
     );
   }
-  getCategories(): Observable<CategoriesI[]> {
-    return this.http
-      .get<CategoriesI[]>('http://localhost:4200/categories')
-      .pipe(
-        map((categories: CategoriesI[]) => {
-          this.appState.categories.set(categories);
-          return categories;
-        })
-      );
+  getCategories(): Observable<CategoryI[]> {
+    return this.http.get<CategoryI[]>('http://localhost:4200/categories').pipe(
+      map((categories: CategoryI[]) => {
+        this.appState.categories.set(categories);
+        return categories;
+      })
+    );
   }
 }

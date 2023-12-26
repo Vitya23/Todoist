@@ -4,7 +4,7 @@ import { Injectable } from '@angular/core';
 import { map } from 'rxjs';
 import { AppState } from 'src/app/shared/services/appState.state';
 import { TaskI } from 'src/app/todo/todo-list/types/task.interface';
-import { CategoriesI } from 'src/app/shared/components/category-add/types/categories.interface';
+import { CategoryI } from 'src/app/shared/components/category-add/types/category.interface';
 
 @Injectable()
 export class DeleteService {
@@ -23,7 +23,7 @@ export class DeleteService {
   }
   deleteCategory(id: number) {
     return this.http
-      .request<CategoriesI[]>('delete', 'http://localhost:4200/category', {
+      .request<CategoryI[]>('delete', 'http://localhost:4200/category', {
         body: { id: id },
       })
       .pipe(

@@ -10,17 +10,24 @@ import {
 import { ButtonModule } from 'primeng/button';
 import { DialogModule } from 'primeng/dialog';
 import { InputTextModule } from 'primeng/inputtext';
-import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { CalendarModule } from 'primeng/calendar';
 import { DropdownModule } from 'primeng/dropdown';
 import { ConfirmPopupModule } from 'primeng/confirmpopup';
 import { InplaceModule } from 'primeng/inplace';
 import { CategoryService } from '../services/category.service';
-import { CategoriesI } from '../types/categories.interface';
+import { CategoryI } from '../types/category.interface';
 import { MenuModule } from 'primeng/menu';
 import { ConfirmationService, MenuItem, MessageService } from 'primeng/api';
 import { Subject, takeUntil } from 'rxjs';
 import { DeleteComponent } from '../../todo-delete/components/delete.component';
+import { CategoryFormI } from '../types/categoryForm.interface';
+import { TrimOnBlurDirective } from 'src/app/shared/directives/trim-on-blur.directive';
 
 @Component({
   standalone: true,
@@ -39,15 +46,16 @@ import { DeleteComponent } from '../../todo-delete/components/delete.component';
     InplaceModule,
     ReactiveFormsModule,
     ConfirmPopupModule,
+    TrimOnBlurDirective,
   ],
   providers: [CategoryService, ConfirmationService, MessageService],
 })
 export class CategoryComponent implements OnInit, OnDestroy {
   @ViewChild('DelCategoryInsertionPoint', { read: ViewContainerRef })
   DelCategoryInsertionPoint!: ViewContainerRef;
-  @Input() category: CategoriesI = { title: '' };
+  @Input() category: CategoryI = { title: null, id: null };
 
-  form!: FormGroup;
+  form!: FormGroup<CategoryFormI>;
   active = false;
   items!: MenuItem[];
   destroy$ = new Subject();
@@ -64,8 +72,12 @@ export class CategoryComponent implements OnInit, OnDestroy {
     this.initializeMenu();
   }
   initializeForm() {
-    this.form = this.fb.group({
-      category: this.category.title,
+    this.form = this.fb.group<CategoryFormI>({
+      id: this.fb.control(this.category.id),
+      title: this.fb.control(this.category.title, [
+        Validators.required,
+        Validators.maxLength(20),
+      ]),
     });
   }
   initializeMenu() {
@@ -90,21 +102,18 @@ export class CategoryComponent implements OnInit, OnDestroy {
   }
   onSubmit() {
     if (!this.category.title) {
-      console.log(this.form.controls['category'].value);
       this.categoryService
-        .addCategory(this.form.controls['category'].value)
+        .addCategory(this.form.controls['title'].value ?? '')
         .pipe(takeUntil(this.destroy$))
         .subscribe();
       this.active = false;
     } else {
       this.categoryService
-        .editCategory({
-          title: this.form.controls['category'].value,
-          id: this.category.id,
-        })
+        .editCategory(this.form.value as CategoryI)
         .pipe(takeUntil(this.destroy$))
         .subscribe();
     }
+    this.form.patchValue({ title: '' });
   }
 
   deleteCategory() {

@@ -16,6 +16,7 @@ import { PasswordModule } from 'primeng/password';
 import { AuthService } from '../services/auth.service';
 import { AuthRequestI } from '../types/authRequest.interface';
 import { HttpClientModule } from '@angular/common/http';
+import { AuthFormI } from '../types/authForm.interface';
 
 @Component({
   selector: 'app-auth',
@@ -34,7 +35,7 @@ import { HttpClientModule } from '@angular/common/http';
   ],
 })
 export class AuthComponent implements OnInit, OnDestroy {
-  form!: FormGroup;
+  form!: FormGroup<AuthFormI>;
   title: AuthTitle = 'REGISTER';
   routeSubs!: Subscription;
   authSubs!: Subscription;
@@ -54,11 +55,11 @@ export class AuthComponent implements OnInit, OnDestroy {
   }
 
   initializeForm(): void {
-    this.form = this.fb.group(
+    this.form = this.fb.group<AuthFormI>(
       {
-        email: ['', [Validators.required, Validators.email]],
-        password: [
-          '',
+        email: this.fb.control(null, [Validators.required, Validators.email]),
+        password: this.fb.control(
+          null,
           Validators.compose([
             Validators.required,
             Validators.minLength(8),
@@ -77,9 +78,9 @@ export class AuthComponent implements OnInit, OnDestroy {
                 requiresSpecialChars: true,
               }
             ),
-          ]),
-        ],
-        confirmPassword: ['', [Validators.required]],
+          ])
+        ),
+        confirmPassword: this.fb.control(null, [Validators.required]),
       },
       { validators: PasswordValidators.MatchValidator }
     );
@@ -130,8 +131,8 @@ export class AuthComponent implements OnInit, OnDestroy {
       this.authSubs = this.authService
         .login({
           user: {
-            email: this.form.controls['email'].value,
-            password: this.form.controls['password'].value,
+            email: this.form.controls['email'].value ?? '',
+            password: this.form.controls['password'].value ?? '',
           },
         })
         .subscribe({
@@ -146,8 +147,8 @@ export class AuthComponent implements OnInit, OnDestroy {
       this.authSubs = this.authService
         .register({
           user: {
-            email: this.form.controls['email'].value,
-            password: this.form.controls['password'].value,
+            email: this.form.controls['email'].value ?? '',
+            password: this.form.controls['password'].value ?? '',
           },
         })
         .subscribe({

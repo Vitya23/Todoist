@@ -1,5 +1,5 @@
 @if(currentUser){
-<div class="top-bar">
+<div class="side-bar">
   <p-button
     (click)="sideBarVisible = true"
     icon="pi pi-bars"
@@ -22,19 +22,6 @@
       <span>{{ currentUser.email.slice(0, 18) }}</span>
       <i class="pi pi-chevron-down icon"></i>
     </div>
-  </ng-template>
-  <ng-template pTemplate="content">
-    <h4>Категории</h4>
-    @for(category of categories;track category){
-    <p-inplace [closable]="true">
-      <ng-template pTemplate="display">
-        <span>{{ category.title }}</span>
-      </ng-template>
-      <ng-template pTemplate="content">
-        <input type="text" [value]="category.title" pInputText />
-      </ng-template>
-    </p-inplace>
-    }
   </ng-template>
 </p-sidebar>
 }

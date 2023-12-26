@@ -20,7 +20,7 @@ import { ConfirmDialogModule } from 'primeng/confirmdialog';
 
 import { DeleteComponent } from 'src/app/shared/components/todo-delete/components/delete.component';
 import { CategoryComponent } from 'src/app/shared/components/category-add/components/category.component';
-import { CategoriesI } from 'src/app/shared/components/category-add/types/categories.interface';
+import { CategoryI } from 'src/app/shared/components/category-add/types/category.interface';
 import { PriorityDirective } from 'src/app/shared/directives/priority.directive';
 @Component({
   standalone: true,
@@ -64,7 +64,7 @@ export class TodoListComponent implements OnInit, OnDestroy {
     this.categoriesSub = this.todoListService.getCategories().subscribe();
   }
 
-  generateTodoAddComponent(category: CategoriesI) {
+  generateTodoAddComponent(category: CategoryI) {
     this.childInsertionPoint.clear();
     let componentRef =
       this.childInsertionPoint.createComponent(TodoAddComponent);
@@ -104,7 +104,7 @@ export class TodoListComponent implements OnInit, OnDestroy {
     this.sortedBy = sortedBy;
   }
 
-  tasksByCategories(category: CategoriesI, tasks: TaskI[]) {
+  tasksByCategories(category: CategoryI, tasks: TaskI[]) {
     return tasks.filter((task) => task.category === category.id);
   }
 

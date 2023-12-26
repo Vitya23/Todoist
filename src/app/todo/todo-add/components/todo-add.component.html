@@ -25,7 +25,7 @@
           icon="pi pi-calendar"
           [showIcon]="true"
           [iconDisplay]="'input'"
-          formControlName="date"
+          formControlName="endDate"
         >
         </p-calendar>
       </div>
@@ -38,7 +38,7 @@
             'align-items': 'center',
             width: '100%'
           }"
-          formControlName="selectedPriority"
+          formControlName="priority"
           appendTo="body"
           optionLabel="priority"
           [options]="priorities"
@@ -46,9 +46,7 @@
           <ng-template pTemplate="selectedItem">
             <div
               class="select__items"
-              *ngIf="
-                this.form.controls['selectedPriority'].value as selectedPriority
-              "
+              *ngIf="this.form.controls['priority'].value as selectedPriority"
             >
               <i style="width: 18px" class="pi pi-flag"></i>
               <div>{{ selectedPriority.title }}</div>
@@ -67,6 +65,7 @@
         pButton
         class="button"
         [label]="task ? 'Изменить' : 'Добавить'"
+        [disabled]="form.invalid"
       ></button>
     </div>
   </form>

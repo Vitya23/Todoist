@@ -3,25 +3,25 @@ import { Injectable } from '@angular/core';
 
 import { map } from 'rxjs';
 
-import { CategoriesI } from '../types/categories.interface';
+import { CategoryI } from '../types/category.interface';
 import { AppState } from 'src/app/shared/services/appState.state';
 
 @Injectable()
 export class CategoryService {
   constructor(private http: HttpClient, private appState: AppState) {}
   ts: string[] = [];
-  addCategory(category: CategoriesI) {
+  addCategory(categoryTitle: string) {
     return this.http
-      .post<CategoriesI[]>('http://localhost:4200/category', category)
+      .post<CategoryI[]>('http://localhost:4200/category', categoryTitle)
       .pipe(
         map((response) => {
           this.appState.categories.set(response);
         })
       );
   }
-  editCategory(category: CategoriesI) {
+  editCategory(category: CategoryI) {
     return this.http
-      .put<CategoriesI[]>('http://localhost:4200/category', category)
+      .put<CategoryI[]>('http://localhost:4200/category', category)
       .pipe(
         map((response) => {
           this.appState.categories.set(response);

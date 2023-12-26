@@ -133,8 +133,8 @@ export class FakeBackendInterceptor implements HttpInterceptor {
         userId: user.id,
         description: body.description,
         category: body.category,
-        priority: body.selectedPriority.priority,
-        endDate: body.date,
+        priority: body.priority.priority,
+        endDate: body.endDate,
         status: 'Ожидает',
       };
       toDoDataBase.tasks.push(task);
@@ -146,14 +146,13 @@ export class FakeBackendInterceptor implements HttpInterceptor {
     function editTask() {
       const user = getUserByToken();
       if (!user) return error('Пожалуйста войдите снова');
-
       const reqTask = {
         id: body.id,
         userId: user.id,
         description: body.description,
         category: body.category,
-        priority: body.selectedPriority.priority,
-        endDate: body.date,
+        priority: body.priority.priority,
+        endDate: body.endDate,
         status: 'Ожидает',
       };
       const newTasks = toDoDataBase.tasks

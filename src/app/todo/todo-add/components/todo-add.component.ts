@@ -4,13 +4,20 @@ import { ButtonModule } from 'primeng/button';
 import { TodoAddService } from '../services/todo-add.service';
 import { DialogModule } from 'primeng/dialog';
 import { InputTextModule } from 'primeng/inputtext';
-import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { CalendarModule } from 'primeng/calendar';
 import { DropdownModule } from 'primeng/dropdown';
 import { TaskI } from '../../todo-list/types/task.interface';
-import { PriorityI } from '../types/priority.interface';
 import { Subscription } from 'rxjs';
-import { CategoriesI } from 'src/app/shared/components/category-add/types/categories.interface';
+import { CategoryI } from 'src/app/shared/components/category-add/types/category.interface';
+import { TaskFormI } from '../types/taskForm.interface';
+import { PriorityI } from '../types/priority.interface';
+import { TaskRequestI } from '../types/taskRequest.interface';
 @Component({
   standalone: true,
   selector: 'app-todo-add',
@@ -28,20 +35,15 @@ import { CategoriesI } from 'src/app/shared/components/category-add/types/catego
   providers: [TodoAddService],
 })
 export class TodoAddComponent implements OnInit, OnDestroy {
-  @Input() category!: CategoriesI;
+  @Input() category!: CategoryI;
   @Input() task!: TaskI;
 
   addSubs!: Subscription;
   editSubs!: Subscription;
   visible: boolean = true;
+  priorities = this.todoAddService.priorities;
+  form!: FormGroup<TaskFormI>;
 
-  form!: FormGroup;
-  priorities: PriorityI[] = [
-    { title: 'Приоритет 1', priority: 1 },
-    { title: 'Приоритет 2', priority: 2 },
-    { title: 'Приоритет 3', priority: 3 },
-    { title: 'Приоритет 4', priority: 4 },
-  ];
   constructor(
     private fb: FormBuilder,
     private todoAddService: TodoAddService
@@ -51,31 +53,41 @@ export class TodoAddComponent implements OnInit, OnDestroy {
     this.initializeForm();
   }
   initializeForm() {
-    if (!this.task) {
-      this.form = this.fb.group({
-        description: '',
-        date: '',
-        selectedPriority: '',
-        category: this.category.id,
-      });
-    } else {
-      let priority = this.priorities.find(
-        (priority) => priority.priority === this.task.priority
+    this.form = this.fb.group<TaskFormI>({
+      description: this.fb.control(null, [
+        Validators.required,
+        Validators.maxLength(35),
+      ]),
+      endDate: this.fb.control(null, [Validators.required]),
+      priority: this.fb.control(null, [Validators.required]),
+      category: this.fb.control(null, [Validators.required]),
+    });
+
+    if (this.task) {
+      const selectedPriority = this.priorities.find(
+        (res) => res.priority === this.task.priority
       );
-      this.form = this.fb.group({
-        id: this.task.id,
+      this.form.setValue({
         description: this.task.description,
-        date: new Date(this.task.endDate),
-        selectedPriority: priority,
+        endDate: new Date(this.task.endDate),
+        priority: selectedPriority ?? { title: 'Приоритет 1', priority: 1 },
         category: this.task.category,
       });
     }
+    if (this.category) {
+      this.form.patchValue({ category: this.category.id });
+    }
   }
   onSubmit() {
-    if (this.task) {
-      this.editSubs = this.todoAddService.editTask(this.form.value).subscribe();
-    } else {
-      this.addSubs = this.todoAddService.addTask(this.form.value).subscribe();
+    if (this.task && this.form.value) {
+      this.editSubs = this.todoAddService
+        .editTask({ id: this.task.id, ...this.form.value } as TaskRequestI)
+        .subscribe();
+    }
+    if (!this.task && this.form.controls.category.valid) {
+      this.addSubs = this.todoAddService
+        .addTask(this.form.value as TaskRequestI)
+        .subscribe();
     }
 
     this.visible = false;
