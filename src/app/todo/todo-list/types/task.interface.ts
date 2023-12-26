@@ -1,9 +1,11 @@
+import { TaskStatus } from './taskStatus.type';
+
 export interface TaskI {
-  id?: number;
+  id: number;
   userId?: number;
   category: number;
   description: string;
-  status?: string;
+  status?: TaskStatus;
   priority: number;
   endDate: Date;
 }

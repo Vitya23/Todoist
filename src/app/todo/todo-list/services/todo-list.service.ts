@@ -4,6 +4,8 @@ import { Observable, map, tap } from 'rxjs';
 import { TaskI } from '../types/task.interface';
 import { AppState } from '../../../shared/services/appState.state';
 import { CategoryI } from 'src/app/shared/components/category-add/types/category.interface';
+import { TaskStatus } from '../types/taskStatus.type';
+import { ChangeStatusI } from '../types/changeStatus.interface';
 
 @Injectable()
 export class TodoListService {
@@ -23,5 +25,8 @@ export class TodoListService {
         return categories;
       })
     );
+  }
+  changeStatus(status: ChangeStatusI) {
+    return this.http.post('http://localhost:4200/status', status);
   }
 }

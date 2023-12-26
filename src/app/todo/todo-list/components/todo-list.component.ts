@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
+  DestroyRef,
   OnDestroy,
   OnInit,
   ViewChild,
@@ -11,7 +12,7 @@ import { TodoListService } from '../services/todo-list.service';
 import { TableModule } from 'primeng/table';
 import { TagModule } from 'primeng/tag';
 import { ButtonModule } from 'primeng/button';
-import { Subscription, single } from 'rxjs';
+import { Subscription, takeUntil } from 'rxjs';
 import { TaskI } from '../types/task.interface';
 
 import { TodoAddComponent } from '../../todo-add/components/todo-add.component';
@@ -22,6 +23,8 @@ import { DeleteComponent } from 'src/app/shared/components/todo-delete/component
 import { CategoryComponent } from 'src/app/shared/components/category-add/components/category.component';
 import { CategoryI } from 'src/app/shared/components/category-add/types/category.interface';
 import { PriorityDirective } from 'src/app/shared/directives/priority.directive';
+
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 @Component({
   standalone: true,
   selector: 'app-todo-list',
@@ -45,23 +48,33 @@ import { PriorityDirective } from 'src/app/shared/directives/priority.directive'
 export class TodoListComponent implements OnInit, OnDestroy {
   @ViewChild('ChildInsertionPoint', { read: ViewContainerRef })
   childInsertionPoint!: ViewContainerRef;
+  changeStatusSub!: Subscription;
 
   visible: boolean = false;
   sortedBy!: string;
   tasks = this.appState.task;
   categories = this.appState.categories;
 
-  taskSub!: Subscription;
-  categoriesSub!: Subscription;
-
   constructor(
     private todoListService: TodoListService,
     private appState: AppState
-  ) {}
+  ) {
+    this.todoListService.getTasks().pipe(takeUntilDestroyed()).subscribe();
+    this.todoListService.getCategories().pipe(takeUntilDestroyed()).subscribe();
+  }
 
-  ngOnInit() {
-    this.taskSub = this.todoListService.getTasks().subscribe();
-    this.categoriesSub = this.todoListService.getCategories().subscribe();
+  ngOnInit() {}
+
+  changeStatus(task: TaskI): void {
+    if (task.status === 'Выполнено') {
+      task.status = 'Ожидает';
+    } else {
+      task.status = 'Выполнено';
+    }
+    const { id, status } = task;
+    this.changeStatusSub = this.todoListService
+      .changeStatus({ id, status })
+      .subscribe();
   }
 
   generateTodoAddComponent(category: CategoryI) {
@@ -109,7 +122,8 @@ export class TodoListComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.taskSub.unsubscribe();
-    this.categoriesSub.unsubscribe();
+    if (this.changeStatusSub) {
+      this.changeStatusSub.unsubscribe();
+    }
   }
 }

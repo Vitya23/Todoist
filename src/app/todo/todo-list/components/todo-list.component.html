@@ -1,5 +1,3 @@
-<app-category *ngIf="!categories()?.length"></app-category>
-
 <div class="wrapper">
   <div class="table" *ngIf="tasks() as tasks">
     <ng-container *ngIf="categories() as categories">
@@ -44,9 +42,10 @@
 
             <td class="table__status">
               <p-tag
-                [style]="{ width: '7rem' }"
+                [style]="{ width: '7rem', cursor: 'pointer' }"
                 [value]="task.status"
                 [severity]="getSeverity(task.status)"
+                (click)="changeStatus(task)"
                 [icon]="
                   task.status === 'Ожидает' ? 'pi pi-check' : 'pi pi-times'
                 "
@@ -91,3 +90,6 @@
     </ng-container>
   </div>
 </div>
+<app-category
+  *ngIf="!categories()?.length && categories() !== null"
+></app-category>
