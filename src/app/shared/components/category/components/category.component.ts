@@ -104,20 +104,21 @@ export class CategoryComponent implements OnInit, OnDestroy {
         .addCategory(this.form.controls['title'].value ?? '')
         .pipe(takeUntil(this.destroy$))
         .subscribe();
-      this.active = false;
     } else {
       this.categoryService
         .editCategory(this.form.value as CategoryI)
         .pipe(takeUntil(this.destroy$))
         .subscribe();
     }
-    this.form.patchValue({ title: '' });
+
     this.messageService.clear();
     this.messageService.add({
       severity: 'success',
       summary: 'Категория',
       detail: this.category.title ? 'Успешно изменена' : 'Успешно добавлена',
     });
+    this.active = false;
+    this.form.patchValue({ title: '' });
   }
 
   deleteCategory(): void {
