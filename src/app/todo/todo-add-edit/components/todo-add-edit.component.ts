@@ -13,16 +13,17 @@ import {
 import { CalendarModule } from 'primeng/calendar';
 import { DropdownModule } from 'primeng/dropdown';
 import { TaskI } from '../../todo-list/types/task.interface';
-import { Subscription } from 'rxjs';
-import { CategoryI } from 'src/app/shared/components/category-add/types/category.interface';
+import { Subject, takeUntil } from 'rxjs';
+import { CategoryI } from 'src/app/shared/components/category/types/category.interface';
 import { TaskFormI } from '../types/taskForm.interface';
 import { PriorityI } from '../types/priority.interface';
 import { TaskRequestI } from '../types/taskRequest.interface';
+import { TrimOnBlurDirective } from 'src/app/shared/directives/trim-on-blur.directive';
 @Component({
   standalone: true,
-  selector: 'app-todo-add',
-  templateUrl: './todo-add.component.html',
-  styleUrl: './todo-add.component.scss',
+  selector: 'app-todo-add-edit',
+  templateUrl: './todo-add-edit.component.html',
+  styleUrl: './todo-add-edit.component.scss',
   imports: [
     CommonModule,
     ReactiveFormsModule,
@@ -31,17 +32,18 @@ import { TaskRequestI } from '../types/taskRequest.interface';
     InputTextModule,
     CalendarModule,
     DropdownModule,
+    TrimOnBlurDirective,
   ],
   providers: [TodoAddService],
 })
-export class TodoAddComponent implements OnInit, OnDestroy {
+export class TodoAddEditComponent implements OnInit, OnDestroy {
   @Input() category!: CategoryI;
   @Input() task!: TaskI;
+  destroy$ = new Subject<void>();
 
-  addSubs!: Subscription;
-  editSubs!: Subscription;
   visible: boolean = true;
-  priorities = this.todoAddService.priorities;
+  minDate = new Date();
+  priorities: PriorityI[] = this.todoAddService.priorityItems;
   form!: FormGroup<TaskFormI>;
 
   constructor(
@@ -52,11 +54,11 @@ export class TodoAddComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.initializeForm();
   }
-  initializeForm() {
+  initializeForm(): void {
     this.form = this.fb.group<TaskFormI>({
       description: this.fb.control(null, [
         Validators.required,
-        Validators.maxLength(35),
+        Validators.maxLength(50),
       ]),
       endDate: this.fb.control(null, [Validators.required]),
       priority: this.fb.control(null, [Validators.required]),
@@ -78,15 +80,17 @@ export class TodoAddComponent implements OnInit, OnDestroy {
       this.form.patchValue({ category: this.category.id });
     }
   }
-  onSubmit() {
+  onSubmit(): void {
     if (this.task && this.form.value) {
-      this.editSubs = this.todoAddService
+      this.todoAddService
         .editTask({ id: this.task.id, ...this.form.value } as TaskRequestI)
+        .pipe(takeUntil(this.destroy$))
         .subscribe();
     }
     if (!this.task && this.form.controls.category.valid) {
-      this.addSubs = this.todoAddService
+      this.todoAddService
         .addTask(this.form.value as TaskRequestI)
+        .pipe(takeUntil(this.destroy$))
         .subscribe();
     }
 
@@ -94,11 +98,7 @@ export class TodoAddComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    if (this.editSubs) {
-      this.editSubs.unsubscribe();
-    }
-    if (this.addSubs) {
-      this.addSubs.unsubscribe();
-    }
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 }

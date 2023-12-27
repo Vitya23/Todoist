@@ -6,17 +6,17 @@ import {
 } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { AuthService } from '../../auth/services/auth.service';
+import { environment } from 'src/environments/environment';
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
-  constructor(private authService: AuthService) {}
+  constructor() {}
   intercept(
     req: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
     const token = JSON.parse(localStorage.getItem('accessToken')!);
-    const isApiUrl = req.url.startsWith('http://localhost:4200');
+    const isApiUrl = req.url.startsWith(environment.apiUrl);
 
     if (token && isApiUrl) {
       req = req.clone({

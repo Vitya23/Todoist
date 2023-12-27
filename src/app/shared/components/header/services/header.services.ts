@@ -4,7 +4,7 @@ import { MenuItem } from 'primeng/api';
 import { AppState } from 'src/app/shared/services/appState.state';
 
 @Injectable()
-export class SideBarService {
+export class HeaderService {
   constructor(private appState: AppState, private router: Router) {}
 
   private readonly items: MenuItem[] = [

@@ -4,30 +4,29 @@ import { HttpClient } from '@angular/common/http';
 import { Observable, map } from 'rxjs';
 import { AuthResponseI } from '../types/authResponse.interface';
 import { AppState } from '../../shared/services/appState.state';
+import { environment } from 'src/environments/environment';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
   constructor(private http: HttpClient, private appState: AppState) {}
 
-  login(user: AuthRequestI): Observable<string> {
+  login(user: AuthRequestI): Observable<void> {
     return this.http
-      .post<AuthResponseI>(`http://localhost:4200/user/login`, user)
+      .post<AuthResponseI>(environment.apiUrl + 'user/login', user)
       .pipe(
         map((user: AuthResponseI) => {
           localStorage.setItem('accessToken', JSON.stringify(user.accessToken));
           this.appState.isLoggedInState.set(true);
-          return user.email;
         })
       );
   }
-  register(user: AuthRequestI): Observable<string> {
+  register(user: AuthRequestI): Observable<void> {
     return this.http
-      .post<AuthResponseI>(`http://localhost:4200/user/register`, user)
+      .post<AuthResponseI>(environment.apiUrl + 'user/register', user)
       .pipe(
         map((user: AuthResponseI) => {
           localStorage.setItem('accessToken', JSON.stringify(user.accessToken));
           this.appState.isLoggedInState.set(true);
-          return user.email;
         })
       );
   }

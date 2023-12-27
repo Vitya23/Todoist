@@ -47,7 +47,7 @@ export const toDoDataBase = {
       description: 'Закрыть таску',
       category: 1,
       priority: 1,
-      endDate: 'Thu Dec 24 2023 13:21:47 GMT+0300 (Москва, стандартное время)',
+      endDate: 'Thu Dec 30 2023 13:21:47 GMT+0300 (Москва, стандартное время)',
       status: 'Ожидает',
     },
     {
@@ -56,7 +56,7 @@ export const toDoDataBase = {
       description: 'Купить корм',
       category: 3,
       priority: 2,
-      endDate: 'Thu Dec 21 2023 13:21:47 GMT+0300 (Москва, стандартное время)',
+      endDate: 'Thu Dec 29 2023 13:21:47 GMT+0300 (Москва, стандартное время)',
       status: 'Ожидает',
     },
     {
@@ -65,7 +65,7 @@ export const toDoDataBase = {
       description: 'Купить молоко',
       category: 3,
       priority: 3,
-      endDate: 'Thu Dec 21 2023 13:21:47 GMT+0300 (Москва, стандартное время)',
+      endDate: 'Thu Dec 28 2023 13:21:47 GMT+0300 (Москва, стандартное время)',
       status: 'Выполнено',
     },
     {
@@ -74,7 +74,7 @@ export const toDoDataBase = {
       description: 'Убраться дома',
       category: 2,
       priority: 4,
-      endDate: 'Thu Dec 21 2023 13:21:47 GMT+0300 (Москва, стандартное время)',
+      endDate: 'Thu Dec 31 2023 13:21:47 GMT+0300 (Москва, стандартное время)',
       status: 'Выполнено',
     },
   ],

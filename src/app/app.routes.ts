@@ -7,4 +7,5 @@ export const routes: Routes = [
   { path: 'register', component: AuthComponent },
   { path: 'login', component: AuthComponent, title: 'Register' },
   { path: 'todo', component: TodoListComponent, canActivate: [authGuard] },
+  { path: '**', redirectTo: 'todo' },
 ];

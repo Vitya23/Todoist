@@ -8,7 +8,7 @@ import {
 } from '@angular/forms';
 import { AuthTitle } from '../types/authTitle.type';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
-import { Subscription } from 'rxjs';
+import { Subject, Subscription, takeUntil } from 'rxjs';
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
 import { PasswordValidators } from '../../shared/validators/passwordValidator';
@@ -34,8 +34,7 @@ import { AuthFormI } from '../types/authForm.interface';
 export class AuthComponent implements OnInit, OnDestroy {
   form!: FormGroup<AuthFormI>;
   title: AuthTitle = 'REGISTER';
-  routeSubs!: Subscription;
-  authSubs!: Subscription;
+  destroy$ = new Subject<void>();
   user!: AuthRequestI;
   submitting = false;
   backendError!: string;
@@ -84,7 +83,7 @@ export class AuthComponent implements OnInit, OnDestroy {
   }
 
   initializeValues(): void {
-    this.routeSubs = this.route.url.subscribe((e) => {
+    this.route.url.pipe(takeUntil(this.destroy$)).subscribe((e) => {
       if (e[0].path === 'login') {
         this.title = 'LOGIN';
       } else {
@@ -125,13 +124,14 @@ export class AuthComponent implements OnInit, OnDestroy {
       this.form.controls['email'].valid &&
       this.form.controls['password'].valid
     ) {
-      this.authSubs = this.authService
+      this.authService
         .login({
           user: {
             email: this.form.controls['email'].value ?? '',
             password: this.form.controls['password'].value ?? '',
           },
         })
+        .pipe(takeUntil(this.destroy$))
         .subscribe({
           next: () => this.router.navigateByUrl('/todo'),
           error: (err) => {
@@ -141,13 +141,14 @@ export class AuthComponent implements OnInit, OnDestroy {
         });
     }
     if (this.title === 'REGISTER' && this.form.valid) {
-      this.authSubs = this.authService
+      this.authService
         .register({
           user: {
             email: this.form.controls['email'].value ?? '',
             password: this.form.controls['password'].value ?? '',
           },
         })
+        .pipe(takeUntil(this.destroy$))
         .subscribe({
           next: () => this.router.navigateByUrl('/todo'),
           error: (err) => {
@@ -161,10 +162,7 @@ export class AuthComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    if (this.authSubs) {
-      this.authSubs.unsubscribe();
-    }
-
-    this.routeSubs.unsubscribe();
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 }

@@ -10,7 +10,6 @@ import {
   withInterceptorsFromDi,
 } from '@angular/common/http';
 import { AuthInterceptor } from './shared/interceptors/auth.interceptor';
-import { AuthService } from './auth/services/auth.service';
 import { AppState } from './shared/services/appState.state';
 import { MessageService } from 'primeng/api';
 

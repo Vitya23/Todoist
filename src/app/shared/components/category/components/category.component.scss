@@ -4,20 +4,21 @@
   flex-direction: row;
   justify-content: space-between;
 }
-.title span {
+.header__title span {
   margin-right: 5px;
 }
+
+.header__menu {
+  display: flex;
+  justify-content: center;
+}
+
 .category_add {
   height: 20px;
   width: 100%;
 }
 
 .inplace {
-  display: flex;
-  justify-content: center;
-}
-
-.menu {
   display: flex;
   justify-content: center;
 }

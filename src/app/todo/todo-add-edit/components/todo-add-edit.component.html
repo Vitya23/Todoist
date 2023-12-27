@@ -10,10 +10,12 @@
       pInputText
       class="input"
       formControlName="description"
+      trimOnBlur
     />
     <div class="footer">
       <div class="calendar">
         <p-calendar
+          [minDate]="minDate"
           [inputStyle]="{
           width: '100%',
           height: '2rem',

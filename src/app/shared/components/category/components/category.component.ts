@@ -16,16 +16,14 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { CalendarModule } from 'primeng/calendar';
-import { DropdownModule } from 'primeng/dropdown';
 import { ConfirmPopupModule } from 'primeng/confirmpopup';
 import { InplaceModule } from 'primeng/inplace';
 import { CategoryService } from '../services/category.service';
 import { CategoryI } from '../types/category.interface';
 import { MenuModule } from 'primeng/menu';
-import { ConfirmationService, MenuItem } from 'primeng/api';
-import { Subject, interval, takeUntil } from 'rxjs';
-import { DeleteComponent } from '../../todo-delete/components/delete.component';
+import { ConfirmationService, MenuItem, MessageService } from 'primeng/api';
+import { Subject, takeUntil } from 'rxjs';
+import { DeleteComponent } from 'src/app/shared/components/delete/components/delete.component';
 import { CategoryFormI } from '../types/categoryForm.interface';
 import { TrimOnBlurDirective } from 'src/app/shared/directives/trim-on-blur.directive';
 import { AppState } from 'src/app/shared/services/appState.state';
@@ -42,9 +40,7 @@ import { AppState } from 'src/app/shared/services/appState.state';
     DialogModule,
     MenuModule,
     InputTextModule,
-    CalendarModule,
     ConfirmPopupModule,
-    DropdownModule,
     InplaceModule,
     TrimOnBlurDirective,
   ],
@@ -53,6 +49,7 @@ import { AppState } from 'src/app/shared/services/appState.state';
 export class CategoryComponent implements OnInit, OnDestroy {
   @ViewChild('DelCategoryInsertionPoint', { read: ViewContainerRef })
   DelCategoryInsertionPoint!: ViewContainerRef;
+
   @Input() category: CategoryI = { title: null, id: null };
 
   categories: CategoryI[] | null = this.appState.categories();
@@ -64,14 +61,15 @@ export class CategoryComponent implements OnInit, OnDestroy {
   constructor(
     private fb: FormBuilder,
     private categoryService: CategoryService,
-    private appState: AppState
+    private appState: AppState,
+    private messageService: MessageService
   ) {}
 
   ngOnInit(): void {
     this.initializeForm();
     this.initializeMenu();
   }
-  initializeForm() {
+  initializeForm(): void {
     this.form = this.fb.group<CategoryFormI>({
       id: this.fb.control(this.category.id),
       title: this.fb.control(this.category.title, [
@@ -80,7 +78,7 @@ export class CategoryComponent implements OnInit, OnDestroy {
       ]),
     });
   }
-  initializeMenu() {
+  initializeMenu(): void {
     {
       this.items = [
         {
@@ -100,7 +98,7 @@ export class CategoryComponent implements OnInit, OnDestroy {
       ];
     }
   }
-  onSubmit() {
+  onSubmit(): void {
     if (!this.category.title) {
       this.categoryService
         .addCategory(this.form.controls['title'].value ?? '')
@@ -114,9 +112,15 @@ export class CategoryComponent implements OnInit, OnDestroy {
         .subscribe();
     }
     this.form.patchValue({ title: '' });
+    this.messageService.clear();
+    this.messageService.add({
+      severity: 'success',
+      summary: 'Категория',
+      detail: this.category.title ? 'Успешно изменена' : 'Успешно добавлена',
+    });
   }
 
-  deleteCategory() {
+  deleteCategory(): void {
     this.DelCategoryInsertionPoint.clear();
     let componentRef =
       this.DelCategoryInsertionPoint.createComponent(DeleteComponent);
@@ -124,7 +128,6 @@ export class CategoryComponent implements OnInit, OnDestroy {
     componentRef.instance.mode = 'category';
   }
   ngOnDestroy(): void {
-    console.log('destroy');
     this.destroy$.next();
     this.destroy$.complete;
   }

@@ -3,7 +3,7 @@ import { Component, OnDestroy, OnInit, effect } from '@angular/core';
 
 import { AvatarModule } from 'primeng/avatar';
 import { MenuModule } from 'primeng/menu';
-import { SideBarService } from '../services/sidebar.services';
+import { HeaderService } from '../services/header.services';
 
 import { Subject, takeUntil } from 'rxjs';
 import { MenuItem } from 'primeng/api';
@@ -14,20 +14,20 @@ import { MenubarModule } from 'primeng/menubar';
 
 @Component({
   standalone: true,
-  selector: 'app-sidebar',
-  templateUrl: './sidebar.component.html',
-  styleUrl: './sidebar.component.scss',
+  selector: 'app-header',
+  templateUrl: './header.component.html',
+  styleUrl: './header.component.scss',
   imports: [CommonModule, AvatarModule, MenuModule, MenubarModule],
-  providers: [SideBarService],
+  providers: [HeaderService],
 })
-export class SideBarComponent implements OnInit, OnDestroy {
+export class HeaderComponent implements OnInit, OnDestroy {
   currentUser!: CurrentUserI;
   items: MenuItem[] = this.sidebarService.userItems;
   destroy$ = new Subject<void>();
 
   constructor(
     private userService: UserService,
-    private sidebarService: SideBarService
+    private sidebarService: HeaderService
   ) {}
   ngOnInit(): void {
     this.initializeValues();

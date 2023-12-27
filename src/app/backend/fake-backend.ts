@@ -141,7 +141,6 @@ export class FakeBackendInterceptor implements HttpInterceptor {
       };
       toDoDataBase.tasks.push(task);
       const tasks = toDoDataBase.tasks.filter((res) => res.userId === user?.id);
-      console.log(tasks);
       return ok(tasks);
     }
 
@@ -206,6 +205,8 @@ export class FakeBackendInterceptor implements HttpInterceptor {
       const newCategories = categoriesDataBase.categories.filter(
         (category) => category.userId === user.id
       );
+      console.log(newCategories);
+      console.log(toDoDataBase.tasks);
       return ok(newCategories);
     }
     function editCategory() {
@@ -236,10 +237,10 @@ export class FakeBackendInterceptor implements HttpInterceptor {
       toDoDataBase.tasks = toDoDataBase.tasks.filter(
         (res) => res.category !== body?.id
       );
-      const resTasks = categoriesDataBase.categories.filter(
+      const resCategories = categoriesDataBase.categories.filter(
         (res) => res.userId === user?.id
       );
-      return ok(resTasks);
+      return ok(resCategories);
     }
 
     function ok(body?: any) {

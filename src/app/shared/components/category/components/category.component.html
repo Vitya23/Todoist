@@ -13,11 +13,11 @@
 } @if(category.title && !active){
 
 <div class="header">
-  <div class="title">
+  <div class="header__title">
     <span> {{ category.title }}</span>
   </div>
 
-  <div class="menu">
+  <div class="header__menu">
     <p-confirmPopup></p-confirmPopup>
     <p-menu #menu [model]="items" [popup]="true" appendTo="body"></p-menu>
     <p-button
