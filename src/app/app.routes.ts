@@ -1,11 +1,22 @@
 import { Routes } from '@angular/router';
-import { AuthComponent } from './auth/components/auth.component';
 import { TodoListComponent } from './todo/todo-list/components/todo-list.component';
 import { authGuard } from './shared/guards/auth.guard';
 
 export const routes: Routes = [
-  { path: 'register', component: AuthComponent },
-  { path: 'login', component: AuthComponent, title: 'Register' },
+  {
+    path: 'register',
+    loadComponent: () =>
+      import('./auth/components/auth.component').then(
+        (mod) => mod.AuthComponent
+      ),
+  },
+  {
+    path: 'login',
+    loadComponent: () =>
+      import('./auth/components/auth.component').then(
+        (mod) => mod.AuthComponent
+      ),
+  },
   { path: 'todo', component: TodoListComponent, canActivate: [authGuard] },
   { path: '**', redirectTo: 'todo' },
 ];
