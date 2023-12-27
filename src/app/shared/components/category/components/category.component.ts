@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import {
+  ChangeDetectionStrategy,
   Component,
   Input,
   OnDestroy,
@@ -33,6 +34,7 @@ import { AppState } from 'src/app/shared/services/appState.state';
   selector: 'app-category',
   templateUrl: './category.component.html',
   styleUrl: './category.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     CommonModule,
     ReactiveFormsModule,

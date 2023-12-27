@@ -1,0 +1,7 @@
+<p-tag
+  [style]="{ width: '7rem', cursor: 'pointer' }"
+  [value]="status"
+  [severity]="getSeverity(status)"
+  (click)="changeStatus()"
+  [icon]="status === 'Ожидает' ? 'pi pi-check' : 'pi pi-times'"
+></p-tag>

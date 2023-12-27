@@ -41,15 +41,10 @@
             </td>
 
             <td class="table__status">
-              <p-tag
-                [style]="{ width: '7rem', cursor: 'pointer' }"
-                [value]="task.status"
-                [severity]="getSeverity(task.status)"
-                (click)="changeStatus(task)"
-                [icon]="
-                  task.status === 'Ожидает' ? 'pi pi-check' : 'pi pi-times'
-                "
-              ></p-tag>
+              <app-todo-status
+                [id]="task.id"
+                [status]="task.status"
+              ></app-todo-status>
             </td>
             <td>
               <p-button

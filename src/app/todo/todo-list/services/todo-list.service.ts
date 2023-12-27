@@ -4,7 +4,6 @@ import { Observable, map } from 'rxjs';
 import { TaskI } from '../types/task.interface';
 import { AppState } from '../../../shared/services/appState.state';
 import { CategoryI } from 'src/app/shared/components/category/types/category.interface';
-import { ChangeStatusI } from '../types/changeStatus.interface';
 import { environment } from 'src/environments/environment';
 
 @Injectable()
@@ -23,8 +22,5 @@ export class TodoListService {
         this.appState.categories.set(categories);
       })
     );
-  }
-  changeStatus(status: ChangeStatusI) {
-    return this.http.post(environment.apiUrl + 'status', status);
   }
 }

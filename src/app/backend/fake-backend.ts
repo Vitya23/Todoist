@@ -205,8 +205,6 @@ export class FakeBackendInterceptor implements HttpInterceptor {
       const newCategories = categoriesDataBase.categories.filter(
         (category) => category.userId === user.id
       );
-      console.log(newCategories);
-      console.log(toDoDataBase.tasks);
       return ok(newCategories);
     }
     function editCategory() {
