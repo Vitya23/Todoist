@@ -1,5 +1,11 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Input,
+  OnDestroy,
+  OnInit,
+} from '@angular/core';
 import { ButtonModule } from 'primeng/button';
 import { TodoAddService } from '../services/todo-add.service';
 import { DialogModule } from 'primeng/dialog';
@@ -24,6 +30,7 @@ import { TrimOnBlurDirective } from 'src/app/shared/directives/trim-on-blur.dire
   selector: 'app-todo-add-edit',
   templateUrl: './todo-add-edit.component.html',
   styleUrl: './todo-add-edit.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     CommonModule,
     ReactiveFormsModule,

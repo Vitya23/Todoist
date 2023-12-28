@@ -1,4 +1,9 @@
-import { Component, Input, OnDestroy } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Input,
+  OnDestroy,
+} from '@angular/core';
 import { TagModule } from 'primeng/tag';
 import { TodoStatusService } from '../services/todo-status.service';
 import { Subject, takeUntil } from 'rxjs';
@@ -8,6 +13,7 @@ import { TaskStatus } from '../types/taskStatus.type';
   standalone: true,
   selector: 'app-todo-status',
   templateUrl: './todo-status.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [TagModule],
   providers: [TodoStatusService],
 })

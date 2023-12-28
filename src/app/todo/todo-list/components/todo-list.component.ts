@@ -1,5 +1,10 @@
 import { CommonModule } from '@angular/common';
-import { Component, ViewChild, ViewContainerRef } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  ViewChild,
+  ViewContainerRef,
+} from '@angular/core';
 import { TodoListService } from '../services/todo-list.service';
 import { TableModule } from 'primeng/table';
 import { TagModule } from 'primeng/tag';
@@ -22,7 +27,7 @@ import { TodoStatus } from '../../todo-status/components/todo-status.component';
   selector: 'app-todo-list',
   templateUrl: './todo-list.component.html',
   styleUrl: './todo-list.component.scss',
-
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     CommonModule,
     TableModule,
