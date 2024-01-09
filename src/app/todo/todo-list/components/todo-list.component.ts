@@ -21,6 +21,10 @@ import { PriorityDirective } from 'src/app/shared/directives/priority.directive'
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { TodoAddEditComponent } from 'src/app/todo/todo-add-edit/components/todo-add-edit.component';
 import { TodoStatus } from '../../todo-status/components/todo-status.component';
+import { InputTextModule } from 'primeng/inputtext';
+import { MultiSelectModule } from 'primeng/multiselect';
+import { FormsModule } from '@angular/forms';
+import { DropdownModule } from 'primeng/dropdown';
 
 @Component({
   standalone: true,
@@ -33,11 +37,15 @@ import { TodoStatus } from '../../todo-status/components/todo-status.component';
     TableModule,
     TagModule,
     ButtonModule,
+    FormsModule,
     TodoAddEditComponent,
     DeleteComponent,
     CategoryComponent,
     PriorityDirective,
     TodoStatus,
+    InputTextModule,
+    MultiSelectModule,
+    DropdownModule,
   ],
 
   providers: [TodoListService],
@@ -48,6 +56,7 @@ export class TodoListComponent {
 
   tasks = this.appState.task;
   categories = this.appState.categories;
+  selectedCategories: CategoryI | null = null;
 
   constructor(
     private todoListService: TodoListService,
@@ -77,7 +86,7 @@ export class TodoListComponent {
     componentRef.instance.mode = 'task';
   }
 
-  tasksByCategories(category: CategoryI, tasks: TaskI[]) {
-    return tasks.filter((task) => task.category === category.id);
+  tasksCategories(categories: CategoryI[], tasksId: number) {
+    return categories.find((category) => category.id === tasksId)?.title;
   }
 }

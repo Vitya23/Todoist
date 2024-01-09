@@ -1,7 +1,6 @@
 <p-dialog
   [header]="task ? 'Изменение задачи' : 'Добавление задачи'"
   [(visible)]="visible"
-  [style]="{ width: '70vw' }"
 >
   <form (ngSubmit)="onSubmit()" [formGroup]="form" class="form">
     <input
@@ -16,11 +15,6 @@
       <div class="calendar">
         <p-calendar
           [minDate]="minDate"
-          [inputStyle]="{
-          width: '100%',
-          height: '2rem',
-          
-        }"
           placeholder="Дата окончания"
           [showButtonBar]="true"
           appendTo="body"
@@ -36,8 +30,6 @@
         <p-dropdown
           placeholder="Приоритет"
           [style]="{
-            height: '2rem',
-            'align-items': 'center',
             width: '100%'
           }"
           formControlName="priority"
@@ -50,19 +42,18 @@
               class="select__items"
               *ngIf="this.form.controls['priority'].value as selectedPriority"
             >
-              <i style="width: 18px" class="pi pi-flag"></i>
+              <i class="pi pi-flag"></i>
               <div>{{ selectedPriority.title }}</div>
             </div>
           </ng-template>
           <ng-template let-priority pTemplate="item">
             <div class="select__items">
-              <i style="width: 18px" class="pi pi-flag"></i>
+              <i class="pi pi-flag"></i>
               <div>{{ priority.title }}</div>
             </div>
           </ng-template>
         </p-dropdown>
       </div>
-
       <button
         pButton
         class="button"

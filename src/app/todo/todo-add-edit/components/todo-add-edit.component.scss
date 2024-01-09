@@ -1,5 +1,9 @@
 .form {
   width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
 }
 
 .input {
@@ -26,7 +30,7 @@
 .select__items {
   display: flex;
   align-items: center;
-  gap: 2;
+  gap: 6px;
 }
 .calendar {
   width: 12.1rem;
@@ -34,12 +38,7 @@
 }
 
 @media screen and (max-width: 840px) {
-  .footer {
-    flex-direction: column;
-    align-items: start;
-  }
   .calendar {
-    margin-right: 0px;
     margin-bottom: 10px;
   }
   .dropdown {
@@ -48,6 +47,21 @@
 }
 
 @media screen and (max-width: 480px) {
+  .input {
+    width: 12.1rem;
+  }
+  .footer {
+    flex-direction: column;
+
+    justify-content: center;
+  }
+
+  .calendar {
+    margin-right: 0px;
+  }
+  .dropdown {
+    margin-right: 0px;
+  }
   .button {
     margin-left: auto;
     margin-right: auto;

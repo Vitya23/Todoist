@@ -94,7 +94,7 @@ export class TodoAddEditComponent implements OnInit, OnDestroy {
         .pipe(takeUntil(this.destroy$))
         .subscribe();
     }
-    if (!this.task && this.form.controls.category.valid) {
+    if (!this.task && this.form.valid) {
       this.todoAddService
         .addTask(this.form.value as TaskRequestI)
         .pipe(takeUntil(this.destroy$))

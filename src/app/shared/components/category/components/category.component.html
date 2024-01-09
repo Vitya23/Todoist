@@ -1,10 +1,7 @@
 <ng-container #DelCategoryInsertionPoint></ng-container>
 @if(!category.title?.length && !active){
 <div class="category_add">
-  <div
-    class="block"
-    [ngClass]="categories?.length ? 'block__hidden' : 'block__display'"
-  >
+  <div class="block">
     <h3 class="title-side title-side-center" (click)="active = true">
       Добавить категорию
     </h3>

@@ -1,15 +1,9 @@
 import { inject } from '@angular/core';
-import {
-  ActivatedRouteSnapshot,
-  CanActivateFn,
-  Router,
-  RouterStateSnapshot,
-} from '@angular/router';
+import { ActivatedRouteSnapshot, CanActivateFn, Router } from '@angular/router';
 import { AppState } from '../services/appState.state';
 
 export const authGuard: CanActivateFn = (
-  route: ActivatedRouteSnapshot,
-  state: RouterStateSnapshot
+  route: ActivatedRouteSnapshot
 ): boolean => {
   const router = inject(Router);
   const isLoggedIn = inject(AppState).isLoggedInState();
@@ -17,6 +11,8 @@ export const authGuard: CanActivateFn = (
     return true;
   }
 
-  router.navigate(['/login'], { queryParams: { returnUrl: state.url } });
+  router.navigate(['/login'], {
+    queryParams: { returnUrl: route.routeConfig?.path },
+  });
   return false;
 };
