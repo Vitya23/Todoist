@@ -18,7 +18,7 @@ import { TaskStatus } from '../types/taskStatus.type';
   providers: [TodoStatusService],
 })
 export class TodoStatus implements OnDestroy {
-  @Input() id!: number;
+  @Input() id: number | null = null;
   @Input() status: TaskStatus = 'Ожидает';
   destroy$ = new Subject<void>();
 
@@ -30,11 +30,12 @@ export class TodoStatus implements OnDestroy {
     } else {
       this.status = 'Выполнено';
     }
-
-    this.todoStatusService
-      .changeStatus({ id: this.id, status: this.status })
-      .pipe(takeUntil(this.destroy$))
-      .subscribe();
+    if (this.status && this.id) {
+      this.todoStatusService
+        .changeStatus({ id: this.id, status: this.status })
+        .pipe(takeUntil(this.destroy$))
+        .subscribe();
+    }
   }
 
   getSeverity(status: string) {

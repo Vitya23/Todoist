@@ -15,24 +15,25 @@
 .header {
   text-align: center;
   margin-bottom: 2rem;
-}
-.header p {
-  font-size: 1.75rem;
-  font-weight: 500;
-  margin-bottom: 1rem;
-  color: var(--surface-900);
-}
-.header a {
-  font-weight: 500;
-  text-decoration: none;
-  margin-left: 0.5rem;
-  color: var(--blue-300);
-  cursor: pointer;
-}
-.header span {
-  font-weight: 500;
-  line-height: 1.5;
-  color: var(--surface-900);
+
+  p {
+    font-size: 1.75rem;
+    font-weight: 500;
+    margin-bottom: 1rem;
+    color: var(--surface-900);
+  }
+  a {
+    font-weight: 500;
+    text-decoration: none;
+    margin-left: 0.5rem;
+    color: var(--blue-300);
+    cursor: pointer;
+  }
+  span {
+    font-weight: 500;
+    line-height: 1.5;
+    color: var(--surface-900);
+  }
 }
 
 .label {
@@ -71,13 +72,15 @@
   }
 }
 @media screen and (max-width: 768px) {
-  .header p {
-    font-size: 1.5rem;
-  }
-  .header a {
-    font-size: 0.9rem;
-  }
-  .header span {
-    font-size: 0.9rem;
+  .header {
+    p {
+      font-size: 1.5rem;
+    }
+    a {
+      font-size: 0.9rem;
+    }
+    span {
+      font-size: 0.9rem;
+    }
   }
 }

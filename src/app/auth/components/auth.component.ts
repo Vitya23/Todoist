@@ -6,16 +6,15 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { AuthTitle } from '../types/authTitle.type';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
-import { Subject, Subscription, takeUntil } from 'rxjs';
+import { Subject, takeUntil } from 'rxjs';
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
 import { PasswordValidators } from '../../shared/validators/passwordValidator';
 import { PasswordModule } from 'primeng/password';
 import { AuthService } from '../services/auth.service';
-import { AuthRequestI } from '../types/authRequest.interface';
 import { AuthFormI } from '../types/authForm.interface';
+import { TitleE } from '../enums/title.enum';
 
 @Component({
   selector: 'app-auth',
@@ -33,11 +32,11 @@ import { AuthFormI } from '../types/authForm.interface';
 })
 export class AuthComponent implements OnInit, OnDestroy {
   form!: FormGroup<AuthFormI>;
-  title: AuthTitle = 'REGISTER';
+  TitleE = TitleE;
+  title: TitleE = TitleE.Login;
   destroy$ = new Subject<void>();
-  user!: AuthRequestI;
   submitting = false;
-  backendError!: string;
+  backendError: string | null = null;
   constructor(
     private readonly route: ActivatedRoute,
     private readonly router: Router,
@@ -85,9 +84,9 @@ export class AuthComponent implements OnInit, OnDestroy {
   initializeValues(): void {
     this.route.url.pipe(takeUntil(this.destroy$)).subscribe((e) => {
       if (e[0].path === 'login') {
-        this.title = 'LOGIN';
+        this.title = TitleE.Login;
       } else {
-        this.title = 'REGISTER';
+        this.title = TitleE.Register;
       }
     });
   }
@@ -118,11 +117,11 @@ export class AuthComponent implements OnInit, OnDestroy {
 
   onSubmit(): void {
     this.submitting = true;
-    this.backendError = '';
+    this.backendError = null;
     if (
-      this.title === 'LOGIN' &&
+      this.title === TitleE.Login &&
       this.form.controls['email'].valid &&
-      this.form.controls['password'].valid
+      this.form.controls['password'].valid !== null
     ) {
       this.authService
         .login({
@@ -140,7 +139,7 @@ export class AuthComponent implements OnInit, OnDestroy {
           },
         });
     }
-    if (this.title === 'REGISTER' && this.form.valid) {
+    if (this.title === TitleE.Register && this.form.valid) {
       this.authService
         .register({
           user: {

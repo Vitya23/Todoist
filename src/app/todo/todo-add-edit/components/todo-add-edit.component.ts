@@ -44,8 +44,8 @@ import { TrimOnBlurDirective } from 'src/app/shared/directives/trim-on-blur.dire
   providers: [TodoAddService],
 })
 export class TodoAddEditComponent implements OnInit, OnDestroy {
-  @Input() category!: CategoryI;
-  @Input() task!: TaskI;
+  @Input() category?: CategoryI;
+  @Input() task?: TaskI;
   destroy$ = new Subject<void>();
 
   visible: boolean = true;
@@ -74,7 +74,7 @@ export class TodoAddEditComponent implements OnInit, OnDestroy {
 
     if (this.task) {
       const selectedPriority = this.priorities.find(
-        (res) => res.priority === this.task.priority
+        (res) => res.priority === this.task!.priority
       );
       this.form.setValue({
         description: this.task.description,

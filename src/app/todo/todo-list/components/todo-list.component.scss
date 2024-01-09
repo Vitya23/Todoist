@@ -34,10 +34,10 @@
 .table__description {
   display: flex;
   flex-direction: column;
-}
 
-.table__description p {
-  margin: 0;
+  p {
+    margin: 0;
+  }
 }
 
 .table__category_create {

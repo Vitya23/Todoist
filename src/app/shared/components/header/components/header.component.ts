@@ -21,7 +21,7 @@ import { MenubarModule } from 'primeng/menubar';
   providers: [HeaderService],
 })
 export class HeaderComponent implements OnInit, OnDestroy {
-  currentUser!: CurrentUserI;
+  currentUser: CurrentUserI | null = null;
   items: MenuItem[] = this.sidebarService.userItems;
   destroy$ = new Subject<void>();
 

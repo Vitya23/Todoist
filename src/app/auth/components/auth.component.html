@@ -1,6 +1,6 @@
 <div class="wrapper">
   <div class="block">
-    @if(title ==='LOGIN'){
+    @if(title === TitleE.Login){
     <div class="header">
       <p>Добро пожаловать</p>
       <span>У Вас нет аккаунта?</span>
@@ -63,10 +63,10 @@
           {{ "!@#$%^&*" }}</small
         >
       </div>
-      @if(title === 'REGISTER'){
+      @if(title === TitleE.Register){
       <label for="confirmPassword" class="label">Подтвердите пароль</label>
       <input
-        id="confirmPassord"
+        id="confirmPassword"
         type="password"
         placeholder="Подтвердите пароль"
         pPassword
@@ -103,12 +103,12 @@
           type="submit"
           [disabled]="
             submitting ||
-            (title === 'REGISTER'
+            (title === TitleE.Register
               ? form.invalid
               : form.controls['password'].invalid ||
                 form.controls['email'].invalid)
           "
-          [label]="title === 'LOGIN' ? 'Войти' : 'Зарегистрироваться'"
+          [label]="title === TitleE.Login ? 'Войти' : 'Зарегистрироваться'"
           icon="pi pi-user"
         ></button>
       </div>
