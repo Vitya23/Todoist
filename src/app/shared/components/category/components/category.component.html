@@ -1,17 +1,19 @@
 <ng-container #DelCategoryInsertionPoint></ng-container>
 @if(!category.title?.length && !active){
-<div class="category_add">
-  <div class="block">
-    <h3 class="title-side title-side-center" (click)="active = true">
-      Добавить категорию
-    </h3>
-  </div>
-</div>
+
+<p-button
+  label="Добавить категорию"
+  icon="pi pi-plus"
+  [text]="true"
+  size="small"
+  (click)="active = true"
+></p-button>
+
 } @if(category.title && !active){
 
 <div class="header">
   <div class="header__title">
-    <span> {{ category.title }}</span>
+    <small> {{ category.title }}</small>
   </div>
 
   <div class="header__menu">
@@ -29,7 +31,11 @@
 
 }
 <div [ngClass]="categories?.length ? '' : 'inplace'">
-  <p-inplace [hidden]="!active" [active]="active">
+  <p-dialog
+    [breakpoints]="{ '960px': '75vw' }"
+    [header]="category.title ? 'Изменение категории' : 'Добавление категории'"
+    [(visible)]="active"
+  >
     <ng-template pTemplate="content">
       <form [formGroup]="form" (ngSubmit)="onSubmit()">
         <input
@@ -39,23 +45,35 @@
           type="text"
           pInputText
         />
-        <p-button
-          [style]="{ 'margin-right': '10px' }"
-          type="submit"
-          size="small"
-          [label]="category.title ? 'Сохранить' : 'Добавить'"
-          severity="danger"
-          [plain]="true"
-          [disabled]="this.form.invalid"
-        ></p-button>
-        <p-button
-          (click)="active = false"
-          size="small"
-          label="Отмена"
-          [text]="true"
-          [plain]="true"
-        ></p-button>
+        <div class="footer">
+          <div class="footer__setAll">
+            <p-checkbox [binary]="true" formControlName="setAll"></p-checkbox>
+            <label for="ny">{{
+              category.title
+                ? "Изменить только эту задачу"
+                : "Добавить ко всем задачам без категории"
+            }}</label>
+          </div>
+          <div class="footer__buttons">
+            <p-button
+              [style]="{ 'margin-right': '10px' }"
+              type="submit"
+              size="small"
+              [label]="category.title ? 'Сохранить' : 'Добавить'"
+              severity="danger"
+              [plain]="true"
+              [disabled]="this.form.invalid"
+            ></p-button>
+            <p-button
+              (click)="active = false"
+              size="small"
+              label="Отмена"
+              [text]="true"
+              [plain]="true"
+            ></p-button>
+          </div>
+        </div>
       </form>
     </ng-template>
-  </p-inplace>
+  </p-dialog>
 </div>

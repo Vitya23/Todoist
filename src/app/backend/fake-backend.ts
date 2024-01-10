@@ -156,15 +156,17 @@ export class FakeBackendInterceptor implements HttpInterceptor {
         endDate: body.endDate,
         status: 'Ожидает',
       };
-      const newTasks = toDoDataBase.tasks
-        .filter((res) => res.userId === user?.id)
-        .map((defaultTask) => {
-          if (defaultTask.id === reqTask.id) {
-            return reqTask;
-          } else {
-            return defaultTask;
-          }
-        });
+      toDoDataBase.tasks = toDoDataBase.tasks.map((defaultTask) => {
+        if (defaultTask.id === reqTask.id) {
+          return reqTask;
+        } else {
+          return defaultTask;
+        }
+      });
+      const newTasks = toDoDataBase.tasks.filter(
+        (res) => res.userId === user?.id
+      );
+
       return ok(newTasks);
     }
     function changeStatus() {
@@ -213,15 +215,19 @@ export class FakeBackendInterceptor implements HttpInterceptor {
 
       const reqTask = { id: body.id, userId: user.id, title: body.title };
 
-      const newCategories = categoriesDataBase.categories
-        .filter((res) => res.userId === user?.id)
-        .map((defaultCategory) => {
+      categoriesDataBase.categories = categoriesDataBase.categories.map(
+        (defaultCategory) => {
+          defaultCategory;
           if (defaultCategory.id === body.id) {
             return reqTask;
           } else {
             return defaultCategory;
           }
-        });
+        }
+      );
+      const newCategories = categoriesDataBase.categories.filter(
+        (res) => res.userId === user?.id
+      );
       return ok(newCategories);
     }
     function deleteCategory() {

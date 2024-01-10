@@ -87,6 +87,8 @@ export class TodoListComponent {
   }
 
   tasksCategories(categories: CategoryI[], tasksId: number) {
-    return categories.find((category) => category.id === tasksId)?.title;
+    const category = categories.find((category) => category.id === tasksId);
+    if (category) return category;
+    return { id: null, title: null };
   }
 }

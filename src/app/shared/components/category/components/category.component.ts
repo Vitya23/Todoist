@@ -28,6 +28,7 @@ import { DeleteComponent } from 'src/app/shared/components/delete/components/del
 import { CategoryFormI } from '../types/categoryForm.interface';
 import { TrimOnBlurDirective } from 'src/app/shared/directives/trim-on-blur.directive';
 import { AppState } from 'src/app/shared/services/appState.state';
+import { CheckboxModule } from 'primeng/checkbox';
 
 @Component({
   standalone: true,
@@ -45,6 +46,7 @@ import { AppState } from 'src/app/shared/services/appState.state';
     ConfirmPopupModule,
     InplaceModule,
     TrimOnBlurDirective,
+    CheckboxModule,
   ],
   providers: [CategoryService, ConfirmationService],
 })
@@ -70,6 +72,7 @@ export class CategoryComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.initializeForm();
     this.initializeMenu();
+    console.log(this.category, 'init');
   }
   initializeForm(): void {
     this.form = this.fb.group<CategoryFormI>({
@@ -78,6 +81,7 @@ export class CategoryComponent implements OnInit, OnDestroy {
         Validators.required,
         Validators.maxLength(30),
       ]),
+      setAll: this.fb.nonNullable.control(false),
     });
   }
   initializeMenu(): void {
@@ -101,12 +105,15 @@ export class CategoryComponent implements OnInit, OnDestroy {
     }
   }
   onSubmit(): void {
+    console.log(this.form.value);
     if (!this.category.title) {
       this.categoryService
         .addCategory(this.form.controls['title'].value ?? '')
         .pipe(takeUntil(this.destroy$))
         .subscribe();
+      this.form.patchValue({ title: '' });
     } else {
+      console.log(this.form.value);
       this.categoryService
         .editCategory(this.form.value as CategoryI)
         .pipe(takeUntil(this.destroy$))
@@ -120,15 +127,16 @@ export class CategoryComponent implements OnInit, OnDestroy {
       detail: this.category.title ? 'Успешно изменена' : 'Успешно добавлена',
     });
     this.active = false;
-    this.form.patchValue({ title: '' });
   }
 
   deleteCategory(): void {
-    this.DelCategoryInsertionPoint.clear();
-    let componentRef =
-      this.DelCategoryInsertionPoint.createComponent(DeleteComponent);
-    componentRef.instance.id = this.category.id!;
-    componentRef.instance.mode = 'category';
+    if (this.category) {
+      this.DelCategoryInsertionPoint.clear();
+      let componentRef =
+        this.DelCategoryInsertionPoint.createComponent(DeleteComponent);
+      componentRef.instance.id = this.category.id!;
+      componentRef.instance.mode = 'category';
+    }
   }
   ngOnDestroy(): void {
     this.destroy$.next();

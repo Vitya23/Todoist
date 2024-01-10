@@ -9,6 +9,14 @@
         }"
         [globalFilterFields]="['description', 'category']"
       >
+        <!-- <p-button
+      label="Добавить задачу"
+      icon="pi pi-plus"
+      [text]="true"
+      size="small"
+      (click)="generateTodoAddComponent(category)"
+    ></p-button> -->
+
         <ng-template pTemplate="header">
           <tr>
             <th>
@@ -32,7 +40,7 @@
                     [(ngModel)]="selectedCategories"
                     [options]="categories"
                     (onChange)="filter($event.value.id)"
-                    placeholder="Any"
+                    placeholder="Категории"
                     [showClear]="true"
                     appendTo="body"
                     optionLabel="title"
@@ -86,7 +94,9 @@
               </div>
             </td>
             <td>
-              <small>{{ tasksCategories(categories, task.category) }}</small>
+              <app-category
+                [category]="tasksCategories(categories, task.category)"
+              ></app-category>
             </td>
 
             <td class="table__status">

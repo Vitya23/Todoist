@@ -41,8 +41,8 @@ export class DeleteComponent implements OnDestroy {
         this.messageService.clear();
         this.messageService.add({
           severity: 'success',
-          summary: 'Удаление',
-          detail: 'Успешно удалено',
+          summary: this.mode === 'task' ? 'Задача' : 'Категория',
+          detail: 'успешно удалена',
         });
         if (this.mode === 'task') {
           this.deleteService
@@ -61,8 +61,8 @@ export class DeleteComponent implements OnDestroy {
         this.messageService.clear();
         this.messageService.add({
           severity: 'error',
-          summary: 'Удаление',
-          detail: 'Не удалено',
+          summary: this.mode === 'task' ? 'Задача' : 'Категория',
+          detail: 'не удалена',
         });
       },
     });

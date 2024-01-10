@@ -20,10 +20,12 @@ export class CategoryService {
       );
   }
   editCategory(category: CategoryI): Observable<void> {
+    console.log(category);
     return this.http
       .put<CategoryI[]>(environment.apiUrl + 'category', category)
       .pipe(
         map((response) => {
+          console.log(response);
           this.appState.categories.set(response);
         })
       );
