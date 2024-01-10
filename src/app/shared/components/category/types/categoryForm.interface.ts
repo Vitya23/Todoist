@@ -4,4 +4,5 @@ export interface CategoryFormI {
   id: FormControl<number | null>;
   title: FormControl<string | null>;
   setAll: FormControl<boolean>;
+  taskId?: FormControl<number | null>;
 }

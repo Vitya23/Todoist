@@ -41,7 +41,7 @@ export class FakeBackendInterceptor implements HttpInterceptor {
         case url.endsWith('/task') && method === 'POST':
           return addTask();
         case url.endsWith('/category') && method === 'POST':
-          return addCategory();
+          return addCategory(body);
         case url.endsWith('/status') && method === 'POST':
           return changeStatus();
         case url.endsWith('/user') && method === 'GET':
@@ -191,7 +191,7 @@ export class FakeBackendInterceptor implements HttpInterceptor {
       );
       return ok(resTasks);
     }
-    function addCategory() {
+    function addCategory(title: string) {
       const user = getUserByToken();
       if (!user) return error('Пожалуйста войдите снова');
 
@@ -201,7 +201,7 @@ export class FakeBackendInterceptor implements HttpInterceptor {
       const newCategory = {
         id: newId,
         userId: user.id,
-        title: body,
+        title: title,
       };
       categoriesDataBase.categories.push(newCategory);
       const newCategories = categoriesDataBase.categories.filter(
@@ -212,24 +212,62 @@ export class FakeBackendInterceptor implements HttpInterceptor {
     function editCategory() {
       const user = getUserByToken();
       if (!user) return error('Пожалуйста войдите снова');
-
-      const reqTask = { id: body.id, userId: user.id, title: body.title };
-
-      categoriesDataBase.categories = categoriesDataBase.categories.map(
-        (defaultCategory) => {
-          defaultCategory;
-          if (defaultCategory.id === body.id) {
-            return reqTask;
-          } else {
-            return defaultCategory;
+      console.log(categoriesDataBase);
+      if (body.setAll === false) {
+        const reqTask = { id: body.id, userId: user.id, title: body.title };
+        categoriesDataBase.categories = categoriesDataBase.categories.map(
+          (defaultCategory) => {
+            defaultCategory;
+            if (defaultCategory.id === body.id) {
+              return reqTask;
+            } else {
+              return defaultCategory;
+            }
           }
-        }
-      );
+        );
+      }
+
+      if (body.setAll === true) {
+        editTaskCategory();
+      }
+
       const newCategories = categoriesDataBase.categories.filter(
         (res) => res.userId === user?.id
       );
+      console.log(newCategories);
       return ok(newCategories);
     }
+
+    function editTaskCategory() {
+      const user = getUserByToken();
+      if (!user) return error('Пожалуйста войдите снова');
+      const newId =
+        categoriesDataBase.categories[categoriesDataBase.categories.length - 1]
+          .id + 1;
+      const repeat = categoriesDataBase.categories.find((res) => {
+        return res.userId === user.id && res.title === body.title;
+      });
+      if (!repeat) {
+        const newCategory = {
+          id: newId,
+          userId: user.id,
+          title: body.title,
+        };
+        categoriesDataBase.categories.push(newCategory);
+      }
+      toDoDataBase.tasks = toDoDataBase.tasks.map((defaultTask) => {
+        if (defaultTask.id === body.taskId && !repeat) {
+          return { ...defaultTask, category: newId };
+        }
+        if (defaultTask.id === body.taskId && repeat) {
+          return { ...defaultTask, category: repeat.id };
+        } else {
+          return defaultTask;
+        }
+      });
+      return;
+    }
+
     function deleteCategory() {
       const user = getUserByToken();
       if (!user) return error('Пожалуйста войдите снова');

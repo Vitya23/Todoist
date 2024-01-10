@@ -29,6 +29,7 @@ import { CategoryFormI } from '../types/categoryForm.interface';
 import { TrimOnBlurDirective } from 'src/app/shared/directives/trim-on-blur.directive';
 import { AppState } from 'src/app/shared/services/appState.state';
 import { CheckboxModule } from 'primeng/checkbox';
+import { DropdownModule } from 'primeng/dropdown';
 
 @Component({
   standalone: true,
@@ -47,6 +48,7 @@ import { CheckboxModule } from 'primeng/checkbox';
     InplaceModule,
     TrimOnBlurDirective,
     CheckboxModule,
+    DropdownModule,
   ],
   providers: [CategoryService, ConfirmationService],
 })
@@ -55,8 +57,10 @@ export class CategoryComponent implements OnInit, OnDestroy {
   DelCategoryInsertionPoint!: ViewContainerRef;
 
   @Input() category: CategoryI = { title: null, id: null };
+  @Input() taskId: number | null = null;
 
   categories: CategoryI[] | null = this.appState.categories();
+  categoriesTitle: (string | null)[] = [];
   form!: FormGroup<CategoryFormI>;
   active = false;
   items!: MenuItem[];
@@ -70,13 +74,14 @@ export class CategoryComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
+    this.initializeValues();
     this.initializeForm();
     this.initializeMenu();
-    console.log(this.category, 'init');
   }
   initializeForm(): void {
     this.form = this.fb.group<CategoryFormI>({
       id: this.fb.control(this.category.id),
+      taskId: this.fb.control(this.taskId),
       title: this.fb.control(this.category.title, [
         Validators.required,
         Validators.maxLength(30),
@@ -84,6 +89,12 @@ export class CategoryComponent implements OnInit, OnDestroy {
       setAll: this.fb.nonNullable.control(false),
     });
   }
+
+  initializeValues(): void {
+    if (this.categories)
+      this.categoriesTitle = this.categories.map((category) => category.title);
+  }
+
   initializeMenu(): void {
     {
       this.items = [
@@ -105,7 +116,6 @@ export class CategoryComponent implements OnInit, OnDestroy {
     }
   }
   onSubmit(): void {
-    console.log(this.form.value);
     if (!this.category.title) {
       this.categoryService
         .addCategory(this.form.controls['title'].value ?? '')
@@ -113,7 +123,6 @@ export class CategoryComponent implements OnInit, OnDestroy {
         .subscribe();
       this.form.patchValue({ title: '' });
     } else {
-      console.log(this.form.value);
       this.categoryService
         .editCategory(this.form.value as CategoryI)
         .pipe(takeUntil(this.destroy$))

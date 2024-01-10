@@ -32,12 +32,12 @@
 }
 <div [ngClass]="categories?.length ? '' : 'inplace'">
   <p-dialog
-    [breakpoints]="{ '960px': '75vw' }"
     [header]="category.title ? 'Изменение категории' : 'Добавление категории'"
     [(visible)]="active"
   >
     <ng-template pTemplate="content">
       <form [formGroup]="form" (ngSubmit)="onSubmit()">
+        @if(!category.title){
         <input
           trimOnBlur
           class="input"
@@ -45,9 +45,23 @@
           type="text"
           pInputText
         />
+        } @if(categories && category.title){
+
+        <p-dropdown
+          [options]="categoriesTitle"
+          formControlName="title"
+          placeholder="Select a City"
+          [editable]="true"
+          appendTo="body"
+        ></p-dropdown>
+        }
         <div class="footer">
           <div class="footer__setAll">
-            <p-checkbox [binary]="true" formControlName="setAll"></p-checkbox>
+            <p-checkbox
+              [binary]="true"
+              inputId="ny"
+              formControlName="setAll"
+            ></p-checkbox>
             <label for="ny">{{
               category.title
                 ? "Изменить только эту задачу"
