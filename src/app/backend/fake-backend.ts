@@ -214,17 +214,7 @@ export class FakeBackendInterceptor implements HttpInterceptor {
       if (!user) return error('Пожалуйста войдите снова');
       console.log(categoriesDataBase);
       if (body.setAll === false) {
-        const reqTask = { id: body.id, userId: user.id, title: body.title };
-        categoriesDataBase.categories = categoriesDataBase.categories.map(
-          (defaultCategory) => {
-            defaultCategory;
-            if (defaultCategory.id === body.id) {
-              return reqTask;
-            } else {
-              return defaultCategory;
-            }
-          }
-        );
+        editTaskCategory();
       }
 
       if (body.setAll === true) {
@@ -236,6 +226,24 @@ export class FakeBackendInterceptor implements HttpInterceptor {
       );
       console.log(newCategories);
       return ok(newCategories);
+    }
+
+    function editAllTaskCategory() {
+      const user = getUserByToken();
+      if (!user) return error('Пожалуйста войдите снова');
+
+      const reqTask = { id: body.id, userId: user.id, title: body.title };
+      categoriesDataBase.categories = categoriesDataBase.categories.map(
+        (defaultCategory) => {
+          defaultCategory;
+          if (defaultCategory.id === body.id) {
+            return reqTask;
+          } else {
+            return defaultCategory;
+          }
+        }
+      );
+      return;
     }
 
     function editTaskCategory() {
@@ -255,16 +263,31 @@ export class FakeBackendInterceptor implements HttpInterceptor {
         };
         categoriesDataBase.categories.push(newCategory);
       }
-      toDoDataBase.tasks = toDoDataBase.tasks.map((defaultTask) => {
-        if (defaultTask.id === body.taskId && !repeat) {
-          return { ...defaultTask, category: newId };
-        }
-        if (defaultTask.id === body.taskId && repeat) {
-          return { ...defaultTask, category: repeat.id };
-        } else {
-          return defaultTask;
-        }
-      });
+      if (body.setAll === true) {
+        toDoDataBase.tasks = toDoDataBase.tasks.map((defaultTask) => {
+          if (defaultTask.id === body.taskId && !repeat) {
+            return { ...defaultTask, category: newId };
+          }
+          if (defaultTask.id === body.taskId && repeat) {
+            return { ...defaultTask, category: repeat.id };
+          } else {
+            return defaultTask;
+          }
+        });
+      }
+      if (body.setAll === false) {
+        toDoDataBase.tasks = toDoDataBase.tasks.map((defaultTask) => {
+          if (defaultTask.category === body.id && !repeat) {
+            return { ...defaultTask, category: newId };
+          }
+          if (defaultTask.category === body.id && repeat) {
+            return { ...defaultTask, category: repeat.id };
+          } else {
+            return defaultTask;
+          }
+        });
+      }
+
       return;
     }
 
