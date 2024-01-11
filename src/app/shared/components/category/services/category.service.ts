@@ -18,21 +18,33 @@ export class CategoryService {
     private todoListService: TodoListService
   ) {}
   addCategory(category: AddCategoryI): Observable<void> {
+    const req = [
+      this.http.post<CategoryI[]>(environment.apiUrl + 'category', category),
+      this.http.get<TaskI[]>(environment.apiUrl + 'tasks'),
+    ];
     console.log(category);
-    return this.http
-      .post<CategoryI[]>(environment.apiUrl + 'category', category)
-      .pipe(
+    if (category.setAll) {
+      return forkJoin(req).pipe(
         map((response) => {
-          this.appState.categories.set(response);
+          this.appState.categories.set(response[0] as CategoryI[]);
+          this.appState.task.set(response[1] as TaskI[]);
         })
       );
+    } else {
+      return this.http
+        .post<CategoryI[]>(environment.apiUrl + 'category', category)
+        .pipe(
+          map((response) => {
+            this.appState.categories.set(response);
+          })
+        );
+    }
   }
   editCategory(category: CategoryI): Observable<void> {
     const req = [
       this.http.put<CategoryI[]>(environment.apiUrl + 'category', category),
       this.http.get<TaskI[]>(environment.apiUrl + 'tasks'),
     ];
-    console.log(category);
     return forkJoin(req).pipe(
       map((response) => {
         this.appState.categories.set(response[0] as CategoryI[]);

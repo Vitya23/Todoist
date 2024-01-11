@@ -195,47 +195,37 @@ export class FakeBackendInterceptor implements HttpInterceptor {
       const user = getUserByToken();
       if (!user) return error('Пожалуйста войдите снова');
 
-      const newId =
-        categoriesDataBase.categories[categoriesDataBase.categories.length - 1]
-          .id + 1;
       const repeat = categoriesDataBase.categories.find((res) => {
         return res.userId === user.id && res.title === body.title;
       });
-
       if (repeat) return error('Категория с таким названием уже существует');
 
+      const newId =
+        categoriesDataBase.categories[categoriesDataBase.categories.length - 1]
+          .id + 1;
+      const newCategory = {
+        id: newId,
+        userId: user.id,
+        title: body.title,
+      };
+
       if (body.setAll === false) {
-        const newId =
-          categoriesDataBase.categories[
-            categoriesDataBase.categories.length - 1
-          ].id + 1;
-        const newCategory = {
-          id: newId,
-          userId: user.id,
-          title: body.title,
-        };
         categoriesDataBase.categories.push(newCategory);
       } else {
-        const newId =
-          categoriesDataBase.categories[
-            categoriesDataBase.categories.length - 1
-          ].id + 1;
-        const repeat = categoriesDataBase.categories.find((res) => {
-          return res.userId === user.id && res.title === body.title;
+        categoriesDataBase.categories.push(newCategory);
+        toDoDataBase.tasks = toDoDataBase.tasks.map((defaultTask) => {
+          if (defaultTask.category === null) {
+            return { ...defaultTask, category: newId };
+          } else {
+            return defaultTask;
+          }
         });
-        if (!repeat) {
-          const newCategory = {
-            id: newId,
-            userId: user.id,
-            title: body.title,
-          };
-          categoriesDataBase.categories.push(newCategory);
-        }
       }
 
       const newCategories = categoriesDataBase.categories.filter(
         (category) => category.userId === user.id
       );
+      console.log(newCategories, toDoDataBase.tasks);
       return ok(newCategories);
     }
     function editCategory() {
@@ -289,11 +279,19 @@ export class FakeBackendInterceptor implements HttpInterceptor {
       }
       if (body.setAll === false) {
         toDoDataBase.tasks = toDoDataBase.tasks.map((defaultTask) => {
-          if (defaultTask.category === body.id && !repeat) {
-            return { ...defaultTask, category: newId };
+          if (defaultTask.category === body.id) {
+            if (repeat) {
+              return { ...defaultTask, category: repeat.id };
+            } else {
+              return { ...defaultTask, category: newId };
+            }
           }
-          if (defaultTask.category === body.id && repeat) {
-            return { ...defaultTask, category: repeat.id };
+          if (defaultTask.category === null) {
+            if (repeat) {
+              return { ...defaultTask, category: repeat.id };
+            } else {
+              return { ...defaultTask, category: newId };
+            }
           } else {
             return defaultTask;
           }

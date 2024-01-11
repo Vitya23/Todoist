@@ -52,6 +52,7 @@
           [dropdown]="true"
           [suggestions]="filteredCategories!"
           (completeMethod)="filterCountry($event)"
+          appendTo="body"
         >
           <ng-template let-country pTemplate="item">
             <div class="flex align-items-center gap-2">
@@ -69,7 +70,7 @@
               formControlName="setAll"
             ></p-checkbox>
             <label for="ny">{{
-              category.title
+              taskId
                 ? "Изменить только эту задачу"
                 : "Добавить ко всем задачам без категории"
             }}</label>
@@ -79,7 +80,7 @@
               [style]="{ 'margin-right': '10px' }"
               type="submit"
               size="small"
-              [label]="category.title ? 'Сохранить' : 'Добавить'"
+              [label]="taskId ? 'Сохранить' : 'Добавить'"
               severity="danger"
               [plain]="true"
               [disabled]="this.form.invalid"
