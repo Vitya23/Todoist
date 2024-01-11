@@ -51,12 +51,12 @@
           formControlName="title"
           [dropdown]="true"
           [suggestions]="filteredCategories!"
-          (completeMethod)="filterCountry($event)"
+          (completeMethod)="filterCategory($event)"
           appendTo="body"
         >
-          <ng-template let-country pTemplate="item">
+          <ng-template let-category pTemplate="item">
             <div class="flex align-items-center gap-2">
-              <div>{{ country }}</div>
+              <div>{{ category }}</div>
             </div>
           </ng-template>
         </p-autoComplete>

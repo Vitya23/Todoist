@@ -151,19 +151,18 @@ export class CategoryComponent implements OnInit, OnDestroy {
     }
   }
 
-  filterCountry(event: AutoCompleteCompleteEvent) {
+  filterCategory(event: AutoCompleteCompleteEvent) {
     let filtered: any[] = [];
     let query = event.query;
 
     for (let i = 0; i < (this.categories as any[]).length; i++) {
-      let country = (this.categories as any[])[i];
-      if (country.title.toLowerCase().indexOf(query.toLowerCase()) == 0) {
-        filtered.push(country.title);
+      let category = (this.categories as any[])[i];
+      if (category.title.toLowerCase().indexOf(query.toLowerCase()) == 0) {
+        filtered.push(category.title);
       }
     }
 
     this.filteredCategories = filtered;
-    console.log(this.filteredCategories);
   }
 
   ngOnDestroy(): void {
