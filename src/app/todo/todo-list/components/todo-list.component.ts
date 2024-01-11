@@ -25,6 +25,7 @@ import { InputTextModule } from 'primeng/inputtext';
 import { MultiSelectModule } from 'primeng/multiselect';
 import { FormsModule } from '@angular/forms';
 import { DropdownModule } from 'primeng/dropdown';
+import { MenuComponent } from 'src/app/shared/components/menu/components/menu.component';
 
 @Component({
   standalone: true,
@@ -46,6 +47,7 @@ import { DropdownModule } from 'primeng/dropdown';
     InputTextModule,
     MultiSelectModule,
     DropdownModule,
+    MenuComponent,
   ],
 
   providers: [TodoListService],
@@ -66,12 +68,6 @@ export class TodoListComponent {
     this.todoListService.getCategories().pipe(takeUntilDestroyed()).subscribe();
   }
 
-  generateTodoAddComponent(category: CategoryI) {
-    this.childInsertionPoint.clear();
-    let componentRef =
-      this.childInsertionPoint.createComponent(TodoAddEditComponent);
-    componentRef.instance.category = category;
-  }
   generateTodoEditComponent(task: TaskI) {
     this.childInsertionPoint.clear();
     let componentRef =

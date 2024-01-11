@@ -1,5 +1,5 @@
 <ng-container #DelCategoryInsertionPoint></ng-container>
-@if(!category.title?.length && !active){
+@if(!category.title?.length && taskId ){
 
 <p-button
   label="Добавить категорию"
@@ -30,7 +30,7 @@
 </div>
 
 }
-<div [ngClass]="categories?.length ? '' : 'inplace'">
+<div>
   <p-dialog
     [header]="category.title ? 'Изменение категории' : 'Добавление категории'"
     [(visible)]="active"
@@ -46,14 +46,40 @@
           pInputText
         />
         } @if(categories && category.title){
-
-        <p-dropdown
-          [options]="categoriesTitle"
+        {{ this.form.controls["title"].value }}
+        <!-- <p-dropdown
+          [options]="categories"
           formControlName="title"
-          placeholder="Select a City"
-          [editable]="true"
+          optionValue="title"
+          placeholder="Категория"
+          [editable]="false"
           appendTo="body"
-        ></p-dropdown>
+        >
+          <ng-template let-categoryTitle pTemplate="selectedItem">
+            <div class="flex align-items-center gap-2" *ngIf="categoryTitle">
+              <div>{{ categoryTitle }}</div>
+            </div>
+          </ng-template>
+          <ng-template let-category pTemplate="item">
+            <div class="flex align-items-center gap-2">
+              <div>{{ category.title }}</div>
+            </div>
+          </ng-template>
+        </p-dropdown> -->
+
+        <p-autoComplete
+          formControlName="title"
+          [dropdown]="true"
+          [suggestions]="filteredCategories!"
+          (completeMethod)="filterCountry($event)"
+        >
+          <ng-template let-country pTemplate="item">
+            <div class="flex align-items-center gap-2">
+              <div>{{ country }}</div>
+            </div>
+          </ng-template>
+        </p-autoComplete>
+
         }
         <div class="footer">
           <div class="footer__setAll">

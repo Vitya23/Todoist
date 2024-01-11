@@ -1,0 +1,12 @@
+<div class="header__menu">
+  <p-menu #menu [model]="items" [popup]="true" appendTo="body"></p-menu>
+  <p-button
+    (click)="menu.toggle($event)"
+    icon="pi pi-plus"
+    [outlined]="true"
+    label="Добавить"
+    severity="info"
+    size="small"
+  ></p-button>
+</div>
+<ng-container #ChildAddInsertionPoint></ng-container>

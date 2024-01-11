@@ -25,6 +25,7 @@ import { TaskFormI } from '../types/taskForm.interface';
 import { PriorityI } from '../types/priority.interface';
 import { TaskRequestI } from '../types/taskRequest.interface';
 import { TrimOnBlurDirective } from 'src/app/shared/directives/trim-on-blur.directive';
+import { AppState } from 'src/app/shared/services/appState.state';
 @Component({
   standalone: true,
   selector: 'app-todo-add-edit',
@@ -46,6 +47,7 @@ import { TrimOnBlurDirective } from 'src/app/shared/directives/trim-on-blur.dire
 export class TodoAddEditComponent implements OnInit, OnDestroy {
   @Input() category?: CategoryI;
   @Input() task?: TaskI;
+  categories: CategoryI[] | null = this.appState.categories();
   destroy$ = new Subject<void>();
 
   visible: boolean = true;
@@ -55,7 +57,8 @@ export class TodoAddEditComponent implements OnInit, OnDestroy {
 
   constructor(
     private fb: FormBuilder,
-    private todoAddService: TodoAddService
+    private todoAddService: TodoAddService,
+    private appState: AppState
   ) {}
 
   ngOnInit(): void {
@@ -94,6 +97,7 @@ export class TodoAddEditComponent implements OnInit, OnDestroy {
         .pipe(takeUntil(this.destroy$))
         .subscribe();
     }
+    console.log(this.form.value);
     if (!this.task && this.form.valid) {
       this.todoAddService
         .addTask(this.form.value as TaskRequestI)

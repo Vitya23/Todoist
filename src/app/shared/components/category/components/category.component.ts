@@ -30,6 +30,10 @@ import { TrimOnBlurDirective } from 'src/app/shared/directives/trim-on-blur.dire
 import { AppState } from 'src/app/shared/services/appState.state';
 import { CheckboxModule } from 'primeng/checkbox';
 import { DropdownModule } from 'primeng/dropdown';
+import {
+  AutoCompleteCompleteEvent,
+  AutoCompleteModule,
+} from 'primeng/autocomplete';
 
 @Component({
   standalone: true,
@@ -49,6 +53,7 @@ import { DropdownModule } from 'primeng/dropdown';
     TrimOnBlurDirective,
     CheckboxModule,
     DropdownModule,
+    AutoCompleteModule,
   ],
   providers: [CategoryService, ConfirmationService],
 })
@@ -58,11 +63,12 @@ export class CategoryComponent implements OnInit, OnDestroy {
 
   @Input() category: CategoryI = { title: null, id: null };
   @Input() taskId: number | null = null;
+  @Input() active: boolean = false;
 
   categories: CategoryI[] | null = this.appState.categories();
-  categoriesTitle: (string | null)[] = [];
+  filteredCategories: any[] | undefined;
   form!: FormGroup<CategoryFormI>;
-  active = false;
+
   items!: MenuItem[];
   destroy$ = new Subject<void>();
 
@@ -74,7 +80,6 @@ export class CategoryComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.initializeValues();
     this.initializeForm();
     this.initializeMenu();
   }
@@ -88,11 +93,6 @@ export class CategoryComponent implements OnInit, OnDestroy {
       ]),
       setAll: this.fb.nonNullable.control(false),
     });
-  }
-
-  initializeValues(): void {
-    if (this.categories)
-      this.categoriesTitle = this.categories.map((category) => category.title);
   }
 
   initializeMenu(): void {
@@ -147,6 +147,22 @@ export class CategoryComponent implements OnInit, OnDestroy {
       componentRef.instance.mode = 'category';
     }
   }
+
+  filterCountry(event: AutoCompleteCompleteEvent) {
+    let filtered: any[] = [];
+    let query = event.query;
+
+    for (let i = 0; i < (this.categories as any[]).length; i++) {
+      let country = (this.categories as any[])[i];
+      if (country.title.toLowerCase().indexOf(query.toLowerCase()) == 0) {
+        filtered.push(country.title);
+      }
+    }
+
+    this.filteredCategories = filtered;
+    console.log(this.filteredCategories);
+  }
+
   ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete;
