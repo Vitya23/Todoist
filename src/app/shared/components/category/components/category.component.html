@@ -32,12 +32,12 @@
 }
 <div>
   <p-dialog
-    [header]="category.title ? 'Изменение категории' : 'Добавление категории'"
+    [header]="taskId ? 'Изменение категории' : 'Добавление категории'"
     [(visible)]="active"
   >
     <ng-template pTemplate="content">
       <form [formGroup]="form" (ngSubmit)="onSubmit()">
-        @if(!category.title){
+        @if(!taskId){
         <input
           trimOnBlur
           class="input"
@@ -45,27 +45,7 @@
           type="text"
           pInputText
         />
-        } @if(categories && category.title){
-        {{ this.form.controls["title"].value }}
-        <!-- <p-dropdown
-          [options]="categories"
-          formControlName="title"
-          optionValue="title"
-          placeholder="Категория"
-          [editable]="false"
-          appendTo="body"
-        >
-          <ng-template let-categoryTitle pTemplate="selectedItem">
-            <div class="flex align-items-center gap-2" *ngIf="categoryTitle">
-              <div>{{ categoryTitle }}</div>
-            </div>
-          </ng-template>
-          <ng-template let-category pTemplate="item">
-            <div class="flex align-items-center gap-2">
-              <div>{{ category.title }}</div>
-            </div>
-          </ng-template>
-        </p-dropdown> -->
+        } @if(categories && taskId){
 
         <p-autoComplete
           formControlName="title"

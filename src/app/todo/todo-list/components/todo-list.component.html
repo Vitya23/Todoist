@@ -47,38 +47,19 @@
                   <p-dropdown
                     [(ngModel)]="selectedCategories"
                     [options]="categories"
-                    (onChange)="filter($event.value.id)"
+                    (onChange)="filter($event.value?.id)"
                     placeholder="Категории"
                     [showClear]="true"
                     appendTo="body"
                     optionLabel="title"
+                    [filter]="true"
+                    filterBy="title"
                   >
                     <ng-template let-option pTemplate="item">
                       <span class="ml-1 mt-1">{{ option.title }}</span>
                     </ng-template>
                   </p-dropdown>
                 </ng-template>
-
-                <!-- <ng-template
-                  pTemplate="filter"
-                  let-value
-                  let-filter="filterCallback"
-                >
-                  <p-multiSelect
-                    [options]="categories"
-                    [(ngModel)]="selectedCategories"
-                    #el
-                    placeholder="Any"
-                    (onChange)="filter(el.value[0].id)"
-                    optionLabel="id"
-                  >
-                    <ng-template let-option pTemplate="item">
-                      <div class="inline-block vertical-align-middle">
-                        <span class="ml-1 mt-1">{{ option.title }}</span>
-                      </div>
-                    </ng-template>
-                  </p-multiSelect>
-                </ng-template> -->
               </p-columnFilter>
             </th>
             <th class="table__col">
@@ -104,6 +85,7 @@
             <td>
               <app-category
                 [category]="tasksCategories(categories, task.category)"
+                [categories]="categories"
                 [taskId]="task.id"
               ></app-category>
             </td>
@@ -143,14 +125,8 @@
           ></p-button> -->
         </ng-template>
       </p-table>
-      <div class="table__category_create">
-        <app-category></app-category>
-      </div>
 
       <ng-container #ChildInsertionPoint></ng-container>
     </ng-container>
   </div>
 </div>
-<app-category
-  *ngIf="!categories()?.length && categories() !== null"
-></app-category>

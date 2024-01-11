@@ -1,3 +1,5 @@
+import { toDoDataBaseI } from './interfaces/toDoDataBase.interface';
+
 export const userDataBase = {
   users: [
     {
@@ -39,7 +41,7 @@ export const userDataBase = {
   ],
 };
 
-export const toDoDataBase = {
+export const toDoDataBase: toDoDataBaseI = {
   tasks: [
     {
       id: 1,

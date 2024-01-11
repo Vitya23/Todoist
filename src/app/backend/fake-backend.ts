@@ -41,7 +41,7 @@ export class FakeBackendInterceptor implements HttpInterceptor {
         case url.endsWith('/task') && method === 'POST':
           return addTask();
         case url.endsWith('/category') && method === 'POST':
-          return addCategory(body);
+          return addCategory();
         case url.endsWith('/status') && method === 'POST':
           return changeStatus();
         case url.endsWith('/user') && method === 'GET':
@@ -191,19 +191,48 @@ export class FakeBackendInterceptor implements HttpInterceptor {
       );
       return ok(resTasks);
     }
-    function addCategory(title: string) {
+    function addCategory() {
       const user = getUserByToken();
       if (!user) return error('Пожалуйста войдите снова');
 
       const newId =
         categoriesDataBase.categories[categoriesDataBase.categories.length - 1]
           .id + 1;
-      const newCategory = {
-        id: newId,
-        userId: user.id,
-        title: title,
-      };
-      categoriesDataBase.categories.push(newCategory);
+      const repeat = categoriesDataBase.categories.find((res) => {
+        return res.userId === user.id && res.title === body.title;
+      });
+
+      if (repeat) return error('Категория с таким названием уже существует');
+
+      if (body.setAll === false) {
+        const newId =
+          categoriesDataBase.categories[
+            categoriesDataBase.categories.length - 1
+          ].id + 1;
+        const newCategory = {
+          id: newId,
+          userId: user.id,
+          title: body.title,
+        };
+        categoriesDataBase.categories.push(newCategory);
+      } else {
+        const newId =
+          categoriesDataBase.categories[
+            categoriesDataBase.categories.length - 1
+          ].id + 1;
+        const repeat = categoriesDataBase.categories.find((res) => {
+          return res.userId === user.id && res.title === body.title;
+        });
+        if (!repeat) {
+          const newCategory = {
+            id: newId,
+            userId: user.id,
+            title: body.title,
+          };
+          categoriesDataBase.categories.push(newCategory);
+        }
+      }
+
       const newCategories = categoriesDataBase.categories.filter(
         (category) => category.userId === user.id
       );
@@ -228,24 +257,6 @@ export class FakeBackendInterceptor implements HttpInterceptor {
       return ok(newCategories);
     }
 
-    function editAllTaskCategory() {
-      const user = getUserByToken();
-      if (!user) return error('Пожалуйста войдите снова');
-
-      const reqTask = { id: body.id, userId: user.id, title: body.title };
-      categoriesDataBase.categories = categoriesDataBase.categories.map(
-        (defaultCategory) => {
-          defaultCategory;
-          if (defaultCategory.id === body.id) {
-            return reqTask;
-          } else {
-            return defaultCategory;
-          }
-        }
-      );
-      return;
-    }
-
     function editTaskCategory() {
       const user = getUserByToken();
       if (!user) return error('Пожалуйста войдите снова');
@@ -263,6 +274,7 @@ export class FakeBackendInterceptor implements HttpInterceptor {
         };
         categoriesDataBase.categories.push(newCategory);
       }
+      console.log(body);
       if (body.setAll === true) {
         toDoDataBase.tasks = toDoDataBase.tasks.map((defaultTask) => {
           if (defaultTask.id === body.taskId && !repeat) {
@@ -299,9 +311,13 @@ export class FakeBackendInterceptor implements HttpInterceptor {
         (res) => res.id !== body.id
       );
 
-      toDoDataBase.tasks = toDoDataBase.tasks.filter(
-        (res) => res.category !== body?.id
-      );
+      toDoDataBase.tasks = toDoDataBase.tasks.map((defaultTask) => {
+        if (defaultTask.category === body.id) {
+          return { ...defaultTask, category: null };
+        }
+        return defaultTask;
+      });
+
       const resCategories = categoriesDataBase.categories.filter(
         (res) => res.userId === user?.id
       );

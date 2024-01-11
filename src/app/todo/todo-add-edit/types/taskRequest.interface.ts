@@ -4,5 +4,5 @@ export interface TaskRequestI {
   description: string;
   endDate: Date;
   priority: PriorityI;
-  category: number;
+  category: number | null;
 }

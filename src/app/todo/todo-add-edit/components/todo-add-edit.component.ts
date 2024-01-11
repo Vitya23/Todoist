@@ -72,7 +72,7 @@ export class TodoAddEditComponent implements OnInit, OnDestroy {
       ]),
       endDate: this.fb.control(null, [Validators.required]),
       priority: this.fb.control(null, [Validators.required]),
-      category: this.fb.control(null, [Validators.required]),
+      category: this.fb.control(null),
     });
 
     if (this.task) {

@@ -8,6 +8,7 @@ import { AppState } from 'src/app/shared/services/appState.state';
 import { environment } from 'src/environments/environment';
 import { TodoListService } from 'src/app/todo/todo-list/services/todo-list.service';
 import { TaskI } from 'src/app/todo/todo-list/types/task.interface';
+import { AddCategoryI } from '../types/addCategory.interface';
 
 @Injectable()
 export class CategoryService {
@@ -16,12 +17,12 @@ export class CategoryService {
     private appState: AppState,
     private todoListService: TodoListService
   ) {}
-  addCategory(categoryTitle: string): Observable<void> {
+  addCategory(category: AddCategoryI): Observable<void> {
+    console.log(category);
     return this.http
-      .post<CategoryI[]>(environment.apiUrl + 'category', categoryTitle)
+      .post<CategoryI[]>(environment.apiUrl + 'category', category)
       .pipe(
         map((response) => {
-          console.log('asdsadasdsadasda', response);
           this.appState.categories.set(response);
         })
       );

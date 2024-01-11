@@ -7,6 +7,7 @@ import {
   OnInit,
   ViewChild,
   ViewContainerRef,
+  effect,
 } from '@angular/core';
 import { ButtonModule } from 'primeng/button';
 import { DialogModule } from 'primeng/dialog';
@@ -64,8 +65,8 @@ export class CategoryComponent implements OnInit, OnDestroy {
   @Input() category: CategoryI = { title: null, id: null };
   @Input() taskId: number | null = null;
   @Input() active: boolean = false;
+  @Input() categories: CategoryI[] | null = null;
 
-  categories: CategoryI[] | null = this.appState.categories();
   filteredCategories: any[] | undefined;
   form!: FormGroup<CategoryFormI>;
 
@@ -75,9 +76,10 @@ export class CategoryComponent implements OnInit, OnDestroy {
   constructor(
     private fb: FormBuilder,
     private categoryService: CategoryService,
-    private appState: AppState,
     private messageService: MessageService
-  ) {}
+  ) {
+    console.log(this.categories);
+  }
 
   ngOnInit(): void {
     this.initializeForm();
@@ -116,9 +118,10 @@ export class CategoryComponent implements OnInit, OnDestroy {
     }
   }
   onSubmit(): void {
-    if (!this.category.title) {
+    const { title, setAll } = this.form.value;
+    if (!this.taskId) {
       this.categoryService
-        .addCategory(this.form.controls['title'].value ?? '')
+        .addCategory({ title: title as string, setAll: setAll as boolean })
         .pipe(takeUntil(this.destroy$))
         .subscribe();
       this.form.patchValue({ title: '' });
