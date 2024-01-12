@@ -2,21 +2,16 @@
   <div class="table" *ngIf="tasks() as tasks">
     <ng-container *ngIf="categories() as categories">
       <p-table
-        #dt1
         [value]="tasks"
+        [paginator]="true"
+        [rows]="5"
+        [showCurrentPageReport]="true"
+        currentPageReportTemplate="Показаны записи с {first} по {last} из {totalRecords}"
         [tableStyle]="{
           'min-width': '30rem',
         }"
         [globalFilterFields]="['description', 'category']"
       >
-        <!-- <p-button
-      label="Добавить задачу"
-      icon="pi pi-plus"
-      [text]="true"
-      size="small"
-      (click)="generateTodoAddComponent(category)"
-    ></p-button> -->
-
         <ng-template pTemplate="header">
           <tr>
             <th>Задача</th>
@@ -28,10 +23,7 @@
           </tr>
           <tr>
             <th>
-              <p-sortIcon
-                field="priority"
-                pSortableColumn="priority"
-              ></p-sortIcon>
+              <p-columnFilter type="text" field="description"></p-columnFilter>
             </th>
             <th>
               <p-columnFilter

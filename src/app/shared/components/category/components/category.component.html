@@ -9,7 +9,7 @@
   (click)="active = true"
 ></p-button>
 
-} @if(category.title && !active){
+} @if(category.title ){
 
 <div class="header">
   <div class="header__title">
@@ -30,71 +30,72 @@
 </div>
 
 }
-<div>
-  <p-dialog
-    [header]="taskId ? 'Изменение категории' : 'Добавление категории'"
-    [(visible)]="active"
-  >
-    <ng-template pTemplate="content">
-      <form [formGroup]="form" (ngSubmit)="onSubmit()">
-        @if(!taskId){
-        <input
-          trimOnBlur
-          class="input"
-          formControlName="title"
-          type="text"
-          pInputText
-        />
-        } @if(categories && taskId){
 
-        <p-autoComplete
-          formControlName="title"
-          [dropdown]="true"
-          [suggestions]="filteredCategories!"
-          (completeMethod)="filterCategory($event)"
-          appendTo="body"
-        >
-          <ng-template let-category pTemplate="item">
-            <div class="flex align-items-center gap-2">
-              <div>{{ category }}</div>
-            </div>
-          </ng-template>
-        </p-autoComplete>
+<p-dialog
+  [header]="taskId ? 'Изменение категории' : 'Добавление категории'"
+  [(visible)]="active"
+  [draggable]="false"
+  [resizable]="false"
+>
+  <ng-template pTemplate="content">
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+      @if(!taskId){
+      <input
+        trimOnBlur
+        class="input"
+        formControlName="title"
+        type="text"
+        pInputText
+      />
+      } @if(categories && taskId){
 
-        }
-        <div class="footer">
-          <div class="footer__setAll">
-            <p-checkbox
-              [binary]="true"
-              inputId="ny"
-              formControlName="setAll"
-            ></p-checkbox>
-            <label for="ny">{{
-              taskId
-                ? "Изменить только эту задачу"
-                : "Добавить ко всем задачам без категории"
-            }}</label>
+      <p-autoComplete
+        formControlName="title"
+        [dropdown]="true"
+        [suggestions]="filteredCategories!"
+        (completeMethod)="filterCategory($event)"
+        appendTo="body"
+      >
+        <ng-template let-category pTemplate="item">
+          <div class="flex align-items-center gap-2">
+            <div>{{ category }}</div>
           </div>
-          <div class="footer__buttons">
-            <p-button
-              [style]="{ 'margin-right': '10px' }"
-              type="submit"
-              size="small"
-              [label]="taskId ? 'Сохранить' : 'Добавить'"
-              severity="danger"
-              [plain]="true"
-              [disabled]="this.form.invalid"
-            ></p-button>
-            <p-button
-              (click)="active = false"
-              size="small"
-              label="Отмена"
-              [text]="true"
-              [plain]="true"
-            ></p-button>
-          </div>
+        </ng-template>
+      </p-autoComplete>
+
+      }
+      <div class="footer">
+        <div class="footer__setAll">
+          <p-checkbox
+            [binary]="true"
+            inputId="ny"
+            formControlName="setAll"
+          ></p-checkbox>
+          <label for="ny">{{
+            taskId
+              ? "Изменить только эту задачу"
+              : "Добавить ко всем задачам без категории"
+          }}</label>
         </div>
-      </form>
-    </ng-template>
-  </p-dialog>
-</div>
+        <div class="footer__buttons">
+          <p-button
+            [style]="{ 'margin-right': '10px' }"
+            type="submit"
+            size="small"
+            [label]="taskId ? 'Сохранить' : 'Добавить'"
+            severity="danger"
+            [plain]="true"
+            [disabled]="this.form.invalid"
+          ></p-button>
+          <p-button
+            (click)="active = false"
+            size="small"
+            label="Отмена"
+            [text]="true"
+            [plain]="true"
+          ></p-button>
+        </div>
+      </div>
+    </form>
+  </ng-template>
+</p-dialog>
