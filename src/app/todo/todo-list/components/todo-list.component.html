@@ -8,7 +8,7 @@
         [showCurrentPageReport]="true"
         currentPageReportTemplate="Показаны записи с {first} по {last} из {totalRecords}"
         [tableStyle]="{
-          'min-width': '30rem',
+          'min-width': '53rem',
         }"
         [globalFilterFields]="['description', 'category']"
       >
@@ -16,16 +16,20 @@
           <tr>
             <th>Задача</th>
             <th>Категория</th>
-            <th>Статус</th>
-            <th colspan="2">
+            <th class="status__col">Статус</th>
+            <th colspan="2" class="menu__col">
               <app-menu></app-menu>
             </th>
           </tr>
           <tr>
-            <th>
-              <p-columnFilter type="text" field="description"></p-columnFilter>
+            <th class="description__col">
+              <p-columnFilter
+                placeholder="Поиск задач"
+                type="text"
+                field="description"
+              ></p-columnFilter>
             </th>
-            <th>
+            <th class="category__col">
               <p-columnFilter
                 field="category"
                 matchMode="equals"
@@ -48,13 +52,23 @@
                     filterBy="title"
                   >
                     <ng-template let-option pTemplate="item">
-                      <span class="ml-1 mt-1">{{ option.title }}</span>
+                      <div class="category_filter">
+                        <span>{{ option.title }}</span>
+                        <p-button
+                          [text]="true"
+                          size="small"
+                          icon="pi pi-times"
+                          (onFocus)="
+                            generateDeleteComponent(option.id, 'category')
+                          "
+                        ></p-button>
+                      </div>
                     </ng-template>
                   </p-dropdown>
                 </ng-template>
               </p-columnFilter>
             </th>
-            <th class="table__col">
+            <th class="status__col">
               <p-sortIcon field="status" pSortableColumn="status"></p-sortIcon>
             </th>
             <th colspan="2"></th>
@@ -76,11 +90,14 @@
             </td>
             <td>
               <app-category
-                [category]="tasksCategories(categories, task.category)"
-                [categories]="categories"
                 [taskId]="task.id"
+                [categoryId]="task.category"
               ></app-category>
             </td>
+
+            {{
+              task | json
+            }}
 
             <td class="table__status">
               <app-todo-status
@@ -102,7 +119,7 @@
                 [text]="true"
                 size="small"
                 icon="pi pi-times"
-                (click)="generateTodoDeleteComponent(task.id)"
+                (click)="generateDeleteComponent(task.id, 'task')"
               ></p-button>
             </td>
           </tr>

@@ -5,9 +5,12 @@ import {
   Input,
   OnDestroy,
   OnInit,
+  SimpleChange,
   ViewChild,
   ViewContainerRef,
+  WritableSignal,
   effect,
+  signal,
 } from '@angular/core';
 import { ButtonModule } from 'primeng/button';
 import { DialogModule } from 'primeng/dialog';
@@ -24,7 +27,7 @@ import { CategoryService } from '../services/category.service';
 import { CategoryI } from '../types/category.interface';
 import { MenuModule } from 'primeng/menu';
 import { ConfirmationService, MenuItem, MessageService } from 'primeng/api';
-import { Subject, takeUntil } from 'rxjs';
+import { Subject, map, switchMap, takeUntil, tap } from 'rxjs';
 import { DeleteComponent } from 'src/app/shared/components/delete/components/delete.component';
 import { CategoryFormI } from '../types/categoryForm.interface';
 import { TrimOnBlurDirective } from 'src/app/shared/directives/trim-on-blur.directive';
@@ -35,6 +38,7 @@ import {
   AutoCompleteCompleteEvent,
   AutoCompleteModule,
 } from 'primeng/autocomplete';
+import { toObservable, toSignal } from '@angular/core/rxjs-interop';
 
 @Component({
   standalone: true,
@@ -62,12 +66,14 @@ export class CategoryComponent implements OnInit, OnDestroy {
   @ViewChild('DelCategoryInsertionPoint', { read: ViewContainerRef })
   DelCategoryInsertionPoint!: ViewContainerRef;
 
-  @Input() category: CategoryI = { title: null, id: null };
+  category = signal<CategoryI>({ id: null, title: null });
+  categories: WritableSignal<CategoryI[] | null> = this.appState.categories;
+
   @Input() taskId: number | null = null;
   @Input() active: boolean = false;
-  @Input() categories: CategoryI[] | null = null;
+  @Input() categoryId: number | null = null;
 
-  filteredCategories: any[] | undefined;
+  filteredCategories: string[] | undefined;
   form!: FormGroup<CategoryFormI>;
 
   items!: MenuItem[];
@@ -76,9 +82,10 @@ export class CategoryComponent implements OnInit, OnDestroy {
   constructor(
     private fb: FormBuilder,
     private categoryService: CategoryService,
-    private messageService: MessageService
+    private messageService: MessageService,
+    private appState: AppState
   ) {
-    console.log(this.categories);
+    toSignal(toObservable(this.categories).pipe(tap(() => this.patchForm())));
   }
 
   ngOnInit(): void {
@@ -87,14 +94,31 @@ export class CategoryComponent implements OnInit, OnDestroy {
   }
   initializeForm(): void {
     this.form = this.fb.group<CategoryFormI>({
-      id: this.fb.control(this.category.id),
+      id: this.fb.control(null),
       taskId: this.fb.control(this.taskId),
-      title: this.fb.control(this.category.title, [
+      title: this.fb.control(null, [
         Validators.required,
         Validators.maxLength(30),
       ]),
       setAll: this.fb.nonNullable.control(false),
     });
+  }
+
+  patchForm() {
+    if (this.categories) {
+      const category = this.categories()?.find(
+        (category) => category.id === this.categoryId
+      );
+      if (category) {
+        this.category.set(category);
+        this.form.patchValue(category);
+      }
+      if (!category) {
+        this.category.set({ id: null, title: null });
+        this.form.patchValue({ id: null, title: null });
+      }
+    }
+    return;
   }
 
   initializeMenu(): void {
@@ -136,33 +160,38 @@ export class CategoryComponent implements OnInit, OnDestroy {
     this.messageService.add({
       severity: 'success',
       summary: 'Категория',
-      detail: this.category.title ? 'Успешно изменена' : 'Успешно добавлена',
+      detail: this.form.controls['title'].value
+        ? 'Успешно изменена'
+        : 'Успешно добавлена',
     });
     this.active = false;
   }
 
   deleteCategory(): void {
-    if (this.category) {
+    const categoryId = this.form.controls['id'].value;
+    if (categoryId !== null) {
       this.DelCategoryInsertionPoint.clear();
       let componentRef =
         this.DelCategoryInsertionPoint.createComponent(DeleteComponent);
-      componentRef.instance.id = this.category.id!;
+      componentRef.instance.id = categoryId;
       componentRef.instance.mode = 'category';
     }
   }
 
   filterCategory(event: AutoCompleteCompleteEvent) {
-    let filtered: any[] = [];
-    let query = event.query;
-
-    for (let i = 0; i < (this.categories as any[]).length; i++) {
-      let category = (this.categories as any[])[i];
-      if (category.title.toLowerCase().indexOf(query.toLowerCase()) == 0) {
-        filtered.push(category.title);
-      }
+    const query = event.query;
+    const categories = this.categories();
+    if (categories) {
+      this.filteredCategories = categories.map((category: CategoryI) => {
+        if (category.title) {
+          if (category.title.toLowerCase().indexOf(query.toLowerCase()) == 0) {
+            return category.title;
+          }
+        }
+        return '';
+      });
+      return;
     }
-
-    this.filteredCategories = filtered;
   }
 
   ngOnDestroy(): void {

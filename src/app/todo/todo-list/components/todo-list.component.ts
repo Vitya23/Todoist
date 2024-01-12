@@ -74,17 +74,12 @@ export class TodoListComponent {
       this.childInsertionPoint.createComponent(TodoAddEditComponent);
     componentRef.instance.task = task;
   }
-  generateTodoDeleteComponent(id: number) {
+  generateDeleteComponent(id: number, mode: string) {
     this.childInsertionPoint.clear();
     let componentRef =
       this.childInsertionPoint.createComponent(DeleteComponent);
     componentRef.instance.id = id;
-    componentRef.instance.mode = 'task';
-  }
-
-  tasksCategories(categories: CategoryI[], tasksId: number) {
-    const category = categories.find((category) => category.id === tasksId);
-    if (category) return category;
-    return { id: null, title: null };
+    componentRef.instance.mode = mode;
+    return;
   }
 }

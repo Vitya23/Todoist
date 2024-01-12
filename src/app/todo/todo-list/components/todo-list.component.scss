@@ -23,7 +23,18 @@
   min-width: 20rem;
 }
 
-.table__col {
+.status__col {
+  text-align: center;
+  width: 15%;
+}
+.description__col {
+  width: 30%;
+}
+.category__col {
+  width: 30%;
+}
+.menu__col {
+  width: 10%;
   text-align: center;
 }
 
@@ -38,6 +49,14 @@
   p {
     margin: 0;
   }
+}
+
+.category_filter {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+
+  align-items: center;
 }
 
 .table__category_create {

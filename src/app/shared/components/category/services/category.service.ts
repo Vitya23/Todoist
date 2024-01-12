@@ -41,6 +41,7 @@ export class CategoryService {
     }
   }
   editCategory(category: CategoryI): Observable<void> {
+    console.log(category);
     const req = [
       this.http.put<CategoryI[]>(environment.apiUrl + 'category', category),
       this.http.get<TaskI[]>(environment.apiUrl + 'tasks'),

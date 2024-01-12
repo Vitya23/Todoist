@@ -1,5 +1,5 @@
 <ng-container #DelCategoryInsertionPoint></ng-container>
-@if(!category.title?.length && taskId ){
+@if(!category().title?.length && taskId ){
 
 <p-button
   label="Добавить категорию"
@@ -9,11 +9,11 @@
   (click)="active = true"
 ></p-button>
 
-} @if(category.title ){
+} @if(category().title ){
 
 <div class="header">
   <div class="header__title">
-    <small> {{ category.title }}</small>
+    <small> {{ category().title }}</small>
   </div>
 
   <div class="header__menu">
@@ -47,7 +47,8 @@
         type="text"
         pInputText
       />
-      } @if(categories && taskId){
+
+      } @if(categories() && taskId){
 
       <p-autoComplete
         formControlName="title"
