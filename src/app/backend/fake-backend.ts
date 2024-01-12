@@ -225,18 +225,15 @@ export class FakeBackendInterceptor implements HttpInterceptor {
       const newCategories = categoriesDataBase.categories.filter(
         (category) => category.userId === user.id
       );
-      console.log(newCategories, toDoDataBase.tasks);
       return ok(newCategories);
     }
     function editCategory() {
-      console.log(body);
       const user = getUserByToken();
       if (!user) return error('Пожалуйста войдите снова');
       editTaskCategory();
       const newCategories = categoriesDataBase.categories.filter(
         (res) => res.userId === user?.id
       );
-      console.log(newCategories);
       return ok(newCategories);
     }
 
@@ -252,7 +249,6 @@ export class FakeBackendInterceptor implements HttpInterceptor {
       if (!repeat) {
         addCategory();
       }
-      console.log(body);
       toDoDataBase.tasks = toDoDataBase.tasks.map((defaultTask) => {
         if (body.setAll === true && defaultTask.id === body.taskId) {
           return repeat

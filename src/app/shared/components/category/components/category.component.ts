@@ -73,7 +73,7 @@ export class CategoryComponent implements OnInit, OnDestroy {
   @Input() active: boolean = false;
   @Input() categoryId: number | null = null;
 
-  filteredCategories: string[] | undefined;
+  filteredCategories: any[] | undefined;
   form!: FormGroup<CategoryFormI>;
 
   items!: MenuItem[];
@@ -181,17 +181,17 @@ export class CategoryComponent implements OnInit, OnDestroy {
   filterCategory(event: AutoCompleteCompleteEvent) {
     const query = event.query;
     const categories = this.categories();
+    let filteredCategory: any[] = [];
     if (categories) {
-      this.filteredCategories = categories.map((category: CategoryI) => {
+      categories.forEach((category: CategoryI) => {
         if (category.title) {
           if (category.title.toLowerCase().indexOf(query.toLowerCase()) == 0) {
-            return category.title;
+            filteredCategory.push(category.title);
           }
         }
-        return '';
       });
-      return;
     }
+    this.filteredCategories = filteredCategory;
   }
 
   ngOnDestroy(): void {

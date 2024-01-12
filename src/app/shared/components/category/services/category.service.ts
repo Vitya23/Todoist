@@ -22,7 +22,6 @@ export class CategoryService {
       this.http.post<CategoryI[]>(environment.apiUrl + 'category', category),
       this.http.get<TaskI[]>(environment.apiUrl + 'tasks'),
     ];
-    console.log(category);
     if (category.setAll) {
       return forkJoin(req).pipe(
         map((response) => {
@@ -41,7 +40,6 @@ export class CategoryService {
     }
   }
   editCategory(category: CategoryI): Observable<void> {
-    console.log(category);
     const req = [
       this.http.put<CategoryI[]>(environment.apiUrl + 'category', category),
       this.http.get<TaskI[]>(environment.apiUrl + 'tasks'),
