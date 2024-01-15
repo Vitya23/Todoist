@@ -5,11 +5,9 @@ import {
   Input,
   OnDestroy,
   OnInit,
-  SimpleChange,
   ViewChild,
   ViewContainerRef,
   WritableSignal,
-  effect,
   signal,
 } from '@angular/core';
 import { ButtonModule } from 'primeng/button';
@@ -27,7 +25,7 @@ import { CategoryService } from '../services/category.service';
 import { CategoryI } from '../types/category.interface';
 import { MenuModule } from 'primeng/menu';
 import { ConfirmationService, MenuItem, MessageService } from 'primeng/api';
-import { Subject, map, switchMap, takeUntil, tap } from 'rxjs';
+import { Subject, takeUntil, tap } from 'rxjs';
 import { DeleteComponent } from 'src/app/shared/components/delete/components/delete.component';
 import { CategoryFormI } from '../types/categoryForm.interface';
 import { TrimOnBlurDirective } from 'src/app/shared/directives/trim-on-blur.directive';
