@@ -73,8 +73,9 @@ export class CategoryComponent implements OnInit, OnDestroy {
   @Input() active: boolean = false;
   @Input() categoryId: number | null = null;
 
-  filteredCategories: any[] | undefined;
+  filteredCategories: string[] | undefined;
   form!: FormGroup<CategoryFormI>;
+  backendError: string | null = null;
 
   items!: MenuItem[];
   destroy$ = new Subject<void>();
@@ -109,16 +110,9 @@ export class CategoryComponent implements OnInit, OnDestroy {
       const category = this.categories()?.find(
         (category) => category.id === this.categoryId
       );
-      if (category) {
-        this.category.set(category);
-        this.form.patchValue(category);
-      }
-      if (!category) {
-        this.category.set({ id: null, title: null });
-        this.form.patchValue({ id: null, title: null });
-      }
+      this.category.set(category ? category : { id: null, title: null });
+      this.form.patchValue(category ? category : { id: null, title: null });
     }
-    return;
   }
 
   initializeMenu(): void {
@@ -147,24 +141,56 @@ export class CategoryComponent implements OnInit, OnDestroy {
       this.categoryService
         .addCategory({ title: title as string, setAll: setAll as boolean })
         .pipe(takeUntil(this.destroy$))
-        .subscribe();
-      this.form.patchValue({ title: '' });
+        .subscribe({
+          next: (e) => {
+            console.log(e);
+            this.messageServiceAdd('success');
+          },
+          error: (err) => {
+            this.backendError = err.error.message;
+            this.messageServiceAdd('error');
+          },
+        });
+      this.form.patchValue({ title: null });
     } else {
       this.categoryService
         .editCategory(this.form.value as CategoryI)
         .pipe(takeUntil(this.destroy$))
-        .subscribe();
+        .subscribe({
+          next: () => {
+            this.messageServiceAdd('success');
+          },
+          error: (err) => {
+            this.backendError = err.error.message;
+            this.messageServiceAdd('error');
+          },
+        });
     }
 
-    this.messageService.clear();
-    this.messageService.add({
-      severity: 'success',
-      summary: 'Категория',
-      detail: this.form.controls['title'].value
-        ? 'Успешно изменена'
-        : 'Успешно добавлена',
-    });
     this.active = false;
+  }
+
+  messageServiceAdd(severity: string) {
+    this.messageService.clear();
+    if (severity === 'success') {
+      this.messageService.add({
+        severity: severity,
+        summary: 'Категория',
+
+        detail: this.form.controls['title'].value
+          ? 'Успешно изменена'
+          : 'Успешно добавлена',
+      });
+    }
+    if (severity === 'error')
+      this.messageService.add({
+        severity: severity,
+        summary: 'Категория',
+
+        detail: this.backendError as string,
+      });
+    {
+    }
   }
 
   deleteCategory(): void {
@@ -181,7 +207,7 @@ export class CategoryComponent implements OnInit, OnDestroy {
   filterCategory(event: AutoCompleteCompleteEvent) {
     const query = event.query;
     const categories = this.categories();
-    let filteredCategory: any[] = [];
+    let filteredCategory: string[] = [];
     if (categories) {
       categories.forEach((category: CategoryI) => {
         if (category.title) {

@@ -1,13 +1,14 @@
-<div class="header__menu" [style]="{ width: '100%' }">
-  <p-menu #menu [model]="items" [popup]="true" appendTo="body"></p-menu>
-  <p-button
-    [style]="{ 'margin-left': 'auto', 'margin-right': 0 }"
-    (click)="menu.toggle($event)"
-    icon="pi pi-plus"
-    [outlined]="true"
-    label="Добавить"
-    severity="info"
-    size="small"
-  ></p-button>
-</div>
+@if(items){
+<p-menu #menu [model]="items" [popup]="true" appendTo="body"></p-menu>
+<p-button
+  class="button"
+  (click)="menu.toggle($event)"
+  icon="pi pi-plus"
+  [outlined]="true"
+  label="Добавить"
+  severity="info"
+  size="small"
+></p-button>
+}
+
 <ng-container #ChildAddInsertionPoint></ng-container>

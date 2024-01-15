@@ -14,7 +14,7 @@ import { PasswordValidators } from '../../shared/validators/passwordValidator';
 import { PasswordModule } from 'primeng/password';
 import { AuthService } from '../services/auth.service';
 import { AuthFormI } from '../types/authForm.interface';
-import { TitleE } from '../enums/title.enum';
+import { Title } from '../enums/title.enum';
 
 @Component({
   selector: 'app-auth',
@@ -32,11 +32,12 @@ import { TitleE } from '../enums/title.enum';
 })
 export class AuthComponent implements OnInit, OnDestroy {
   form!: FormGroup<AuthFormI>;
-  TitleE = TitleE;
-  title: TitleE = TitleE.Login;
+  Title = Title;
+  title: Title = Title.Login;
   destroy$ = new Subject<void>();
   submitting = false;
   backendError: string | null = null;
+
   constructor(
     private readonly route: ActivatedRoute,
     private readonly router: Router,
@@ -83,10 +84,10 @@ export class AuthComponent implements OnInit, OnDestroy {
 
   initializeValues(): void {
     this.route.url.pipe(takeUntil(this.destroy$)).subscribe((e) => {
-      if (e[0].path === 'login') {
-        this.title = TitleE.Login;
+      if (e[0].path === Title.Login) {
+        this.title = Title.Login;
       } else {
-        this.title = TitleE.Register;
+        this.title = Title.Register;
       }
     });
   }
@@ -119,7 +120,7 @@ export class AuthComponent implements OnInit, OnDestroy {
     this.submitting = true;
     this.backendError = null;
     if (
-      this.title === TitleE.Login &&
+      this.title === Title.Login &&
       this.form.controls['email'].valid &&
       this.form.controls['password'].valid !== null
     ) {
@@ -139,7 +140,7 @@ export class AuthComponent implements OnInit, OnDestroy {
           },
         });
     }
-    if (this.title === TitleE.Register && this.form.valid) {
+    if (this.title === Title.Register && this.form.valid) {
       this.authService
         .register({
           user: {

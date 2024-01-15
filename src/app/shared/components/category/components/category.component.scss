@@ -1,31 +1,8 @@
-.header {
+.category {
   display: flex;
   align-items: center;
   flex-direction: row;
   justify-content: space-between;
-}
-
-.header__menu {
-  display: flex;
-  justify-content: center;
-}
-
-.category_add {
-  height: 20px;
-  width: 100%;
-
-  .block {
-    cursor: pointer;
-  }
-  .title-side {
-    overflow: hidden;
-    margin: 0 0;
-    font-size: 1em;
-    color: #f66d52;
-  }
-  .title-side-center {
-    text-align: center;
-  }
 }
 
 .footer {
@@ -33,6 +10,9 @@
   flex-direction: column;
   .footer__buttons {
     margin: 15px 0 0 auto;
+  }
+  .footer_button {
+    margin-right: 10px;
   }
 }
 
@@ -52,13 +32,4 @@
   height: 42.17px;
   margin-bottom: 10px;
   width: 100%;
-}
-
-@media screen and (max-width: 900px) {
-  .block {
-    display: block;
-  }
-  .category_add {
-    margin-top: 20px;
-  }
 }

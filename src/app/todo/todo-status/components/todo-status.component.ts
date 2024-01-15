@@ -7,7 +7,7 @@ import {
 import { TagModule } from 'primeng/tag';
 import { TodoStatusService } from '../services/todo-status.service';
 import { Subject, takeUntil } from 'rxjs';
-import { TaskStatus } from '../types/taskStatus.type';
+import { TaskStatus } from '../enums/taskStatus.enum';
 
 @Component({
   standalone: true,
@@ -18,17 +18,18 @@ import { TaskStatus } from '../types/taskStatus.type';
   providers: [TodoStatusService],
 })
 export class TodoStatus implements OnDestroy {
+  TaskStatus = TaskStatus;
   @Input() id: number | null = null;
-  @Input() status: TaskStatus = 'Ожидает';
+  @Input() status: TaskStatus = TaskStatus.await;
   destroy$ = new Subject<void>();
 
   constructor(private todoStatusService: TodoStatusService) {}
 
   changeStatus(): void {
-    if (this.status === 'Выполнено') {
-      this.status = 'Ожидает';
+    if (this.status === TaskStatus.completed) {
+      this.status = TaskStatus.await;
     } else {
-      this.status = 'Выполнено';
+      this.status = TaskStatus.completed;
     }
     if (this.status && this.id) {
       this.todoStatusService

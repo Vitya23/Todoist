@@ -22,7 +22,6 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { TodoAddEditComponent } from 'src/app/todo/todo-add-edit/components/todo-add-edit.component';
 import { TodoStatus } from '../../todo-status/components/todo-status.component';
 import { InputTextModule } from 'primeng/inputtext';
-import { MultiSelectModule } from 'primeng/multiselect';
 import { FormsModule } from '@angular/forms';
 import { DropdownModule } from 'primeng/dropdown';
 import { MenuComponent } from 'src/app/shared/components/menu/components/menu.component';
@@ -45,7 +44,6 @@ import { MenuComponent } from 'src/app/shared/components/menu/components/menu.co
     PriorityDirective,
     TodoStatus,
     InputTextModule,
-    MultiSelectModule,
     DropdownModule,
     MenuComponent,
   ],
@@ -68,18 +66,17 @@ export class TodoListComponent {
     this.todoListService.getCategories().pipe(takeUntilDestroyed()).subscribe();
   }
 
-  generateTodoEditComponent(task: TaskI) {
+  generateTodoEditComponent(task: TaskI): void {
     this.childInsertionPoint.clear();
     let componentRef =
       this.childInsertionPoint.createComponent(TodoAddEditComponent);
     componentRef.instance.task = task;
   }
-  generateDeleteComponent(id: number, mode: string) {
+  generateDeleteComponent(id: number, mode: string): void {
     this.childInsertionPoint.clear();
     let componentRef =
       this.childInsertionPoint.createComponent(DeleteComponent);
     componentRef.instance.id = id;
     componentRef.instance.mode = mode;
-    return;
   }
 }

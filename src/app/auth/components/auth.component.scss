@@ -36,29 +36,32 @@
   }
 }
 
-.label {
-  display: block;
-  color: var(--surface-900);
-  font-weight: 500;
-  margin-left: 0.5rem;
-  margin-bottom: 4px;
+.form {
+  .label {
+    display: block;
+    color: var(--surface-900);
+    font-weight: 500;
+    margin-left: 0.5rem;
+    margin-bottom: 4px;
+  }
+  .invalid-feedback {
+    margin-bottom: 20px;
+    color: red;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+  }
+  .footer {
+    .backend-errors {
+      padding-bottom: 5px;
+      color: red;
+    }
+  }
 }
 
 .input {
   margin-bottom: 0.75rem;
   width: 100%;
-}
-
-.invalid-feedback {
-  margin-bottom: 20px;
-  color: red;
-  display: flex;
-  flex-direction: column;
-  flex-wrap: wrap;
-}
-.backend-errors {
-  padding-bottom: 5px;
-  color: red;
 }
 
 .btn {

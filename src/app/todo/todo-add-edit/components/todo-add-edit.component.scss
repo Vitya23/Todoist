@@ -1,69 +1,54 @@
+.select__items {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
 .form {
   width: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
   flex-direction: column;
-}
 
-.input {
-  margin-bottom: 0.75rem;
-  width: 100%;
-}
-
-.footer {
-  display: flex;
-  align-items: center;
-  flex-direction: row;
-  flex-wrap: wrap;
-}
-
-.button {
-  margin-left: auto;
-  height: 2rem;
-}
-
-.dropdown {
-  margin-right: 15px;
-  width: 12.1rem;
-}
-.select__items {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-}
-.calendar {
-  width: 12.1rem;
-  margin-right: 15px;
-}
-
-@media screen and (max-width: 840px) {
-  .calendar {
-    margin-bottom: 10px;
-  }
-  .dropdown {
-    margin-bottom: 10px;
-  }
-}
-
-@media screen and (max-width: 480px) {
   .input {
-    width: 12.1rem;
+    margin-bottom: 0.75rem;
+    width: 100%;
   }
   .footer {
-    flex-direction: column;
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+    .calendar {
+      margin-right: 15px;
+    }
 
-    justify-content: center;
-  }
-
-  .calendar {
-    margin-right: 0px;
-  }
-  .dropdown {
-    margin-right: 0px;
+    .dropdown {
+      margin-right: 15px;
+      min-width: 190px;
+    }
   }
   .button {
     margin-left: auto;
-    margin-right: auto;
+    margin-top: 10px;
+    height: 2rem;
+  }
+}
+
+@media screen and (max-width: 840px) {
+  .form {
+    .footer {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+
+      .calendar {
+        margin: 0 0 0.75rem 0;
+      }
+
+      .dropdown {
+        margin: 0 0 0.75rem 0;
+      }
+    }
   }
 }

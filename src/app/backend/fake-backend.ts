@@ -250,12 +250,12 @@ export class FakeBackendInterceptor implements HttpInterceptor {
         addCategory();
       }
       toDoDataBase.tasks = toDoDataBase.tasks.map((defaultTask) => {
-        if (body.setAll === true && defaultTask.id === body.taskId) {
+        if (body.setAll === false && defaultTask.id === body.taskId) {
           return repeat
             ? { ...defaultTask, category: repeat.id }
             : { ...defaultTask, category: newId };
         }
-        if (body.setAll === false && defaultTask.category === body.id) {
+        if (body.setAll === true && defaultTask.category === body.id) {
           return repeat
             ? { ...defaultTask, category: repeat.id }
             : { ...defaultTask, category: newId };

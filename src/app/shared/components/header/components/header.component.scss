@@ -9,7 +9,12 @@
   display: flex;
   align-items: center;
   cursor: pointer;
+
+  .avatar {
+    margin-right: 8px;
+  }
 }
+
 .user:hover {
   opacity: 0.7;
 }

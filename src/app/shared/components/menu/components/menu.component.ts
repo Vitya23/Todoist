@@ -9,7 +9,6 @@ import {
 import { ButtonModule } from 'primeng/button';
 import { MenuModule } from 'primeng/menu';
 import { TodoAddEditComponent } from 'src/app/todo/todo-add-edit/components/todo-add-edit.component';
-import { CategoryI } from '../../category/types/category.interface';
 import { MenuItem } from 'primeng/api';
 import { CategoryComponent } from '../../category/components/category.component';
 
@@ -17,7 +16,6 @@ import { CategoryComponent } from '../../category/components/category.component'
   standalone: true,
   selector: 'app-menu',
   templateUrl: './menu.component.html',
-  // styleUrl: './todo-list.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [CommonModule, MenuModule, ButtonModule],
 })
@@ -25,7 +23,7 @@ export class MenuComponent implements OnInit {
   @ViewChild('ChildAddInsertionPoint', { read: ViewContainerRef })
   childInsertionPoint!: ViewContainerRef;
 
-  items!: MenuItem[];
+  items: MenuItem[] | null = null;
 
   ngOnInit(): void {
     this.initializeMenu();

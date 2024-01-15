@@ -14,6 +14,9 @@
     <div class="footer">
       <div class="calendar">
         <p-calendar
+          [style]="{
+            width: '100%',
+          }"
           [minDate]="minDate"
           placeholder="Дата окончания"
           [showButtonBar]="true"
@@ -29,8 +32,10 @@
       <div class="dropdown">
         <p-dropdown
           placeholder="Приоритет"
+          place
           [style]="{
-            width: '100%'
+            width: '100%',
+            'text-align': 'left'
           }"
           formControlName="priority"
           appendTo="body"
@@ -54,14 +59,12 @@
           </ng-template>
         </p-dropdown>
       </div>
-      <div class="dropdown">
-        <!-- <p-dropdown
-          [options]=""
-          optionLabel="title"
-          placeholder="Select a City"
-          appendTo="body"
-        ></p-dropdown> -->
+      <div>
         <p-dropdown
+          [style]="{
+            width: '300px',
+            'text-align': 'left'
+          }"
           [options]="categories ? categories : undefined"
           formControlName="category"
           optionLabel="title"
@@ -84,12 +87,12 @@
           </ng-template>
         </p-dropdown>
       </div>
-      <button
-        pButton
-        class="button"
-        [label]="task ? 'Изменить' : 'Добавить'"
-        [disabled]="form.invalid"
-      ></button>
     </div>
+    <button
+      pButton
+      class="button"
+      [label]="task ? 'Изменить' : 'Добавить'"
+      [disabled]="form.invalid"
+    ></button>
   </form>
 </p-dialog>

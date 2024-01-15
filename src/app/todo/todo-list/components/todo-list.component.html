@@ -12,7 +12,7 @@
         }"
         [globalFilterFields]="['description', 'category']"
       >
-        <ng-template pTemplate="header">
+        <ng-template pTemplate="header" #head>
           <tr>
             <th>Задача</th>
             <th>Категория</th>
@@ -81,11 +81,9 @@
                 <p highlightPriority [priority]="task.priority">
                   {{ task.description }}
                 </p>
-                <small
-                  class="table__description_date"
-                  title="Время окончания задачи"
-                  >{{ task.endDate | date : "d MMMM y" }}</small
-                >
+                <small class="date" title="Время окончания задачи">{{
+                  task.endDate | date : "d MMMM y"
+                }}</small>
               </div>
             </td>
             <td>
@@ -119,15 +117,6 @@
               ></p-button>
             </td>
           </tr>
-        </ng-template>
-        <ng-template pTemplate="footer">
-          <!-- <p-button
-            label="Добавить задачу"
-            icon="pi pi-plus"
-            [text]="true"
-            size="small"
-            (click)="generateTodoAddComponent(category)"
-          ></p-button> -->
         </ng-template>
       </p-table>
 

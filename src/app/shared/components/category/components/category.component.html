@@ -11,12 +11,12 @@
 
 } @if(category().title ){
 
-<div class="header">
-  <div class="header__title">
+<div class="category">
+  <div class="category__title">
     <small> {{ category().title }}</small>
   </div>
 
-  <div class="header__menu">
+  <div class="category__menu">
     <p-confirmPopup></p-confirmPopup>
     <p-menu #menu [model]="items" [popup]="true" appendTo="body"></p-menu>
     <p-button
@@ -69,20 +69,20 @@
         <div class="footer__setAll">
           <p-checkbox
             [binary]="true"
-            inputId="ny"
+            inputId="setAll"
             formControlName="setAll"
           ></p-checkbox>
-          <label for="ny">{{
+          <label for="setAll">{{
             taskId
-              ? "Изменить только эту задачу"
+              ? "Изменить категорию для всех задач"
               : "Добавить ко всем задачам без категории"
           }}</label>
         </div>
         <div class="footer__buttons">
           <p-button
-            [style]="{ 'margin-right': '10px' }"
             type="submit"
             size="small"
+            class="footer_button"
             [label]="taskId ? 'Сохранить' : 'Добавить'"
             severity="danger"
             [plain]="true"

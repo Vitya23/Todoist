@@ -87,5 +87,6 @@ export const categoriesDataBase = {
     { id: 1, userId: 1, title: 'Работа' },
     { id: 2, userId: 2, title: 'Дела по дому' },
     { id: 3, userId: 1, title: 'Купить продукты' },
+    { id: 3, userId: 3, title: 'Работа' },
   ],
 };

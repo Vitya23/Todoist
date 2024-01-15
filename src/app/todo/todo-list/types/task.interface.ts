@@ -1,4 +1,4 @@
-import { TaskStatus } from '../../todo-status/types/taskStatus.type';
+import { TaskStatus } from '../../todo-status/enums/taskStatus.enum';
 
 export interface TaskI {
   id: number;

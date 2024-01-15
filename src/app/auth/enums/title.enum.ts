@@ -1,4 +1,4 @@
-export enum TitleE {
+export enum Title {
   Register = 'register',
   Login = 'login',
 }
