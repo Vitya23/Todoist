@@ -25,6 +25,7 @@ import { InputTextModule } from 'primeng/inputtext';
 import { FormsModule } from '@angular/forms';
 import { DropdownModule } from 'primeng/dropdown';
 import { MenuComponent } from 'src/app/shared/components/menu/components/menu.component';
+import { DeleteMods } from 'src/app/shared/components/delete/enums/deleteMods.enum';
 
 @Component({
   standalone: true,
@@ -57,6 +58,7 @@ export class TodoListComponent {
   tasks = this.appState.task;
   categories = this.appState.categories;
   selectedCategories: CategoryI | null = null;
+  deleteMods = DeleteMods;
 
   constructor(
     private todoListService: TodoListService,
@@ -72,7 +74,7 @@ export class TodoListComponent {
       this.childInsertionPoint.createComponent(TodoAddEditComponent);
     componentRef.instance.task = task;
   }
-  generateDeleteComponent(id: number, mode: string): void {
+  generateDeleteComponent(id: number, mode: DeleteMods): void {
     this.childInsertionPoint.clear();
     let componentRef =
       this.childInsertionPoint.createComponent(DeleteComponent);

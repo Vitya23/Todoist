@@ -83,8 +83,8 @@ export class AuthComponent implements OnInit, OnDestroy {
   }
 
   initializeValues(): void {
-    this.route.url.pipe(takeUntil(this.destroy$)).subscribe((e) => {
-      if (e[0].path === Title.Login) {
+    this.route.url.pipe(takeUntil(this.destroy$)).subscribe((url) => {
+      if (url[0].path === Title.Login) {
         this.title = Title.Login;
       } else {
         this.title = Title.Register;

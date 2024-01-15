@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnDestroy, OnInit, effect } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 
 import { AvatarModule } from 'primeng/avatar';
 import { MenuModule } from 'primeng/menu';

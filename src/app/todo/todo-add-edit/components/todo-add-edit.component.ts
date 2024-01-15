@@ -47,12 +47,15 @@ import { AppState } from 'src/app/shared/services/appState.state';
 export class TodoAddEditComponent implements OnInit, OnDestroy {
   @Input() category?: CategoryI;
   @Input() task?: TaskI;
+
   categories: CategoryI[] | null = this.appState.categories();
+  priorities: PriorityI[] = this.todoAddService.priorityItems;
+
   destroy$ = new Subject<void>();
 
   visible: boolean = true;
   minDate = new Date();
-  priorities: PriorityI[] = this.todoAddService.priorityItems;
+
   form!: FormGroup<TaskFormI>;
 
   constructor(

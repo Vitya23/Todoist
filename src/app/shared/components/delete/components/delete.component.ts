@@ -5,6 +5,7 @@ import { ButtonModule } from 'primeng/button';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { Subject, takeUntil } from 'rxjs';
+import { DeleteMods } from '../enums/deleteMods.enum';
 
 @Component({
   standalone: true,
@@ -14,8 +15,8 @@ import { Subject, takeUntil } from 'rxjs';
   providers: [DeleteService, ConfirmationService],
 })
 export class DeleteComponent implements OnDestroy {
-  @Input() id!: number;
-  @Input() mode: string = 'task';
+  @Input() id: number | null = null;
+  @Input() mode: DeleteMods = DeleteMods.Task;
   destroy$ = new Subject<void>();
 
   constructor(
@@ -26,7 +27,7 @@ export class DeleteComponent implements OnDestroy {
   ngOnInit() {
     this.confirmationService.confirm({
       message: `Вы действительно хотите удалить ${
-        this.mode === 'task' ? 'задачу?' : 'категорию'
+        this.mode === DeleteMods.Task ? 'задачу?' : 'категорию'
       }`,
       header: 'Информация',
       icon: 'pi pi-info-circle',
@@ -41,16 +42,16 @@ export class DeleteComponent implements OnDestroy {
         this.messageService.clear();
         this.messageService.add({
           severity: 'success',
-          summary: this.mode === 'task' ? 'Задача' : 'Категория',
+          summary: this.mode === DeleteMods.Task ? 'Задача' : 'Категория',
           detail: 'успешно удалена',
         });
-        if (this.mode === 'task') {
+        if (this.mode === DeleteMods.Task && this.id) {
           this.deleteService
             .deleteTask(this.id)
             .pipe(takeUntil(this.destroy$))
             .subscribe();
         }
-        if (this.mode === 'category') {
+        if (this.mode === DeleteMods.Category && this.id) {
           this.deleteService
             .deleteCategory(this.id)
             .pipe(takeUntil(this.destroy$))
@@ -61,7 +62,7 @@ export class DeleteComponent implements OnDestroy {
         this.messageService.clear();
         this.messageService.add({
           severity: 'error',
-          summary: this.mode === 'task' ? 'Задача' : 'Категория',
+          summary: this.mode === DeleteMods.Task ? 'Задача' : 'Категория',
           detail: 'не удалена',
         });
       },

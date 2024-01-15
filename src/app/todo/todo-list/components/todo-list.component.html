@@ -59,7 +59,10 @@
                           size="small"
                           icon="pi pi-times"
                           (onFocus)="
-                            generateDeleteComponent(option.id, 'category')
+                            generateDeleteComponent(
+                              option.id,
+                              deleteMods.Category
+                            )
                           "
                         ></p-button>
                       </div>
@@ -113,7 +116,7 @@
                 [text]="true"
                 size="small"
                 icon="pi pi-times"
-                (click)="generateDeleteComponent(task.id, 'task')"
+                (click)="generateDeleteComponent(task.id, deleteMods.Task)"
               ></p-button>
             </td>
           </tr>

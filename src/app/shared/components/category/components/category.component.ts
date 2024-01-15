@@ -20,7 +20,6 @@ import {
   Validators,
 } from '@angular/forms';
 import { ConfirmPopupModule } from 'primeng/confirmpopup';
-import { InplaceModule } from 'primeng/inplace';
 import { CategoryService } from '../services/category.service';
 import { CategoryI } from '../types/category.interface';
 import { MenuModule } from 'primeng/menu';
@@ -37,6 +36,7 @@ import {
   AutoCompleteModule,
 } from 'primeng/autocomplete';
 import { toObservable, toSignal } from '@angular/core/rxjs-interop';
+import { DeleteMods } from '../../delete/enums/deleteMods.enum';
 
 @Component({
   standalone: true,
@@ -52,7 +52,6 @@ import { toObservable, toSignal } from '@angular/core/rxjs-interop';
     MenuModule,
     InputTextModule,
     ConfirmPopupModule,
-    InplaceModule,
     TrimOnBlurDirective,
     CheckboxModule,
     DropdownModule,
@@ -140,8 +139,7 @@ export class CategoryComponent implements OnInit, OnDestroy {
         .addCategory({ title: title as string, setAll: setAll as boolean })
         .pipe(takeUntil(this.destroy$))
         .subscribe({
-          next: (e) => {
-            console.log(e);
+          next: () => {
             this.messageServiceAdd('success');
           },
           error: (err) => {
@@ -198,7 +196,7 @@ export class CategoryComponent implements OnInit, OnDestroy {
       let componentRef =
         this.DelCategoryInsertionPoint.createComponent(DeleteComponent);
       componentRef.instance.id = categoryId;
-      componentRef.instance.mode = 'category';
+      componentRef.instance.mode = DeleteMods.Category;
     }
   }
 
