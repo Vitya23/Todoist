@@ -1,14 +1,17 @@
 @if(items){
-<p-menu #menu [model]="items" [popup]="true" appendTo="body"></p-menu>
+<p-tieredMenu #menu [model]="items" [popup]="true" appendTo="body">
+</p-tieredMenu>
 <p-button
+  #btn
   class="button"
   (click)="menu.toggle($event)"
-  icon="pi pi-plus"
+  icon="pi pi-bars"
   [outlined]="true"
-  label="Добавить"
+  label="Меню"
   severity="info"
   size="small"
 ></p-button>
+
 }
 
 <ng-container #ChildAddInsertionPoint></ng-container>

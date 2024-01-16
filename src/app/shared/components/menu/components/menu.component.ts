@@ -11,13 +11,15 @@ import { MenuModule } from 'primeng/menu';
 import { TodoAddEditComponent } from 'src/app/todo/todo-add-edit/components/todo-add-edit.component';
 import { MenuItem } from 'primeng/api';
 import { CategoryComponent } from '../../category/components/category.component';
+import { TieredMenuModule } from 'primeng/tieredmenu';
+import { MenubarModule } from 'primeng/menubar';
 
 @Component({
   standalone: true,
   selector: 'app-menu',
   templateUrl: './menu.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CommonModule, MenuModule, ButtonModule],
+  imports: [CommonModule, MenubarModule, ButtonModule, TieredMenuModule],
 })
 export class MenuComponent implements OnInit {
   @ViewChild('ChildAddInsertionPoint', { read: ViewContainerRef })
@@ -30,24 +32,42 @@ export class MenuComponent implements OnInit {
   }
 
   initializeMenu(): void {
-    {
-      this.items = [
-        {
-          label: 'Задачу',
-          icon: 'pi pi-book',
-          command: () => {
-            this.generateTodoAddComponent();
+    this.items = [
+      {
+        label: 'Создать',
+        icon: 'pi pi-plus',
+        items: [
+          {
+            label: 'Задачу',
+            icon: 'pi pi-book ',
+            command: () => {
+              this.generateTodoAddComponent();
+            },
           },
-        },
-        {
-          label: 'Категорию',
-          icon: 'pi pi-table',
-          command: () => {
-            this.generateCategoryAddComponent();
+
+          {
+            label: 'Категорию',
+            icon: 'pi pi-table',
+            command: () => {
+              this.generateCategoryAddComponent();
+            },
           },
-        },
-      ];
-    }
+        ],
+      },
+      {
+        label: 'Редактировать',
+        icon: 'pi pi-plus',
+        items: [
+          {
+            label: 'Категорию',
+            icon: 'pi pi-table',
+            command: () => {
+              this.generateCategoryAddComponent();
+            },
+          },
+        ],
+      },
+    ];
   }
 
   generateTodoAddComponent() {

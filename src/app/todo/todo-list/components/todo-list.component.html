@@ -2,24 +2,41 @@
   <div class="table" *ngIf="tasks() as tasks">
     <ng-container *ngIf="categories() as categories">
       <p-table
+        #table
         [value]="tasks"
+        [resizableColumns]="true"
+        [scrollable]="true"
+        columnResizeMode="fit"
+        [tableStyle]="{ width: 'content' }"
+        [autoLayout]="true"
         [paginator]="true"
         [rows]="5"
         [showCurrentPageReport]="true"
         currentPageReportTemplate="Показаны записи с {first} по {last} из {totalRecords}"
-        [tableStyle]="{
-          'min-width': '53rem',
-        }"
         [globalFilterFields]="['description', 'category']"
       >
+        <ng-template pTemplate="caption">
+          <div class="caption">
+            <app-menu></app-menu>
+            <span class="p-input-icon-left ml">
+              <i class="pi pi-search"></i>
+              <input
+                pInputText
+                type="text"
+                class="globalFilter"
+                #input
+                (input)="table.filterGlobal(input.value, 'contains')"
+                placeholder="Глобальный поиск"
+              />
+            </span>
+          </div>
+        </ng-template>
         <ng-template pTemplate="header" #head>
           <tr>
             <th>Задача</th>
             <th>Категория</th>
             <th class="status__col">Статус</th>
-            <th colspan="2" class="menu__col">
-              <app-menu></app-menu>
-            </th>
+            <th class="menu__col"></th>
           </tr>
           <tr>
             <th class="description__col">
@@ -109,9 +126,6 @@
                 icon="pi pi-pencil"
                 (click)="generateTodoEditComponent(task)"
               ></p-button>
-            </td>
-
-            <td>
               <p-button
                 [text]="true"
                 size="small"
