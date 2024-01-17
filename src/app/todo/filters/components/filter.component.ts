@@ -15,6 +15,10 @@ import { ColumnFilter, Table, TableModule } from 'primeng/table';
 import { PriorityI } from '../../todo-add-edit/types/priority.interface';
 import { AppState } from 'src/app/shared/services/appState.state';
 import { PriorityDirective } from 'src/app/shared/directives/priority.directive';
+import { CategoryI } from 'src/app/shared/components/category/types/category.interface';
+import { ChangeStatusI } from '../../todo-status/types/changeStatus.interface';
+import { taskFieldI } from '../../../shared/types/taskField.interface';
+import { TASK_FIELD } from 'src/app/shared/utils/data.utils';
 
 @Component({
   standalone: true,
@@ -37,27 +41,38 @@ import { PriorityDirective } from 'src/app/shared/directives/priority.directive'
   providers: [AppState],
 })
 export class FilterComponent {
-  filter: string | null = null;
-  field: string = 'description';
-  priority: PriorityI[] = inject(AppState).priorityItems;
+  filterValue: string | null = null;
+  taskField: string = 'description';
+
+  @Input() title: string | null = null;
   @Input() table: Table | null = null;
-  fields: object[] = [
-    { label: 'Задача', value: 'description' },
-    { label: 'Дата окончания', value: 'endDate' },
-    { label: 'Приоритет', value: 'priority' },
-  ];
+  @Input() field: string | undefined;
+  @Input() optionLabel: string | undefined;
+  @Input() optionValue: string | undefined;
+  @Input() dropDownOption:
+    | CategoryI[]
+    | PriorityI[]
+    | ChangeStatusI[]
+    | undefined;
+  taskFields: taskFieldI[] = TASK_FIELD;
 
   constructor() {}
 
   applyFilter(filter: ColumnFilter) {
-    this.table?.filterGlobal(
-      this.filter,
-      this.field === 'description' ? 'contains' : 'equals'
-    );
-    filter.overlayVisible = false;
+    if (this.table) {
+      filter.overlayVisible = false;
+      if (this.field) {
+        this.table.filter(this.filterValue, this.field, 'contains');
+      }
+      if (!this.field) {
+        this.table.filter(this.filterValue, this.taskField, 'contains');
+      }
+    }
   }
   clearFilter(filter: ColumnFilter) {
-    this.table?.clear();
-    filter.overlayVisible = false;
+    if (this.table) {
+      this.table?.clear();
+      this.filterValue = null;
+    }
   }
 }

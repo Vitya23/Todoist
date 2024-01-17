@@ -13,7 +13,14 @@
 
 .header {
   width: 295px;
-  padding: 0 1rem 0 1rem;
+  padding: 1rem 1rem 0 1rem;
+  h4 {
+    padding: 0;
+    margin: 0;
+  }
+  .header__dropdown {
+    margin-top: 10px;
+  }
 }
 
 .footer {
@@ -29,4 +36,10 @@
 .select__items {
   display: flex;
   gap: 5px;
+}
+.category_filter {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
 }

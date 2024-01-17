@@ -9,45 +9,56 @@
 >
   <ng-template pTemplate="header">
     <div class="header">
-      <div class="block">
-        <p>Фильтровать по</p>
-
+      <h4>{{ title }}</h4>
+      @if(!field){
+      <div class="header__dropdown">
         <p-dropdown
-          [style]="{ width: '100%' }"
-          (onChange)="field = $event.value"
-          [options]="fields"
+          [(ngModel)]="taskField"
+          (onChange)="filterValue = null"
+          optionLabel="label"
+          optionValue="value"
+          [options]="taskFields"
         >
-          <ng-template let-option pTemplate="item">
-            {{ option.label }}
-          </ng-template>
         </p-dropdown>
       </div>
+
+      }
     </div>
   </ng-template>
+
   <ng-template pTemplate="body">
-    @if(field === 'description'){
-    <input pInputText [(ngModel)]="filter" type="text" />
-    } @if(field === 'endDate'){
-    <p-calendar [(ngModel)]="filter" [showIcon]="true"></p-calendar>
-    } @if(field === 'priority'){
+    @if(taskField === 'description' && !field){
+    <input pInputText [(ngModel)]="filterValue" type="text" />
+    } @if(taskField === 'endDate' && !field){
+    <p-calendar [(ngModel)]="filterValue" [showIcon]="true"></p-calendar>
+    } @if(taskField === 'priority' || field){
     <p-dropdown
-      [options]="priority"
-      optionLabel="title"
-      optionValue="priority"
-      [(ngModel)]="filter"
+      [options]="dropDownOption"
+      [(ngModel)]="filterValue"
       [showClear]="true"
-      placeholder="Приоритет"
+      [optionLabel]="optionLabel"
+      [optionValue]="optionValue"
     >
-      <ng-template let-priority pTemplate="item">
+      <ng-template let-option pTemplate="item">
+        @if(!field){
         <div class="select__items">
           <i class="pi pi-flag"></i>
-          <div highlightPriority [priority]="priority.priority">
-            {{ priority.title }}
+          <div highlightPriority [priority]="option.priority">
+            {{ option.title }}
           </div>
         </div>
+        } @if(field === 'category'){
+        <div class="category_filter">
+          <span>{{ option.title }}</span>
+          <p-button [text]="true" size="small" icon="pi pi-times"></p-button>
+        </div>
+        <!-- (onFocus)="generateDeleteComponent(option.id, deleteMods.Category)" -->
+        } @if(field === 'status') {
+        {{ option.status }}
+        }
       </ng-template>
     </p-dropdown>
-    }
+    } @if(!field){}
     <div class="footer">
       <button
         pButton

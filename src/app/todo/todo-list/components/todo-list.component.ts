@@ -31,6 +31,9 @@ import { MultiSelectModule } from 'primeng/multiselect';
 import { FilterService, MenuItem, SelectItem } from 'primeng/api';
 import { MenuModule } from 'primeng/menu';
 import { FilterComponent } from '../../filters/components/filter.component';
+import { PriorityI } from '../../todo-add-edit/types/priority.interface';
+import { ChangeStatusI } from '../../todo-status/types/changeStatus.interface';
+import { STATUS } from 'src/app/shared/utils/data.utils';
 
 @Component({
   standalone: true,
@@ -65,12 +68,10 @@ export class TodoListComponent implements OnInit {
 
   tasks = this.appState.task;
   categories = this.appState.categories;
+  priority: PriorityI[] = this.appState.priorityItems;
+  status: ChangeStatusI[] = STATUS;
   selectedCategories: CategoryI | null = null;
   deleteMods = DeleteMods;
-
-  field: string = 'description';
-  matchModeOptions!: SelectItem[];
-  stopListening = false;
 
   constructor(
     private todoListService: TodoListService,
@@ -80,53 +81,7 @@ export class TodoListComponent implements OnInit {
     this.todoListService.getCategories().pipe(takeUntilDestroyed()).subscribe();
   }
 
-  ngOnInit(): void {
-    // this.generateField();
-    this.matchModeOptions = [
-      { label: 'Custom Equals', value: 'isPrimeNumber' },
-      { label: 'Задача', value: 'description' },
-      { label: 'Дата окончания', value: 'endDate' },
-      { label: 'Приоритет', value: 'priority' },
-    ];
-  }
-
-  changeField(value: any) {
-    this.field = value;
-    console.log(value);
-  }
-
-  // generateField() {
-  //   this.filterService.register(
-  //     'isPrimeNumber',
-  //     (value: any, filter: any): boolean => {
-  //       console.log(value);
-  //       if (filter === undefined || filter === null || filter.trim() === '') {
-  //         return true;
-  //       }
-
-  //       if (value === undefined || value === null) {
-  //         return false;
-  //       }
-  //       console.log(value, filter);
-  //       return value;
-  //     }
-  //   );
-  //   this.filterService.register(
-  //     'description',
-  //     (value: any, filter: any): boolean => {
-  //       console.log(value);
-  //       if (filter === undefined || filter === null || filter.trim() === '') {
-  //         return true;
-  //       }
-
-  //       if (value === undefined || value === null) {
-  //         return false;
-  //       }
-  //       console.log(value, filter);
-  //       return value;
-  //     }
-  //   );
-  // }
+  ngOnInit(): void {}
 
   generateTodoEditComponent(task: TaskI): void {
     this.childInsertionPoint.clear();

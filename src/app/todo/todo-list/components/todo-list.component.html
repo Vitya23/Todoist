@@ -33,7 +33,14 @@
           <tr>
             <th class="col">
               <div class="col__item">
-                Задача <app-filter [table]="table"></app-filter
+                Задача
+                <app-filter
+                  title="Фильтр по"
+                  [table]="table"
+                  [dropDownOption]="priority"
+                  optionLabel="title"
+                  optionValue="priority"
+                ></app-filter
                 ><p-sortIcon
                   field="description"
                   pSortableColumn="description"
@@ -43,49 +50,14 @@
             <th>
               <div class="col__item">
                 Категория
-                <p-columnFilter
+                <app-filter
+                  title="Фильтр по категории"
+                  [table]="table"
+                  [dropDownOption]="categories"
                   field="category"
-                  matchMode="equals"
-                  display="menu"
-                  [showOperator]="false"
-                  [showMatchModes]="false"
-                  [showAddButton]="false"
-                >
-                  <ng-template
-                    pTemplate="filter"
-                    let-value
-                    let-filter="filterCallback"
-                  >
-                    <p-dropdown
-                      [(ngModel)]="selectedCategories"
-                      [options]="categories"
-                      (onChange)="filter($event.value?.id)"
-                      placeholder="Категории"
-                      [showClear]="true"
-                      appendTo="body"
-                      optionLabel="title"
-                      [filter]="true"
-                      filterBy="title"
-                    >
-                      <ng-template let-option pTemplate="item">
-                        <div class="category_filter">
-                          <span>{{ option.title }}</span>
-                          <p-button
-                            [text]="true"
-                            size="small"
-                            icon="pi pi-times"
-                            (onFocus)="
-                              generateDeleteComponent(
-                                option.id,
-                                deleteMods.Category
-                              )
-                            "
-                          ></p-button>
-                        </div>
-                      </ng-template>
-                    </p-dropdown>
-                  </ng-template>
-                </p-columnFilter>
+                  optionLabel="title"
+                  optionValue="id"
+                ></app-filter>
                 <p-sortIcon
                   field="category"
                   pSortableColumn="category"
@@ -94,6 +66,14 @@
             </th>
             <th>
               Статус
+              <app-filter
+                title="Фильтр по статусу"
+                [table]="table"
+                [dropDownOption]="status"
+                field="status"
+                optionLabel="status"
+                optionValue="status"
+              ></app-filter>
               <p-sortIcon field="status" pSortableColumn="status"></p-sortIcon>
             </th>
             <th></th>
