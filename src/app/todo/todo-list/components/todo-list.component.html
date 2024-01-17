@@ -20,108 +20,83 @@
         <ng-template pTemplate="caption">
           <div class="caption">
             <app-menu></app-menu>
+            <button
+              pButton
+              label="Очистить"
+              class="p-button-outlined"
+              icon="pi pi-filter-slash"
+              (click)="table.clear()"
+            ></button>
           </div>
         </ng-template>
         <ng-template pTemplate="header" #head>
           <tr>
-            <th>Задача</th>
-            <th>Категория</th>
-            <th class="status__col">Статус</th>
-            <th class="menu__col"></th>
-          </tr>
-          <tr>
-            <th class="description__col">
-              <!-- <p-columnFilter
-                #colFilter
-                [field]="field"
-                [matchModeOptions]="matchModeOptions"
-                (onChange)="this.field = 'a'"
-                display="menu"
-                [showOperator]="false"
-                [showAddButton]="false"
-              >
-                <ng-template
-                  pTemplate="filter"
-                  let-value
-                  let-filter="filterCallback"
-                >
-                  {{ colFilter.dt.filter | json }}
-                  {{ field }}
-                  @if(field === 'description'){
-                  <input
-                    pInputText
-                    #inp
-                    type="text"
-                    (input)="
-                      table.filter(inp.value, 'isPrimeNumber', 'contains')
-                    "
-                  />
-                  {{ inp.value }}
-                  } @else{
-                  <p-multiSelect
-                    [ngModel]="value"
-                    [options]="tasks"
-                    placeholder="Any"
-                    (onChange)="filter($event.value)"
-                    optionLabel="name"
-                  >
-                    <ng-template let-option pTemplate="item">
-                      <div class="inline-block vertical-align-middle">
-                        <span class="ml-1 mt-1">{{ option.name }}</span>
-                      </div>
-                    </ng-template>
-                  </p-multiSelect>
-                  }
-                </ng-template>
-              </p-columnFilter> -->
-              <app-filter [table]="table"></app-filter>
+            <th class="col">
+              <div class="col__item">
+                Задача <app-filter [table]="table"></app-filter
+                ><p-sortIcon
+                  field="description"
+                  pSortableColumn="description"
+                ></p-sortIcon>
+              </div>
             </th>
-            <th class="category__col">
-              <p-columnFilter
-                field="category"
-                matchMode="equals"
-                [showMenu]="false"
-              >
-                <ng-template
-                  pTemplate="filter"
-                  let-value
-                  let-filter="filterCallback"
+            <th>
+              <div class="col__item">
+                Категория
+                <p-columnFilter
+                  field="category"
+                  matchMode="equals"
+                  display="menu"
+                  [showOperator]="false"
+                  [showMatchModes]="false"
+                  [showAddButton]="false"
                 >
-                  <p-dropdown
-                    [(ngModel)]="selectedCategories"
-                    [options]="categories"
-                    (onChange)="filter($event.value?.id)"
-                    placeholder="Категории"
-                    [showClear]="true"
-                    appendTo="body"
-                    optionLabel="title"
-                    [filter]="true"
-                    filterBy="title"
+                  <ng-template
+                    pTemplate="filter"
+                    let-value
+                    let-filter="filterCallback"
                   >
-                    <ng-template let-option pTemplate="item">
-                      <div class="category_filter">
-                        <span>{{ option.title }}</span>
-                        <p-button
-                          [text]="true"
-                          size="small"
-                          icon="pi pi-times"
-                          (onFocus)="
-                            generateDeleteComponent(
-                              option.id,
-                              deleteMods.Category
-                            )
-                          "
-                        ></p-button>
-                      </div>
-                    </ng-template>
-                  </p-dropdown>
-                </ng-template>
-              </p-columnFilter>
+                    <p-dropdown
+                      [(ngModel)]="selectedCategories"
+                      [options]="categories"
+                      (onChange)="filter($event.value?.id)"
+                      placeholder="Категории"
+                      [showClear]="true"
+                      appendTo="body"
+                      optionLabel="title"
+                      [filter]="true"
+                      filterBy="title"
+                    >
+                      <ng-template let-option pTemplate="item">
+                        <div class="category_filter">
+                          <span>{{ option.title }}</span>
+                          <p-button
+                            [text]="true"
+                            size="small"
+                            icon="pi pi-times"
+                            (onFocus)="
+                              generateDeleteComponent(
+                                option.id,
+                                deleteMods.Category
+                              )
+                            "
+                          ></p-button>
+                        </div>
+                      </ng-template>
+                    </p-dropdown>
+                  </ng-template>
+                </p-columnFilter>
+                <p-sortIcon
+                  field="category"
+                  pSortableColumn="category"
+                ></p-sortIcon>
+              </div>
             </th>
-            <th class="status__col">
+            <th>
+              Статус
               <p-sortIcon field="status" pSortableColumn="status"></p-sortIcon>
             </th>
-            <th colspan="2"></th>
+            <th></th>
           </tr>
         </ng-template>
         <ng-template pTemplate="body" let-task>

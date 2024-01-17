@@ -4,13 +4,19 @@
   [showOperator]="false"
   [showMatchModes]="false"
   [showAddButton]="false"
+  [showClearButton]="false"
+  [showApplyButton]="false"
 >
   <ng-template pTemplate="header">
     <div class="header">
       <div class="block">
         <p>Фильтровать по</p>
 
-        <p-dropdown (onChange)="field = $event.value" [options]="fields">
+        <p-dropdown
+          [style]="{ width: '100%' }"
+          (onChange)="field = $event.value"
+          [options]="fields"
+        >
           <ng-template let-option pTemplate="item">
             {{ option.label }}
           </ng-template>
@@ -20,28 +26,41 @@
   </ng-template>
   <ng-template pTemplate="body">
     @if(field === 'description'){
-    <input
-      pInputText
-      [(ngModel)]="date1"
-      type="text"
-      (input)="table?.filterGlobal(date1, 'contains')"
-    />
+    <input pInputText [(ngModel)]="filter" type="text" />
     } @if(field === 'endDate'){
-    <p-calendar
-      (onSelect)="table?.filterGlobal(date1, 'equals')"
-      [(ngModel)]="date1"
-      [showIcon]="true"
-    ></p-calendar>
+    <p-calendar [(ngModel)]="filter" [showIcon]="true"></p-calendar>
     } @if(field === 'priority'){
     <p-dropdown
       [options]="priority"
-      (onChange)="table?.filterGlobal(date1, 'equals')"
       optionLabel="title"
-      [(ngModel)]="date1"
       optionValue="priority"
+      [(ngModel)]="filter"
       [showClear]="true"
       placeholder="Приоритет"
-    ></p-dropdown>
+    >
+      <ng-template let-priority pTemplate="item">
+        <div class="select__items">
+          <i class="pi pi-flag"></i>
+          <div highlightPriority [priority]="priority.priority">
+            {{ priority.title }}
+          </div>
+        </div>
+      </ng-template>
+    </p-dropdown>
     }
+    <div class="footer">
+      <button
+        pButton
+        label="Очистить"
+        class="p-button-outlined button"
+        (click)="clearFilter(columnF)"
+      ></button>
+      <button
+        pButton
+        label="Применить"
+        class="button"
+        (click)="applyFilter(columnF)"
+      ></button>
+    </div>
   </ng-template>
 </p-columnFilter>

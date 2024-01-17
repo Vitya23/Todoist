@@ -41,24 +41,12 @@
     align-items: center;
     justify-content: space-between;
   }
-
-  .status__col {
-    text-align: center;
-    width: 15%;
-  }
-  .description__col {
-    min-width: 270px;
-    width: 50%;
-  }
-  .category__col {
-    width: 30%;
-  }
-  .menu__col {
-    width: 10%;
-    text-align: center;
+  .col__item {
+    display: flex;
+    align-items: center;
   }
 
-  .table__status {
+  .col__status {
     text-align: center;
   }
 

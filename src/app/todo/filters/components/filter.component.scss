@@ -1,7 +1,32 @@
-.header {
-  width: 100%;
-  padding-left: 1rem;
+.red {
+  color: var(--red-300);
 }
-.block {
-  width: 80%;
+.orange {
+  color: var(--orange-200);
+}
+.blue {
+  color: var(--blue-200);
+}
+.default {
+  color: var(--surface-800);
+}
+
+.header {
+  width: 295px;
+  padding: 0 1rem 0 1rem;
+}
+
+.footer {
+  display: flex;
+  justify-content: space-around;
+  flex-direction: row;
+  padding-top: 1rem;
+}
+
+.button {
+  width: auto;
+}
+.select__items {
+  display: flex;
+  gap: 5px;
 }
