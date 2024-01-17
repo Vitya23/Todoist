@@ -1,0 +1,47 @@
+<p-columnFilter
+  #columnF
+  display="menu"
+  [showOperator]="false"
+  [showMatchModes]="false"
+  [showAddButton]="false"
+>
+  <ng-template pTemplate="header">
+    <div class="header">
+      <div class="block">
+        <p>Фильтровать по</p>
+
+        <p-dropdown (onChange)="field = $event.value" [options]="fields">
+          <ng-template let-option pTemplate="item">
+            {{ option.label }}
+          </ng-template>
+        </p-dropdown>
+      </div>
+    </div>
+  </ng-template>
+  <ng-template pTemplate="body">
+    @if(field === 'description'){
+    <input
+      pInputText
+      [(ngModel)]="date1"
+      type="text"
+      (input)="table?.filterGlobal(date1, 'contains')"
+    />
+    } @if(field === 'endDate'){
+    <p-calendar
+      (onSelect)="table?.filterGlobal(date1, 'equals')"
+      [(ngModel)]="date1"
+      [showIcon]="true"
+    ></p-calendar>
+    } @if(field === 'priority'){
+    <p-dropdown
+      [options]="priority"
+      (onChange)="table?.filterGlobal(date1, 'equals')"
+      optionLabel="title"
+      [(ngModel)]="date1"
+      optionValue="priority"
+      [showClear]="true"
+      placeholder="Приоритет"
+    ></p-dropdown>
+    }
+  </ng-template>
+</p-columnFilter>

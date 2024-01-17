@@ -49,7 +49,7 @@ export class TodoAddEditComponent implements OnInit, OnDestroy {
   @Input() task?: TaskI;
 
   categories: CategoryI[] | null = this.appState.categories();
-  priorities: PriorityI[] = this.todoAddService.priorityItems;
+  priorities: PriorityI[] = this.appState.priorityItems;
 
   destroy$ = new Subject<void>();
 

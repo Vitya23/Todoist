@@ -6,29 +6,20 @@
         [value]="tasks"
         [resizableColumns]="true"
         [scrollable]="true"
-        columnResizeMode="fit"
-        [tableStyle]="{ width: 'content' }"
-        [autoLayout]="true"
         [paginator]="true"
         [rows]="5"
         [showCurrentPageReport]="true"
         currentPageReportTemplate="Показаны записи с {first} по {last} из {totalRecords}"
-        [globalFilterFields]="['description', 'category']"
+        [globalFilterFields]="[
+          'description',
+          'category',
+          'endDate',
+          'priority'
+        ]"
       >
         <ng-template pTemplate="caption">
           <div class="caption">
             <app-menu></app-menu>
-            <span class="p-input-icon-left ml">
-              <i class="pi pi-search"></i>
-              <input
-                pInputText
-                type="text"
-                class="globalFilter"
-                #input
-                (input)="table.filterGlobal(input.value, 'contains')"
-                placeholder="Глобальный поиск"
-              />
-            </span>
           </div>
         </ng-template>
         <ng-template pTemplate="header" #head>
@@ -40,11 +31,50 @@
           </tr>
           <tr>
             <th class="description__col">
-              <p-columnFilter
-                placeholder="Поиск задач"
-                type="text"
-                field="description"
-              ></p-columnFilter>
+              <!-- <p-columnFilter
+                #colFilter
+                [field]="field"
+                [matchModeOptions]="matchModeOptions"
+                (onChange)="this.field = 'a'"
+                display="menu"
+                [showOperator]="false"
+                [showAddButton]="false"
+              >
+                <ng-template
+                  pTemplate="filter"
+                  let-value
+                  let-filter="filterCallback"
+                >
+                  {{ colFilter.dt.filter | json }}
+                  {{ field }}
+                  @if(field === 'description'){
+                  <input
+                    pInputText
+                    #inp
+                    type="text"
+                    (input)="
+                      table.filter(inp.value, 'isPrimeNumber', 'contains')
+                    "
+                  />
+                  {{ inp.value }}
+                  } @else{
+                  <p-multiSelect
+                    [ngModel]="value"
+                    [options]="tasks"
+                    placeholder="Any"
+                    (onChange)="filter($event.value)"
+                    optionLabel="name"
+                  >
+                    <ng-template let-option pTemplate="item">
+                      <div class="inline-block vertical-align-middle">
+                        <span class="ml-1 mt-1">{{ option.name }}</span>
+                      </div>
+                    </ng-template>
+                  </p-multiSelect>
+                  }
+                </ng-template>
+              </p-columnFilter> -->
+              <app-filter [table]="table"></app-filter>
             </th>
             <th class="category__col">
               <p-columnFilter
