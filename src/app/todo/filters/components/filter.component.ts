@@ -71,8 +71,7 @@ export class FilterComponent {
   }
   clearFilter(filter: ColumnFilter) {
     if (this.table) {
-      this.table?.clear();
-      this.filterValue = null;
+      this.table.clear();
     }
   }
 }

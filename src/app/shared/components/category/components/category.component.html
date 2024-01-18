@@ -1,5 +1,5 @@
 <ng-container #DelCategoryInsertionPoint></ng-container>
-@if(!category().title?.length && taskId ){
+@if(!category().title?.length && !mode ){
 
 <p-button
   label="Добавить категорию"
@@ -9,63 +9,50 @@
   (click)="active = true"
 ></p-button>
 
-} @if(category().title ){
+} @if(categories() ){
 
 <div class="category">
   <div class="category__title">
     <small> {{ category().title }}</small>
-  </div>
-
-  <div class="category__menu">
-    <p-confirmPopup></p-confirmPopup>
-    <p-menu #menu [model]="items" [popup]="true" appendTo="body"></p-menu>
-    <p-button
-      (click)="menu.toggle($event)"
-      icon="pi pi-ellipsis-h "
-      [text]="true"
-      severity="danger "
-      size="small"
-    ></p-button>
   </div>
 </div>
 
 }
 
 <p-dialog
-  [header]="taskId ? 'Изменение категории' : 'Добавление категории'"
+  [header]="mode === 'edit' ? 'Изменение категории' : 'Добавление категории'"
   [(visible)]="active"
   [draggable]="false"
   [resizable]="false"
 >
   <ng-template pTemplate="content">
     <form [formGroup]="form" (ngSubmit)="onSubmit()">
-      @if(!taskId){
-      <input
-        trimOnBlur
-        class="input"
-        formControlName="title"
-        type="text"
-        pInputText
-      />
-
-      } @if(categories() && taskId){
-
-      <p-autoComplete
-        formControlName="title"
-        [dropdown]="true"
-        [suggestions]="filteredCategories!"
-        (completeMethod)="filterCategory($event)"
-        appendTo="body"
-      >
-        <ng-template let-category pTemplate="item">
-          <div class="flex align-items-center gap-2">
-            <div>{{ category }}</div>
-          </div>
-        </ng-template>
-      </p-autoComplete>
-
-      }
+      <div class="block">
+        @if(mode === 'edit'){
+        <div class="block__categories">
+          <p-dropdown
+            *ngIf="categories() as categories"
+            [style]="{ width: '100%' }"
+            appendTo="body"
+            [options]="categories"
+            formControlName="id"
+            [showClear]="true"
+            optionLabel="title"
+            optionValue="id"
+          ></p-dropdown>
+        </div>
+        <p>на</p>
+        }
+        <input
+          trimOnBlur
+          class="input"
+          formControlName="title"
+          type="text"
+          pInputText
+        />
+      </div>
       <div class="footer">
+        @if(mode === 'add'){
         <div class="footer__setAll">
           <p-checkbox
             [binary]="true"
@@ -73,17 +60,17 @@
             formControlName="setAll"
           ></p-checkbox>
           <label for="setAll">{{
-            taskId
-              ? "Изменить категорию для всех задач"
-              : "Добавить ко всем задачам без категории"
+            "Добавить ко всем задачам без категории"
           }}</label>
         </div>
+        }
+
         <div class="footer__buttons">
           <p-button
             type="submit"
             size="small"
             class="footer_button"
-            [label]="taskId ? 'Сохранить' : 'Добавить'"
+            [label]="mode === 'edit' ? 'Сохранить' : 'Добавить'"
             severity="danger"
             [plain]="true"
             [disabled]="this.form.invalid"

@@ -64,7 +64,7 @@
                 ></p-sortIcon>
               </div>
             </th>
-            <th>
+            <th class="col__item">
               Статус
               <app-filter
                 title="Фильтр по статусу"
@@ -92,10 +92,7 @@
               </div>
             </td>
             <td>
-              <app-category
-                [taskId]="task.id"
-                [categoryId]="task.category"
-              ></app-category>
+              <app-category [categoryId]="task.category"></app-category>
             </td>
 
             <td class="table__status">

@@ -5,6 +5,23 @@
   justify-content: space-between;
 }
 
+.block {
+  max-width: 300px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  p {
+    margin-top: 8px;
+    margin-bottom: 8px;
+  }
+  .block__categories {
+    margin-bottom: 10px;
+    width: 100%;
+  }
+}
+
 .footer {
   display: flex;
   flex-direction: column;

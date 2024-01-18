@@ -15,6 +15,7 @@ import { DialogModule } from 'primeng/dialog';
 import { InputTextModule } from 'primeng/inputtext';
 import {
   FormBuilder,
+  FormControl,
   FormGroup,
   ReactiveFormsModule,
   Validators,
@@ -66,10 +67,9 @@ export class CategoryComponent implements OnInit, OnDestroy {
   category = signal<CategoryI>({ id: null, title: null });
   categories: WritableSignal<CategoryI[] | null> = this.appState.categories;
 
-  @Input() taskId: number | null = null;
   @Input() active: boolean = false;
+  @Input() mode: string | null = null;
   @Input() categoryId: number | null = null;
-
   filteredCategories: string[] | undefined;
   form!: FormGroup<CategoryFormI>;
   backendError: string | null = null;
@@ -93,22 +93,27 @@ export class CategoryComponent implements OnInit, OnDestroy {
   initializeForm(): void {
     this.form = this.fb.group<CategoryFormI>({
       id: this.fb.control(null),
-      taskId: this.fb.control(this.taskId),
       title: this.fb.control(null, [
         Validators.required,
         Validators.maxLength(30),
       ]),
-      setAll: this.fb.nonNullable.control(false),
     });
+    if (this.mode === 'add') {
+      this.form.addControl(
+        'setAll',
+        new FormControl(false, { nonNullable: true })
+      );
+    }
   }
 
   patchForm() {
-    if (this.categories) {
+    if (this.categories()) {
       const category = this.categories()?.find(
         (category) => category.id === this.categoryId
       );
       this.category.set(category ? category : { id: null, title: null });
       this.form.patchValue(category ? category : { id: null, title: null });
+      console.log(this.category());
     }
   }
 
@@ -134,7 +139,7 @@ export class CategoryComponent implements OnInit, OnDestroy {
   }
   onSubmit(): void {
     const { title, setAll } = this.form.value;
-    if (!this.taskId) {
+    if (this.mode === 'add') {
       this.categoryService
         .addCategory({ title: title as string, setAll: setAll as boolean })
         .pipe(takeUntil(this.destroy$))
@@ -164,6 +169,7 @@ export class CategoryComponent implements OnInit, OnDestroy {
     }
 
     this.active = false;
+    console.log(this.categories());
   }
 
   messageServiceAdd(severity: string) {

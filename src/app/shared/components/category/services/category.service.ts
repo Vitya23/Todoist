@@ -35,15 +35,12 @@ export class CategoryService {
     }
   }
   editCategory(category: CategoryI): Observable<void> {
-    const req = [
-      this.http.put<CategoryI[]>(environment.apiUrl + 'category', category),
-      this.http.get<TaskI[]>(environment.apiUrl + 'tasks'),
-    ];
-    return forkJoin(req).pipe(
-      map((response) => {
-        this.appState.categories.set(response[0] as CategoryI[]);
-        this.appState.task.set(response[1] as TaskI[]);
-      })
-    );
+    return this.http
+      .put<CategoryI[]>(environment.apiUrl + 'category', category)
+      .pipe(
+        map((response) => {
+          this.appState.categories.set(response);
+        })
+      );
   }
 }

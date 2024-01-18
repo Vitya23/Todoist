@@ -62,7 +62,7 @@ export class MenuComponent implements OnInit {
             label: 'Категорию',
             icon: 'pi pi-table',
             command: () => {
-              this.generateCategoryAddComponent();
+              this.generateCategoryEditComponent();
             },
           },
         ],
@@ -79,5 +79,13 @@ export class MenuComponent implements OnInit {
     let componentRef =
       this.childInsertionPoint.createComponent(CategoryComponent);
     componentRef.instance.active = true;
+    componentRef.instance.mode = 'add';
+  }
+  generateCategoryEditComponent() {
+    this.childInsertionPoint.clear();
+    let componentRef =
+      this.childInsertionPoint.createComponent(CategoryComponent);
+    componentRef.instance.active = true;
+    componentRef.instance.mode = 'edit';
   }
 }

@@ -230,39 +230,17 @@ export class FakeBackendInterceptor implements HttpInterceptor {
     function editCategory() {
       const user = getUserByToken();
       if (!user) return error('Пожалуйста войдите снова');
-      editTaskCategory();
+      categoriesDataBase.categories.forEach((category) => {
+        if (category.id === body.id) {
+          category.title = body.title;
+        }
+      });
+
       const newCategories = categoriesDataBase.categories.filter(
         (res) => res.userId === user?.id
       );
+      console.log(newCategories);
       return ok(newCategories);
-    }
-
-    function editTaskCategory() {
-      const user = getUserByToken();
-      if (!user) return error('Пожалуйста войдите снова');
-      const newId =
-        categoriesDataBase.categories[categoriesDataBase.categories.length - 1]
-          .id + 1;
-      const repeat = categoriesDataBase.categories.find((res) => {
-        return res.userId === user.id && res.title === body.title;
-      });
-      if (!repeat) {
-        addCategory();
-      }
-      toDoDataBase.tasks = toDoDataBase.tasks.map((defaultTask) => {
-        if (body.setAll === false && defaultTask.id === body.taskId) {
-          return repeat
-            ? { ...defaultTask, category: repeat.id }
-            : { ...defaultTask, category: newId };
-        }
-        if (body.setAll === true && defaultTask.category === body.id) {
-          return repeat
-            ? { ...defaultTask, category: repeat.id }
-            : { ...defaultTask, category: newId };
-        }
-        return defaultTask;
-      });
-      return;
     }
 
     function deleteCategory() {
