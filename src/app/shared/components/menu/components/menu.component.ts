@@ -67,6 +67,19 @@ export class MenuComponent implements OnInit {
           },
         ],
       },
+      {
+        label: 'Удалить',
+        icon: 'pi pi-trash',
+        items: [
+          {
+            label: 'Категорию',
+            icon: 'pi pi-table',
+            command: () => {
+              this.generateCategoryDeleteComponent();
+            },
+          },
+        ],
+      },
     ];
   }
 
@@ -87,5 +100,12 @@ export class MenuComponent implements OnInit {
       this.childInsertionPoint.createComponent(CategoryComponent);
     componentRef.instance.active = true;
     componentRef.instance.mode = 'edit';
+  }
+  generateCategoryDeleteComponent() {
+    this.childInsertionPoint.clear();
+    let componentRef =
+      this.childInsertionPoint.createComponent(CategoryComponent);
+    componentRef.instance.active = true;
+    componentRef.instance.mode = 'delete';
   }
 }

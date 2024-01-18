@@ -89,10 +89,10 @@ export class CategoryComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.initializeForm();
     this.initializeMenu();
+    console.log(this.mode);
   }
   initializeForm(): void {
     this.form = this.fb.group<CategoryFormI>({
-      id: this.fb.control(null),
       title: this.fb.control(null, [
         Validators.required,
         Validators.maxLength(30),
@@ -103,6 +103,8 @@ export class CategoryComponent implements OnInit, OnDestroy {
         'setAll',
         new FormControl(false, { nonNullable: true })
       );
+    } else {
+      this.form.addControl('id', new FormControl(null, Validators.required));
     }
   }
 
@@ -153,7 +155,8 @@ export class CategoryComponent implements OnInit, OnDestroy {
           },
         });
       this.form.patchValue({ title: null });
-    } else {
+    }
+    if (this.mode === 'edit') {
       this.categoryService
         .editCategory(this.form.value as CategoryI)
         .pipe(takeUntil(this.destroy$))
@@ -166,6 +169,9 @@ export class CategoryComponent implements OnInit, OnDestroy {
             this.messageServiceAdd('error');
           },
         });
+    }
+    if (this.mode === 'delete') {
+      this.deleteCategory();
     }
 
     this.active = false;
@@ -196,30 +202,14 @@ export class CategoryComponent implements OnInit, OnDestroy {
   }
 
   deleteCategory(): void {
-    const categoryId = this.form.controls['id'].value;
-    if (categoryId !== null) {
+    const { id } = this.form.value;
+    if (id) {
       this.DelCategoryInsertionPoint.clear();
       let componentRef =
         this.DelCategoryInsertionPoint.createComponent(DeleteComponent);
-      componentRef.instance.id = categoryId;
+      componentRef.instance.id = id;
       componentRef.instance.mode = DeleteMods.Category;
     }
-  }
-
-  filterCategory(event: AutoCompleteCompleteEvent) {
-    const query = event.query;
-    const categories = this.categories();
-    let filteredCategory: string[] = [];
-    if (categories) {
-      categories.forEach((category: CategoryI) => {
-        if (category.title) {
-          if (category.title.toLowerCase().indexOf(query.toLowerCase()) == 0) {
-            filteredCategory.push(category.title);
-          }
-        }
-      });
-    }
-    this.filteredCategories = filteredCategory;
   }
 
   ngOnDestroy(): void {

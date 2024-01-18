@@ -28,7 +28,7 @@
   <ng-template pTemplate="content">
     <form [formGroup]="form" (ngSubmit)="onSubmit()">
       <div class="block">
-        @if(mode === 'edit'){
+        @if(mode !== 'add'){
         <div class="block__categories">
           <p-dropdown
             *ngIf="categories() as categories"
@@ -41,8 +41,8 @@
             optionValue="id"
           ></p-dropdown>
         </div>
-        <p>на</p>
-        }
+        <p *ngIf="mode === 'change'">на</p>
+        } @if(mode !== 'delete'){
         <input
           trimOnBlur
           class="input"
@@ -50,6 +50,7 @@
           type="text"
           pInputText
         />
+        }
       </div>
       <div class="footer">
         @if(mode === 'add'){
@@ -59,9 +60,7 @@
             inputId="setAll"
             formControlName="setAll"
           ></p-checkbox>
-          <label for="setAll">{{
-            "Добавить ко всем задачам без категории"
-          }}</label>
+          <label for="setAll">Добавить ко всем задачам без категории</label>
         </div>
         }
 
@@ -73,7 +72,11 @@
             [label]="mode === 'edit' ? 'Сохранить' : 'Добавить'"
             severity="danger"
             [plain]="true"
-            [disabled]="this.form.invalid"
+            [disabled]="
+              mode !== 'delete'
+                ? !this.form.invalid
+                : this.form.controls['id']?.invalid
+            "
           ></p-button>
           <p-button
             (click)="active = false"
