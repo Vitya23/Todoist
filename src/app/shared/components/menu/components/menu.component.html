@@ -1,15 +1,36 @@
 @if(items){
-<p-tieredMenu #menu [model]="items" [popup]="true" appendTo="body">
+
+<p-tieredMenu #pTired [model]="items" [popup]="true" appendTo="body">
 </p-tieredMenu>
-<p-button
-  #btn
-  (click)="menu.toggle($event)"
-  icon="pi pi-bars"
-  [outlined]="true"
-  label="Меню"
-  severity="info"
-  size="small"
-></p-button>
+<p-menu
+  #menu
+  class="menu"
+  [model]="items"
+  appendTo="body"
+  [popup]="true"
+></p-menu>
+<div class="pTired">
+  <p-button
+    #btn
+    (click)="pTired.toggle($event)"
+    icon="pi pi-bars"
+    [outlined]="true"
+    label="Меню"
+    severity="info"
+    size="small"
+  ></p-button>
+</div>
+<div class="menu">
+  <p-button
+    #btn
+    (click)="menu.toggle($event)"
+    icon="pi pi-bars"
+    [outlined]="true"
+    label="Меню"
+    severity="info"
+    size="small"
+  ></p-button>
+</div>
 
 }
 

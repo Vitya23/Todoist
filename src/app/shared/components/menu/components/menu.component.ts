@@ -19,8 +19,15 @@ import { CategoryMods } from '../../category/enums/categoryMods.enum';
   standalone: true,
   selector: 'app-menu',
   templateUrl: './menu.component.html',
+  styleUrl: './menu.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CommonModule, MenubarModule, ButtonModule, TieredMenuModule],
+  imports: [
+    CommonModule,
+    MenubarModule,
+    ButtonModule,
+    TieredMenuModule,
+    MenuModule,
+  ],
 })
 export class MenuComponent implements OnInit {
   @ViewChild('ChildAddInsertionPoint', { read: ViewContainerRef })

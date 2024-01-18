@@ -1,0 +1,12 @@
+.menu {
+  display: none;
+}
+
+@media screen and (max-width: 426px) {
+  .pTired {
+    display: none;
+  }
+  .menu {
+    display: block;
+  }
+}
