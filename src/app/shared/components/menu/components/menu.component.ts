@@ -13,6 +13,7 @@ import { MenuItem } from 'primeng/api';
 import { CategoryComponent } from '../../category/components/category.component';
 import { TieredMenuModule } from 'primeng/tieredmenu';
 import { MenubarModule } from 'primeng/menubar';
+import { CategoryMods } from '../../category/enums/categoryMods.enum';
 
 @Component({
   standalone: true,
@@ -24,7 +25,7 @@ import { MenubarModule } from 'primeng/menubar';
 export class MenuComponent implements OnInit {
   @ViewChild('ChildAddInsertionPoint', { read: ViewContainerRef })
   childInsertionPoint!: ViewContainerRef;
-
+  categoryMods = CategoryMods;
   items: MenuItem[] | null = null;
 
   ngOnInit(): void {
@@ -56,7 +57,7 @@ export class MenuComponent implements OnInit {
       },
       {
         label: 'Редактировать',
-        icon: 'pi pi-plus',
+        icon: 'pi pi-pencil',
         items: [
           {
             label: 'Категорию',
@@ -92,20 +93,26 @@ export class MenuComponent implements OnInit {
     let componentRef =
       this.childInsertionPoint.createComponent(CategoryComponent);
     componentRef.instance.active = true;
-    componentRef.instance.mode = 'add';
+    componentRef.instance.mode = this.categoryMods.ADD;
+    componentRef.instance.label = 'Добавить';
+    componentRef.instance.header = 'Добавить категорию';
   }
   generateCategoryEditComponent() {
     this.childInsertionPoint.clear();
     let componentRef =
       this.childInsertionPoint.createComponent(CategoryComponent);
     componentRef.instance.active = true;
-    componentRef.instance.mode = 'edit';
+    componentRef.instance.mode = this.categoryMods.EDIT;
+    componentRef.instance.label = 'Сохранить';
+    componentRef.instance.header = 'Изменить категорию';
   }
   generateCategoryDeleteComponent() {
     this.childInsertionPoint.clear();
     let componentRef =
       this.childInsertionPoint.createComponent(CategoryComponent);
     componentRef.instance.active = true;
-    componentRef.instance.mode = 'delete';
+    componentRef.instance.mode = this.categoryMods.DELETE;
+    componentRef.instance.label = 'Удалить';
+    componentRef.instance.header = 'Удалить категорию';
   }
 }

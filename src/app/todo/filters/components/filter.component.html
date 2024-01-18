@@ -41,6 +41,7 @@
     >
       <ng-template let-option pTemplate="item">
         @if(!field){
+
         <div class="select__items">
           <i class="pi pi-flag"></i>
           <div highlightPriority [priority]="option.priority">
@@ -50,9 +51,7 @@
         } @if(field === 'category'){
         <div class="category_filter">
           <span>{{ option.title }}</span>
-          <p-button [text]="true" size="small" icon="pi pi-times"></p-button>
         </div>
-        <!-- (onFocus)="generateDeleteComponent(option.id, deleteMods.Category)" -->
         } @if(field === 'status') {
         {{ option.status }}
         }

@@ -1,16 +1,3 @@
-.red {
-  color: var(--red-300);
-}
-.orange {
-  color: var(--orange-200);
-}
-.blue {
-  color: var(--blue-200);
-}
-.default {
-  color: var(--surface-800);
-}
-
 .wrapper {
   width: 100%;
   display: flex;
@@ -33,6 +20,7 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
+    gap: 5px;
   }
   .col__item {
     display: flex;
@@ -56,5 +44,11 @@
     p {
       margin: 0;
     }
+  }
+}
+
+@media screen and (max-width: 376px) {
+  .table {
+    width: 90%;
   }
 }

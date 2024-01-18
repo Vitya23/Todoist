@@ -38,6 +38,7 @@ import {
 } from 'primeng/autocomplete';
 import { toObservable, toSignal } from '@angular/core/rxjs-interop';
 import { DeleteMods } from '../../delete/enums/deleteMods.enum';
+import { CategoryMods } from '../enums/categoryMods.enum';
 
 @Component({
   standalone: true,
@@ -64,12 +65,17 @@ export class CategoryComponent implements OnInit, OnDestroy {
   @ViewChild('DelCategoryInsertionPoint', { read: ViewContainerRef })
   DelCategoryInsertionPoint!: ViewContainerRef;
 
+  mods = CategoryMods;
+
   category = signal<CategoryI>({ id: null, title: null });
   categories: WritableSignal<CategoryI[] | null> = this.appState.categories;
 
   @Input() active: boolean = false;
   @Input() mode: string | null = null;
   @Input() categoryId: number | null = null;
+  @Input() label: string = 'Добавить';
+  @Input() header: string | undefined;
+
   filteredCategories: string[] | undefined;
   form!: FormGroup<CategoryFormI>;
   backendError: string | null = null;
@@ -83,13 +89,12 @@ export class CategoryComponent implements OnInit, OnDestroy {
     private messageService: MessageService,
     private appState: AppState
   ) {
-    toSignal(toObservable(this.categories).pipe(tap(() => this.patchForm())));
+    toSignal(toObservable(this.categories).pipe(tap(() => this.setCategory())));
   }
 
   ngOnInit(): void {
     this.initializeForm();
     this.initializeMenu();
-    console.log(this.mode);
   }
   initializeForm(): void {
     this.form = this.fb.group<CategoryFormI>({
@@ -98,7 +103,7 @@ export class CategoryComponent implements OnInit, OnDestroy {
         Validators.maxLength(30),
       ]),
     });
-    if (this.mode === 'add') {
+    if (this.mode === this.mods.ADD) {
       this.form.addControl(
         'setAll',
         new FormControl(false, { nonNullable: true })
@@ -108,14 +113,16 @@ export class CategoryComponent implements OnInit, OnDestroy {
     }
   }
 
-  patchForm() {
+  setCategory() {
     if (this.categories()) {
       const category = this.categories()?.find(
         (category) => category.id === this.categoryId
       );
-      this.category.set(category ? category : { id: null, title: null });
-      this.form.patchValue(category ? category : { id: null, title: null });
-      console.log(this.category());
+      this.category.set(
+        category
+          ? { id: category.id, title: category.title }
+          : { id: null, title: null }
+      );
     }
   }
 
@@ -141,7 +148,7 @@ export class CategoryComponent implements OnInit, OnDestroy {
   }
   onSubmit(): void {
     const { title, setAll } = this.form.value;
-    if (this.mode === 'add') {
+    if (this.mode === this.mods.ADD) {
       this.categoryService
         .addCategory({ title: title as string, setAll: setAll as boolean })
         .pipe(takeUntil(this.destroy$))
@@ -156,7 +163,7 @@ export class CategoryComponent implements OnInit, OnDestroy {
         });
       this.form.patchValue({ title: null });
     }
-    if (this.mode === 'edit') {
+    if (this.mode === this.mods.EDIT) {
       this.categoryService
         .editCategory(this.form.value as CategoryI)
         .pipe(takeUntil(this.destroy$))
@@ -170,12 +177,11 @@ export class CategoryComponent implements OnInit, OnDestroy {
           },
         });
     }
-    if (this.mode === 'delete') {
+    if (this.mode === this.mods.DELETE) {
       this.deleteCategory();
     }
 
     this.active = false;
-    console.log(this.categories());
   }
 
   messageServiceAdd(severity: string) {
