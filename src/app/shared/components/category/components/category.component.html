@@ -29,6 +29,7 @@
             [showClear]="true"
             optionLabel="title"
             optionValue="id"
+            [filter]="categories.length >= 5"
           ></p-dropdown>
         </div>
         <p *ngIf="mode === mods.EDIT">на</p>

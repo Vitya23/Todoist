@@ -38,6 +38,7 @@
       [showClear]="true"
       [optionLabel]="optionLabel"
       [optionValue]="optionValue"
+      [filter]="dropDownOption ? dropDownOption.length >= 5 : false"
     >
       <ng-template let-option pTemplate="item">
         @if(!field){

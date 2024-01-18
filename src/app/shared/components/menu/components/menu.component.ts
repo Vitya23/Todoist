@@ -42,7 +42,7 @@ export class MenuComponent implements OnInit {
   initializeMenu(): void {
     this.items = [
       {
-        label: 'Создать',
+        label: 'Добавить',
         icon: 'pi pi-plus',
         items: [
           {
