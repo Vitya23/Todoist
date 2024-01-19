@@ -7,15 +7,15 @@ import {
   Validators,
 } from '@angular/forms';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
-import { Subject, takeUntil } from 'rxjs';
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
 import { PasswordModule } from 'primeng/password';
-import { AuthService } from '../services/auth.service';
-import { AuthFormI } from '../types/authForm.interface';
+import { Subject, takeUntil } from 'rxjs';
 import { Title } from '../enums/title.enum';
+import { AuthService } from '../services/auth.service';
+import { AuthFormI } from '../types/auth.interface';
+import { AuthRequestI } from '../types/auth.interface';
 import { initialAuthForm } from '../utils/auth.utils';
-import { AuthRequestI } from '../types/authRequest.interface';
 
 @Component({
   selector: 'app-auth',
@@ -42,7 +42,7 @@ export class AuthComponent implements OnInit, OnDestroy {
   constructor(
     private readonly route: ActivatedRoute,
     private readonly router: Router,
-    private authService: AuthService
+    private readonly authService: AuthService
   ) {}
 
   ngOnInit(): void {
@@ -109,11 +109,12 @@ export class AuthComponent implements OnInit, OnDestroy {
         });
     }
     if (this.title === Title.Register && this.form.valid) {
+      const { email, password } = this.form.value;
       this.authService
         .register({
           user: {
-            email: this.form.controls['email'].value ?? '',
-            password: this.form.controls['password'].value ?? '',
+            email: email as string,
+            password: password as string,
           },
         })
         .pipe(takeUntil(this.destroy$))

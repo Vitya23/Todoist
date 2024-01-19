@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
-import { AuthRequestI } from '../types/authRequest.interface';
+import { AuthRequestI } from '../types/auth.interface';
 import { HttpClient } from '@angular/common/http';
 import { Observable, map } from 'rxjs';
-import { AuthResponseI } from '../types/authResponse.interface';
+import { AuthResponseI } from '../types/auth.interface';
 import { AppState } from '../../shared/services/appState.state';
 import { environment } from 'src/environments/environment';
 

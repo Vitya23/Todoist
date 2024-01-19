@@ -19,11 +19,9 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { ConfirmPopupModule } from 'primeng/confirmpopup';
 import { CategoryService } from '../services/category.service';
 import { CategoryI } from '../types/category.interface';
-import { MenuModule } from 'primeng/menu';
-import { ConfirmationService, MenuItem, MessageService } from 'primeng/api';
+import { MessageService } from 'primeng/api';
 import { Subject, takeUntil, tap } from 'rxjs';
 import { DeleteComponent } from 'src/app/shared/components/delete/components/delete.component';
 import { CategoryFormI } from '../types/categoryForm.interface';
@@ -31,7 +29,6 @@ import { TrimOnBlurDirective } from 'src/app/shared/directives/trim-on-blur.dire
 import { AppState } from 'src/app/shared/services/appState.state';
 import { CheckboxModule } from 'primeng/checkbox';
 import { DropdownModule } from 'primeng/dropdown';
-import { AutoCompleteModule } from 'primeng/autocomplete';
 import { toObservable, toSignal } from '@angular/core/rxjs-interop';
 import { DeleteMods } from '../../delete/enums/deleteMods.enum';
 import { CategoryMods } from '../enums/categoryMods.enum';
@@ -49,15 +46,12 @@ import { AddCategoryI } from '../types/addCategory.interface';
     ReactiveFormsModule,
     ButtonModule,
     DialogModule,
-    MenuModule,
     InputTextModule,
-    ConfirmPopupModule,
     TrimOnBlurDirective,
     CheckboxModule,
     DropdownModule,
-    AutoCompleteModule,
   ],
-  providers: [CategoryService, ConfirmationService],
+  providers: [CategoryService],
 })
 export class CategoryComponent implements OnInit, OnDestroy {
   @ViewChild('DelCategoryInsertionPoint', { read: ViewContainerRef })

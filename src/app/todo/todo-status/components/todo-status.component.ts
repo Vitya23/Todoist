@@ -41,9 +41,9 @@ export class TodoStatus implements OnDestroy {
 
   getSeverity(status: string) {
     switch (status) {
-      case 'Ожидает':
+      case TaskStatus.await:
         return 'success';
-      case 'Выполнено':
+      case TaskStatus.completed:
         return 'danger';
     }
     return;

@@ -10,20 +10,15 @@ import { ButtonModule } from 'primeng/button';
 import { TodoAddService } from '../services/todo-add.service';
 import { DialogModule } from 'primeng/dialog';
 import { InputTextModule } from 'primeng/inputtext';
-import {
-  FormBuilder,
-  FormGroup,
-  ReactiveFormsModule,
-  Validators,
-} from '@angular/forms';
+import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { CalendarModule } from 'primeng/calendar';
 import { DropdownModule } from 'primeng/dropdown';
 import { TaskI } from '../../todo-list/types/task.interface';
 import { Subject, takeUntil } from 'rxjs';
 import { CategoryI } from 'src/app/shared/components/category/types/category.interface';
-import { TaskFormI } from '../types/taskForm.interface';
+import { TaskFormI } from '../types/task.interface';
 import { PriorityI } from '../types/priority.interface';
-import { TaskRequestI } from '../types/taskRequest.interface';
+import { TaskRequestI } from '../types/task.interface';
 import { TrimOnBlurDirective } from 'src/app/shared/directives/trim-on-blur.directive';
 import { AppState } from 'src/app/shared/services/appState.state';
 import { initialTodoForm } from '../utils/todo.utils';

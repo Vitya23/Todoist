@@ -5,3 +5,14 @@ export interface AuthFormI {
   password: FormControl<string | null>;
   confirmPassword?: FormControl<string | null>;
 }
+
+export interface AuthRequestI {
+  user: {
+    email: string;
+    password: string;
+  };
+}
+export interface AuthResponseI {
+  email: string;
+  accessToken: string;
+}

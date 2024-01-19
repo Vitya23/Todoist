@@ -1,5 +1,5 @@
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { TaskFormI } from '../types/taskForm.interface';
+import { TaskFormI } from '../types/task.interface';
 
 export function initialTodoForm(): FormGroup<TaskFormI> {
   return new FormGroup<TaskFormI>({

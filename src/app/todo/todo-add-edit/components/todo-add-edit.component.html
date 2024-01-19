@@ -23,7 +23,6 @@
           appendTo="body"
           icon="pi pi-calendar"
           [showIcon]="true"
-          [iconDisplay]="'input'"
           formControlName="endDate"
         >
         </p-calendar>
@@ -35,7 +34,6 @@
           place
           [style]="{
             width: '100%',
-            'text-align': 'left'
           }"
           formControlName="priority"
           appendTo="body"
@@ -63,28 +61,16 @@
         <p-dropdown
           [style]="{
             width: '300px',
-            'text-align': 'left'
           }"
           [options]="categories ? categories : undefined"
           formControlName="category"
           optionLabel="title"
           optionValue="id"
           appendTo="body"
-          [filter]="true"
-          filterBy="title"
+          [filter]="categories ? categories.length >= 5 : false"
           [showClear]="true"
           placeholder="Категория"
         >
-          <ng-template let-category pTemplate="selectedItem">
-            <div class="flex align-items-center gap-2" *ngIf="category">
-              <div>{{ category.title }}</div>
-            </div>
-          </ng-template>
-          <ng-template let-category pTemplate="item">
-            <div class="flex align-items-center gap-2">
-              <div>{{ category.title }}</div>
-            </div>
-          </ng-template>
         </p-dropdown>
       </div>
     </div>

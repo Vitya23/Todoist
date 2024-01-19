@@ -1,5 +1,5 @@
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { AuthFormI } from '../types/authForm.interface';
+import { AuthFormI } from '../types/auth.interface';
 import { PasswordValidators } from 'src/app/shared/validators/passwordValidator';
 
 export function initialAuthForm(): FormGroup<AuthFormI> {

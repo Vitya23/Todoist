@@ -7,3 +7,10 @@ export interface TaskFormI {
   priority: FormControl<PriorityI | null>;
   category: FormControl<number | null>;
 }
+
+export interface TaskRequestI {
+  description: string;
+  endDate: Date;
+  priority: PriorityI;
+  category: number | null;
+}

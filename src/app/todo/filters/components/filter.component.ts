@@ -1,10 +1,5 @@
 import { CommonModule } from '@angular/common';
-import {
-  ChangeDetectionStrategy,
-  Component,
-  Input,
-  inject,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CalendarModule } from 'primeng/calendar';
 import { DropdownModule } from 'primeng/dropdown';
@@ -13,7 +8,6 @@ import { MenuModule } from 'primeng/menu';
 import { MenubarModule } from 'primeng/menubar';
 import { ColumnFilter, Table, TableModule } from 'primeng/table';
 import { PriorityI } from '../../todo-add-edit/types/priority.interface';
-import { AppState } from 'src/app/shared/services/appState.state';
 import { PriorityDirective } from 'src/app/shared/directives/priority.directive';
 import { CategoryI } from 'src/app/shared/components/category/types/category.interface';
 import { ChangeStatusI } from '../../todo-status/types/changeStatus.interface';

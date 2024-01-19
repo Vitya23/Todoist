@@ -3,8 +3,7 @@ import { Injectable } from '@angular/core';
 import { TaskI } from '../../todo-list/types/task.interface';
 import { Observable, map } from 'rxjs';
 import { AppState } from '../../../shared/services/appState.state';
-import { TaskRequestI } from '../types/taskRequest.interface';
-import { PriorityI } from '../types/priority.interface';
+import { TaskRequestI } from '../types/task.interface';
 import { environment } from 'src/environments/environment';
 
 @Injectable()
