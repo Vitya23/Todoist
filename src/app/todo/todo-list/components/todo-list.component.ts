@@ -85,7 +85,7 @@ export class TodoListComponent implements OnInit {
   generateTodoEditComponent(task: TaskI): void {
     if (this.childInsertionPoint) {
       this.childInsertionPoint.clear();
-      let componentRef =
+      const componentRef =
         this.childInsertionPoint.createComponent(TodoAddEditComponent);
       componentRef.instance.task = task;
     }
@@ -93,7 +93,7 @@ export class TodoListComponent implements OnInit {
   generateDeleteComponent(id: number, mode: DeleteMods): void {
     if (this.childInsertionPoint) {
       this.childInsertionPoint.clear();
-      let componentRef =
+      const componentRef =
         this.childInsertionPoint.createComponent(DeleteComponent);
       componentRef.instance.id = id;
       componentRef.instance.mode = mode;

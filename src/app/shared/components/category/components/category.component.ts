@@ -24,7 +24,7 @@ import { CategoryI } from '../types/category.interface';
 import { MessageService } from 'primeng/api';
 import { Subject, takeUntil, tap } from 'rxjs';
 import { DeleteComponent } from 'src/app/shared/components/delete/components/delete.component';
-import { CategoryFormI } from '../types/categoryForm.interface';
+import { CategoryFormI } from '../types/category.interface';
 import { TrimOnBlurDirective } from 'src/app/shared/directives/trim-on-blur.directive';
 import { AppState } from 'src/app/shared/services/appState.state';
 import { CheckboxModule } from 'primeng/checkbox';
@@ -154,7 +154,7 @@ export class CategoryComponent implements OnInit, OnDestroy {
     const { id } = this.form.value;
     if (this.DelCategoryInsertionPoint && id) {
       this.DelCategoryInsertionPoint.clear();
-      let componentRef =
+      const componentRef =
         this.DelCategoryInsertionPoint.createComponent(DeleteComponent);
       componentRef.instance.id = id;
       componentRef.instance.mode = DeleteMods.Category;

@@ -111,7 +111,7 @@ export class MenuComponent implements OnInit {
   generateCategoryEditComponent() {
     if (this.childInsertionPoint) {
       this.childInsertionPoint.clear();
-      let componentRef =
+      const componentRef =
         this.childInsertionPoint.createComponent(CategoryComponent);
       componentRef.instance.active = true;
       componentRef.instance.mode = this.categoryMods.EDIT;
@@ -122,7 +122,7 @@ export class MenuComponent implements OnInit {
   generateCategoryDeleteComponent() {
     if (this.childInsertionPoint) {
       this.childInsertionPoint.clear();
-      let componentRef =
+      const componentRef =
         this.childInsertionPoint.createComponent(CategoryComponent);
       componentRef.instance.active = true;
       componentRef.instance.mode = this.categoryMods.DELETE;

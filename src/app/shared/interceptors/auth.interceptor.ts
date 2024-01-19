@@ -11,9 +11,9 @@ import { environment } from 'src/environments/environment';
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
   intercept(
-    req: HttpRequest<any>,
+    req: HttpRequest<unknown>,
     next: HttpHandler
-  ): Observable<HttpEvent<any>> {
+  ): Observable<HttpEvent<unknown>> {
     const token = JSON.parse(localStorage.getItem('accessToken')!);
     const isApiUrl = req.url.startsWith(environment.apiUrl);
 

@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input, OnDestroy } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { DeleteService } from '../services/delete.service';
 import { ButtonModule } from 'primeng/button';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
@@ -14,7 +14,7 @@ import { DeleteMods } from '../enums/deleteMods.enum';
   imports: [CommonModule, ButtonModule, ConfirmDialogModule],
   providers: [DeleteService, ConfirmationService],
 })
-export class DeleteComponent implements OnDestroy {
+export class DeleteComponent implements OnInit, OnDestroy {
   @Input() id: number | null = null;
   @Input() mode: DeleteMods = DeleteMods.Task;
   destroy$ = new Subject<void>();
