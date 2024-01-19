@@ -30,10 +30,10 @@ import { CategoryMods } from '../../category/enums/categoryMods.enum';
   ],
 })
 export class MenuComponent implements OnInit {
-  @ViewChild('ChildAddInsertionPoint', { read: ViewContainerRef })
-  childInsertionPoint!: ViewContainerRef;
+  @ViewChild('ChildInsertionPoint', { read: ViewContainerRef })
+  childInsertionPoint: ViewContainerRef | undefined;
   categoryMods = CategoryMods;
-  items: MenuItem[] | null = null;
+  items: MenuItem[] = [];
 
   ngOnInit(): void {
     this.initializeMenu();
@@ -92,34 +92,42 @@ export class MenuComponent implements OnInit {
   }
 
   generateTodoAddComponent() {
-    this.childInsertionPoint.clear();
-    this.childInsertionPoint.createComponent(TodoAddEditComponent);
+    if (this.childInsertionPoint) {
+      this.childInsertionPoint.clear();
+      this.childInsertionPoint.createComponent(TodoAddEditComponent);
+    }
   }
   generateCategoryAddComponent() {
-    this.childInsertionPoint.clear();
-    let componentRef =
-      this.childInsertionPoint.createComponent(CategoryComponent);
-    componentRef.instance.active = true;
-    componentRef.instance.mode = this.categoryMods.ADD;
-    componentRef.instance.label = 'Добавить';
-    componentRef.instance.header = 'Добавить категорию';
+    if (this.childInsertionPoint) {
+      this.childInsertionPoint.clear();
+      const componentRef =
+        this.childInsertionPoint.createComponent(CategoryComponent);
+      componentRef.instance.active = true;
+      componentRef.instance.mode = this.categoryMods.ADD;
+      componentRef.instance.label = 'Добавить';
+      componentRef.instance.header = 'Добавить категорию';
+    }
   }
   generateCategoryEditComponent() {
-    this.childInsertionPoint.clear();
-    let componentRef =
-      this.childInsertionPoint.createComponent(CategoryComponent);
-    componentRef.instance.active = true;
-    componentRef.instance.mode = this.categoryMods.EDIT;
-    componentRef.instance.label = 'Сохранить';
-    componentRef.instance.header = 'Изменить категорию';
+    if (this.childInsertionPoint) {
+      this.childInsertionPoint.clear();
+      let componentRef =
+        this.childInsertionPoint.createComponent(CategoryComponent);
+      componentRef.instance.active = true;
+      componentRef.instance.mode = this.categoryMods.EDIT;
+      componentRef.instance.label = 'Сохранить';
+      componentRef.instance.header = 'Изменить категорию';
+    }
   }
   generateCategoryDeleteComponent() {
-    this.childInsertionPoint.clear();
-    let componentRef =
-      this.childInsertionPoint.createComponent(CategoryComponent);
-    componentRef.instance.active = true;
-    componentRef.instance.mode = this.categoryMods.DELETE;
-    componentRef.instance.label = 'Удалить';
-    componentRef.instance.header = 'Удалить категорию';
+    if (this.childInsertionPoint) {
+      this.childInsertionPoint.clear();
+      let componentRef =
+        this.childInsertionPoint.createComponent(CategoryComponent);
+      componentRef.instance.active = true;
+      componentRef.instance.mode = this.categoryMods.DELETE;
+      componentRef.instance.label = 'Удалить';
+      componentRef.instance.header = 'Удалить категорию';
+    }
   }
 }

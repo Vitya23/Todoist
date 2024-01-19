@@ -26,6 +26,7 @@ import { PriorityI } from '../types/priority.interface';
 import { TaskRequestI } from '../types/taskRequest.interface';
 import { TrimOnBlurDirective } from 'src/app/shared/directives/trim-on-blur.directive';
 import { AppState } from 'src/app/shared/services/appState.state';
+import { initialTodoForm } from '../utils/todo.utils';
 @Component({
   standalone: true,
   selector: 'app-todo-add-edit',
@@ -56,31 +57,21 @@ export class TodoAddEditComponent implements OnInit, OnDestroy {
   visible: boolean = true;
   minDate = new Date();
 
-  form!: FormGroup<TaskFormI>;
+  form: FormGroup<TaskFormI> = initialTodoForm();
 
   constructor(
-    private fb: FormBuilder,
     private todoAddService: TodoAddService,
     private appState: AppState
   ) {}
 
   ngOnInit(): void {
-    this.initializeForm();
+    this.patchFormValue();
   }
-  initializeForm(): void {
-    this.form = this.fb.group<TaskFormI>({
-      description: this.fb.control(null, [
-        Validators.required,
-        Validators.maxLength(50),
-      ]),
-      endDate: this.fb.control(null, [Validators.required]),
-      priority: this.fb.control(null, [Validators.required]),
-      category: this.fb.control(null),
-    });
-
+  patchFormValue(): void {
     if (this.task) {
+      const priority = this.task.priority;
       const selectedPriority = this.priorities.find(
-        (res) => res.priority === this.task!.priority
+        (res) => res.priority === priority
       );
       this.form.setValue({
         description: this.task.description,

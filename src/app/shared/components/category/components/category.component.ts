@@ -14,7 +14,6 @@ import { ButtonModule } from 'primeng/button';
 import { DialogModule } from 'primeng/dialog';
 import { InputTextModule } from 'primeng/inputtext';
 import {
-  FormBuilder,
   FormControl,
   FormGroup,
   ReactiveFormsModule,
@@ -32,13 +31,12 @@ import { TrimOnBlurDirective } from 'src/app/shared/directives/trim-on-blur.dire
 import { AppState } from 'src/app/shared/services/appState.state';
 import { CheckboxModule } from 'primeng/checkbox';
 import { DropdownModule } from 'primeng/dropdown';
-import {
-  AutoCompleteCompleteEvent,
-  AutoCompleteModule,
-} from 'primeng/autocomplete';
+import { AutoCompleteModule } from 'primeng/autocomplete';
 import { toObservable, toSignal } from '@angular/core/rxjs-interop';
 import { DeleteMods } from '../../delete/enums/deleteMods.enum';
 import { CategoryMods } from '../enums/categoryMods.enum';
+import { initializeCategoryForm } from '../utils/category.utils';
+import { AddCategoryI } from '../types/addCategory.interface';
 
 @Component({
   standalone: true,
@@ -63,7 +61,7 @@ import { CategoryMods } from '../enums/categoryMods.enum';
 })
 export class CategoryComponent implements OnInit, OnDestroy {
   @ViewChild('DelCategoryInsertionPoint', { read: ViewContainerRef })
-  DelCategoryInsertionPoint!: ViewContainerRef;
+  DelCategoryInsertionPoint: ViewContainerRef | undefined;
 
   mods = CategoryMods;
 
@@ -76,15 +74,12 @@ export class CategoryComponent implements OnInit, OnDestroy {
   @Input() label: string = 'Добавить';
   @Input() header: string | undefined;
 
-  filteredCategories: string[] | undefined;
-  form!: FormGroup<CategoryFormI>;
+  form: FormGroup<CategoryFormI> = initializeCategoryForm();
   backendError: string | null = null;
 
-  items!: MenuItem[];
   destroy$ = new Subject<void>();
 
   constructor(
-    private fb: FormBuilder,
     private categoryService: CategoryService,
     private messageService: MessageService,
     private appState: AppState
@@ -93,16 +88,9 @@ export class CategoryComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.initializeForm();
-    this.initializeMenu();
+    this.addFormControls();
   }
-  initializeForm(): void {
-    this.form = this.fb.group<CategoryFormI>({
-      title: this.fb.control(null, [
-        Validators.required,
-        Validators.maxLength(30),
-      ]),
-    });
+  addFormControls(): void {
     if (this.mode === this.mods.ADD) {
       this.form.addControl(
         'setAll',
@@ -126,42 +114,19 @@ export class CategoryComponent implements OnInit, OnDestroy {
     }
   }
 
-  initializeMenu(): void {
-    {
-      this.items = [
-        {
-          label: 'Редактировать',
-          icon: 'pi pi-pencil',
-          command: () => {
-            this.active = true;
-          },
-        },
-        {
-          label: 'Удалить',
-          icon: 'pi pi-times',
-          command: () => {
-            this.deleteCategory();
-          },
-        },
-      ];
-    }
-  }
   onSubmit(): void {
-    const { title, setAll } = this.form.value;
     if (this.mode === this.mods.ADD) {
       this.categoryService
-        .addCategory({ title: title as string, setAll: setAll as boolean })
+        .addCategory(this.form.value as AddCategoryI)
         .pipe(takeUntil(this.destroy$))
         .subscribe({
           next: () => {
-            this.messageServiceAdd('success');
+            this.messageServiceAdd('success', 'успешно добавлена');
           },
           error: (err) => {
-            this.backendError = err.error.message;
-            this.messageServiceAdd('error');
+            this.messageServiceAdd('error', err.error.message);
           },
         });
-      this.form.patchValue({ title: null });
     }
     if (this.mode === this.mods.EDIT) {
       this.categoryService
@@ -169,47 +134,31 @@ export class CategoryComponent implements OnInit, OnDestroy {
         .pipe(takeUntil(this.destroy$))
         .subscribe({
           next: () => {
-            this.messageServiceAdd('success');
+            this.messageServiceAdd('success', 'успешно изменена');
           },
           error: (err) => {
-            this.backendError = err.error.message;
-            this.messageServiceAdd('error');
+            this.messageServiceAdd('error', err.error.message);
           },
         });
     }
     if (this.mode === this.mods.DELETE) {
       this.deleteCategory();
     }
-
     this.active = false;
   }
 
-  messageServiceAdd(severity: string) {
+  messageServiceAdd(severity: string, detail: string) {
     this.messageService.clear();
-    if (severity === 'success') {
-      this.messageService.add({
-        severity: severity,
-        summary: 'Категория',
-
-        detail: this.form.controls['title'].value
-          ? 'Успешно изменена'
-          : 'Успешно добавлена',
-      });
-    }
-    if (severity === 'error')
-      this.messageService.add({
-        severity: severity,
-        summary: 'Категория',
-
-        detail: this.backendError as string,
-      });
-    {
-    }
+    this.messageService.add({
+      severity: severity,
+      summary: 'Категория',
+      detail: detail,
+    });
   }
 
   deleteCategory(): void {
     const { id } = this.form.value;
-    if (id) {
+    if (this.DelCategoryInsertionPoint && id) {
       this.DelCategoryInsertionPoint.clear();
       let componentRef =
         this.DelCategoryInsertionPoint.createComponent(DeleteComponent);

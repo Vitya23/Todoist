@@ -1,7 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import {
-  FormBuilder,
   FormControl,
   FormGroup,
   ReactiveFormsModule,
@@ -11,7 +10,6 @@ import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { Subject, takeUntil } from 'rxjs';
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
-import { PasswordValidators } from '../../shared/validators/passwordValidator';
 import { PasswordModule } from 'primeng/password';
 import { AuthService } from '../services/auth.service';
 import { AuthFormI } from '../types/authForm.interface';
@@ -44,16 +42,15 @@ export class AuthComponent implements OnInit, OnDestroy {
   constructor(
     private readonly route: ActivatedRoute,
     private readonly router: Router,
-    private fb: FormBuilder,
     private authService: AuthService
   ) {}
 
   ngOnInit(): void {
     this.initializeValues();
-    this.setFormControls();
+    this.addFormControls();
   }
 
-  setFormControls(): void {
+  addFormControls(): void {
     if (this.title === this.Title.Register) {
       this.form.addControl(
         'confirmPassword',

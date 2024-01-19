@@ -198,7 +198,7 @@ export class FakeBackendInterceptor implements HttpInterceptor {
       const repeat = categoriesDataBase.categories.find((res) => {
         return res.userId === user.id && res.title === body.title;
       });
-      if (repeat) return error('Категория с таким названием уже существует');
+      if (repeat) return error('уже существует');
 
       const newId =
         categoriesDataBase.categories[categoriesDataBase.categories.length - 1]
@@ -239,7 +239,6 @@ export class FakeBackendInterceptor implements HttpInterceptor {
       const newCategories = categoriesDataBase.categories.filter(
         (res) => res.userId === user?.id
       );
-      console.log(newCategories);
       return ok(newCategories);
     }
 

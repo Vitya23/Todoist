@@ -38,7 +38,6 @@ import { TASK_FIELD } from 'src/app/shared/utils/data.utils';
     DropdownModule,
     PriorityDirective,
   ],
-  providers: [AppState],
 })
 export class FilterComponent {
   filterValue: string | null = null;
@@ -56,8 +55,6 @@ export class FilterComponent {
     | undefined;
   taskFields: taskFieldI[] = TASK_FIELD;
 
-  constructor() {}
-
   applyFilter(filter: ColumnFilter) {
     if (this.table) {
       filter.overlayVisible = false;
@@ -69,7 +66,7 @@ export class FilterComponent {
       }
     }
   }
-  clearFilter(filter: ColumnFilter) {
+  clearFilter() {
     if (this.table) {
       this.table.clear();
     }

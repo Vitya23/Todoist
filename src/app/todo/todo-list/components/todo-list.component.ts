@@ -7,7 +7,7 @@ import {
   ViewContainerRef,
 } from '@angular/core';
 import { TodoListService } from '../services/todo-list.service';
-import { TableLazyLoadEvent, TableModule } from 'primeng/table';
+import { TableModule } from 'primeng/table';
 import { TagModule } from 'primeng/tag';
 import { ButtonModule } from 'primeng/button';
 import { TaskI } from '../types/task.interface';
@@ -28,7 +28,6 @@ import { DropdownModule } from 'primeng/dropdown';
 import { MenuComponent } from 'src/app/shared/components/menu/components/menu.component';
 import { DeleteMods } from 'src/app/shared/components/delete/enums/deleteMods.enum';
 import { MultiSelectModule } from 'primeng/multiselect';
-import { FilterService, MenuItem, SelectItem } from 'primeng/api';
 import { MenuModule } from 'primeng/menu';
 import { FilterComponent } from '../../filters/components/filter.component';
 import { PriorityI } from '../../todo-add-edit/types/priority.interface';
@@ -64,7 +63,7 @@ import { STATUS } from 'src/app/shared/utils/data.utils';
 })
 export class TodoListComponent implements OnInit {
   @ViewChild('ChildInsertionPoint', { read: ViewContainerRef })
-  childInsertionPoint!: ViewContainerRef;
+  childInsertionPoint: ViewContainerRef | undefined;
 
   tasks = this.appState.task;
   categories = this.appState.categories;
@@ -84,16 +83,20 @@ export class TodoListComponent implements OnInit {
   ngOnInit(): void {}
 
   generateTodoEditComponent(task: TaskI): void {
-    this.childInsertionPoint.clear();
-    let componentRef =
-      this.childInsertionPoint.createComponent(TodoAddEditComponent);
-    componentRef.instance.task = task;
+    if (this.childInsertionPoint) {
+      this.childInsertionPoint.clear();
+      let componentRef =
+        this.childInsertionPoint.createComponent(TodoAddEditComponent);
+      componentRef.instance.task = task;
+    }
   }
   generateDeleteComponent(id: number, mode: DeleteMods): void {
-    this.childInsertionPoint.clear();
-    let componentRef =
-      this.childInsertionPoint.createComponent(DeleteComponent);
-    componentRef.instance.id = id;
-    componentRef.instance.mode = mode;
+    if (this.childInsertionPoint) {
+      this.childInsertionPoint.clear();
+      let componentRef =
+        this.childInsertionPoint.createComponent(DeleteComponent);
+      componentRef.instance.id = id;
+      componentRef.instance.mode = mode;
+    }
   }
 }
