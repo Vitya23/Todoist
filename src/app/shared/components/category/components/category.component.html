@@ -30,9 +30,9 @@
             optionLabel="title"
             optionValue="id"
             [filter]="categories.length >= 5"
+            placeholder="Выберите категорию"
           ></p-dropdown>
         </div>
-        <p *ngIf="mode === mods.EDIT">на</p>
         } @if(mode !== mods.DELETE){
         <input
           trimOnBlur
@@ -40,6 +40,7 @@
           formControlName="title"
           type="text"
           pInputText
+          placeholder="Введите название"
         />
         }
       </div>

@@ -4,7 +4,7 @@ export const STATUS = [
 ];
 
 export const TASK_FIELD = [
-  { label: 'Задача', value: 'description' },
-  { label: 'Дата окончания', value: 'endDate' },
-  { label: 'Приоритет', value: 'priority' },
+  { label: 'Задачам', value: 'description' },
+  { label: 'Дате окончания', value: 'endDate' },
+  { label: 'Приоритету', value: 'priority' },
 ];

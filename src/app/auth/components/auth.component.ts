@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import {
   FormBuilder,
+  FormControl,
   FormGroup,
   ReactiveFormsModule,
   Validators,
@@ -15,6 +16,8 @@ import { PasswordModule } from 'primeng/password';
 import { AuthService } from '../services/auth.service';
 import { AuthFormI } from '../types/authForm.interface';
 import { Title } from '../enums/title.enum';
+import { initialAuthForm } from '../utils/auth.utils';
+import { AuthRequestI } from '../types/authRequest.interface';
 
 @Component({
   selector: 'app-auth',
@@ -31,7 +34,7 @@ import { Title } from '../enums/title.enum';
   ],
 })
 export class AuthComponent implements OnInit, OnDestroy {
-  form!: FormGroup<AuthFormI>;
+  form: FormGroup<AuthFormI> = initialAuthForm();
   Title = Title;
   title: Title = Title.Login;
   destroy$ = new Subject<void>();
@@ -47,39 +50,16 @@ export class AuthComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.initializeValues();
-    this.initializeForm();
+    this.setFormControls();
   }
 
-  initializeForm(): void {
-    this.form = this.fb.group<AuthFormI>(
-      {
-        email: this.fb.control(null, [Validators.required, Validators.email]),
-        password: this.fb.control(
-          null,
-          Validators.compose([
-            Validators.required,
-            Validators.minLength(8),
-            PasswordValidators.patternValidator(new RegExp('(?=.*[0-9])'), {
-              requiresDigit: true,
-            }),
-            PasswordValidators.patternValidator(new RegExp('(?=.*[A-Z])'), {
-              requiresUppercase: true,
-            }),
-            PasswordValidators.patternValidator(new RegExp('(?=.*[a-z])'), {
-              requiresLowercase: true,
-            }),
-            PasswordValidators.patternValidator(
-              new RegExp('(?=.*[!@#$%^&*])'),
-              {
-                requiresSpecialChars: true,
-              }
-            ),
-          ])
-        ),
-        confirmPassword: this.fb.control(null, [Validators.required]),
-      },
-      { validators: PasswordValidators.MatchValidator }
-    );
+  setFormControls(): void {
+    if (this.title === this.Title.Register) {
+      this.form.addControl(
+        'confirmPassword',
+        new FormControl(null, Validators.required)
+      );
+    }
   }
 
   initializeValues(): void {
@@ -119,18 +99,9 @@ export class AuthComponent implements OnInit, OnDestroy {
   onSubmit(): void {
     this.submitting = true;
     this.backendError = null;
-    if (
-      this.title === Title.Login &&
-      this.form.controls['email'].valid &&
-      this.form.controls['password'].valid !== null
-    ) {
+    if (this.title === Title.Login && this.form.valid) {
       this.authService
-        .login({
-          user: {
-            email: this.form.controls['email'].value ?? '',
-            password: this.form.controls['password'].value ?? '',
-          },
-        })
+        .login({ user: this.form.value } as AuthRequestI)
         .pipe(takeUntil(this.destroy$))
         .subscribe({
           next: () => this.router.navigateByUrl('/todo'),
@@ -156,8 +127,6 @@ export class AuthComponent implements OnInit, OnDestroy {
             this.submitting = false;
           },
         });
-    } else {
-      return;
     }
   }
 

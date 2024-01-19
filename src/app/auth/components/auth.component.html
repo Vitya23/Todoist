@@ -63,7 +63,7 @@
           {{ "!@#$%^&*" }}</small
         >
       </div>
-      @if(title === Title.Register){
+      @if(form.controls['confirmPassword']){
       <label for="confirmPassword" class="label">Подтвердите пароль</label>
       <input
         id="confirmPassword"
