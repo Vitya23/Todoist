@@ -6,13 +6,13 @@ import {
   ViewChild,
   ViewContainerRef,
 } from '@angular/core';
+import { MenuItem } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
 import { MenuModule } from 'primeng/menu';
-import { TodoAddEditComponent } from 'src/app/todo/todo-add-edit/components/todo-add-edit.component';
-import { MenuItem } from 'primeng/api';
-import { CategoryComponent } from '../../category/components/category.component';
-import { TieredMenuModule } from 'primeng/tieredmenu';
 import { MenubarModule } from 'primeng/menubar';
+import { TieredMenuModule } from 'primeng/tieredmenu';
+import { TodoAddEditComponent } from 'src/app/todo/todo-add-edit/components/todo-add-edit.component';
+import { CategoryComponent } from '../../category/components/category.component';
 import { CategoryMods } from '../../category/enums/categoryMods.enum';
 
 @Component({
@@ -31,7 +31,7 @@ import { CategoryMods } from '../../category/enums/categoryMods.enum';
 })
 export class MenuComponent implements OnInit {
   @ViewChild('ChildInsertionPoint', { read: ViewContainerRef })
-  childInsertionPoint: ViewContainerRef | undefined;
+  childInsertionPoint: ViewContainerRef | null = null;
   categoryMods = CategoryMods;
   items: MenuItem[] = [];
 

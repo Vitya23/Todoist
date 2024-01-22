@@ -17,8 +17,7 @@ import { PriorityI } from '../../todo-add-edit/types/priority.interface';
 import { PriorityDirective } from 'src/app/shared/directives/priority.directive';
 import { CategoryI } from 'src/app/shared/components/category/types/category.interface';
 import { ChangeStatusI } from '../../todo-status/types/changeStatus.interface';
-import { taskFieldI } from '../../../shared/types/taskField.interface';
-import { TASK_FIELD } from 'src/app/shared/utils/data.utils';
+import { taskFieldI } from '../types/taskField.interface';
 
 @Component({
   standalone: true,
@@ -49,12 +48,13 @@ export class FilterComponent {
   @Input() field: string | undefined;
   @Input() optionLabel: string | undefined;
   @Input() optionValue: string | undefined;
-  @Input() dropDownOption:
-    | CategoryI[]
-    | PriorityI[]
-    | ChangeStatusI[]
-    | undefined;
-  taskFields: taskFieldI[] = TASK_FIELD;
+  @Input() dropDownOption?: CategoryI[] | PriorityI[] | ChangeStatusI[];
+
+  taskFields: taskFieldI[] = [
+    { label: 'Задачам', value: 'description' },
+    { label: 'Дате окончания', value: 'endDate' },
+    { label: 'Приоритету', value: 'priority' },
+  ];
 
   applyFilter(filter: ColumnFilter) {
     if (this.table) {

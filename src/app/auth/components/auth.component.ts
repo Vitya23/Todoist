@@ -13,8 +13,7 @@ import { PasswordModule } from 'primeng/password';
 import { Subject, takeUntil } from 'rxjs';
 import { Title } from '../enums/title.enum';
 import { AuthService } from '../services/auth.service';
-import { AuthFormI } from '../types/auth.interface';
-import { AuthRequestI } from '../types/auth.interface';
+import { AuthFormI, AuthRequestI } from '../types/auth.interface';
 import { initialAuthForm } from '../utils/auth.utils';
 
 @Component({

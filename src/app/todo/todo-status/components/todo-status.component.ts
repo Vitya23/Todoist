@@ -5,9 +5,9 @@ import {
   OnDestroy,
 } from '@angular/core';
 import { TagModule } from 'primeng/tag';
-import { TodoStatusService } from '../services/todo-status.service';
 import { Subject, takeUntil } from 'rxjs';
 import { TaskStatus } from '../enums/taskStatus.enum';
+import { TodoStatusService } from '../services/todo-status.service';
 
 @Component({
   standalone: true,
@@ -17,7 +17,7 @@ import { TaskStatus } from '../enums/taskStatus.enum';
   imports: [TagModule],
   providers: [TodoStatusService],
 })
-export class TodoStatus implements OnDestroy {
+export class TodoStatusComponent implements OnDestroy {
   TaskStatus = TaskStatus;
   @Input() id: number | null = null;
   @Input() status: TaskStatus = TaskStatus.await;

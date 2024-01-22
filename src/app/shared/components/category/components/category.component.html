@@ -1,12 +1,6 @@
 <ng-container #DelCategoryInsertionPoint></ng-container>
 @if(categories() ){
-
-<div class="category">
-  <div class="category__title">
-    <small> {{ category().title }}</small>
-  </div>
-</div>
-
+<small> {{ category().title }}</small>
 }
 
 <p-dialog
@@ -14,36 +8,35 @@
   [(visible)]="active"
   [draggable]="false"
   [resizable]="false"
+  [modal]="true"
 >
   <ng-template pTemplate="content">
     <form [formGroup]="form" (ngSubmit)="onSubmit()">
-      <div class="block">
-        @if(mods && mode !== mods.ADD){
-        <div class="block__categories">
-          <p-dropdown
-            *ngIf="categories() as categories"
-            [style]="{ width: '100%' }"
-            appendTo="body"
-            [options]="categories"
-            formControlName="id"
-            [showClear]="true"
-            optionLabel="title"
-            optionValue="id"
-            [filter]="categories.length >= 5"
-            placeholder="Выберите категорию"
-          ></p-dropdown>
-        </div>
-        } @if(mode !== mods.DELETE){
-        <input
-          trimOnBlur
-          class="input"
-          formControlName="title"
-          type="text"
-          pInputText
-          placeholder="Введите название"
-        />
-        }
+      @if(mods && mode !== mods.ADD){
+      <div class="categories">
+        <p-dropdown
+          *ngIf="categories() as categories"
+          [style]="{ width: '100%' }"
+          appendTo="body"
+          [options]="categories"
+          formControlName="id"
+          [showClear]="true"
+          optionLabel="title"
+          optionValue="id"
+          [filter]="categories.length >= 5"
+          placeholder="Выберите категорию"
+        ></p-dropdown>
       </div>
+      } @if(mode !== mods.DELETE){
+      <input
+        trimOnBlur
+        class="input"
+        formControlName="title"
+        type="text"
+        pInputText
+        placeholder="Введите название"
+      />
+      }
       <div class="footer">
         @if(mode === mods.ADD){
         <div class="footer__setAll">

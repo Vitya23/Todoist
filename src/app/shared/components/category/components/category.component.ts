@@ -10,30 +10,32 @@ import {
   WritableSignal,
   signal,
 } from '@angular/core';
-import { ButtonModule } from 'primeng/button';
-import { DialogModule } from 'primeng/dialog';
-import { InputTextModule } from 'primeng/inputtext';
+import { toObservable, toSignal } from '@angular/core/rxjs-interop';
 import {
   FormControl,
   FormGroup,
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { CategoryService } from '../services/category.service';
-import { CategoryI } from '../types/category.interface';
 import { MessageService } from 'primeng/api';
+import { ButtonModule } from 'primeng/button';
+import { CheckboxModule } from 'primeng/checkbox';
+import { DialogModule } from 'primeng/dialog';
+import { DropdownModule } from 'primeng/dropdown';
+import { InputTextModule } from 'primeng/inputtext';
 import { Subject, takeUntil, tap } from 'rxjs';
 import { DeleteComponent } from 'src/app/shared/components/delete/components/delete.component';
-import { CategoryFormI } from '../types/category.interface';
 import { TrimOnBlurDirective } from 'src/app/shared/directives/trim-on-blur.directive';
 import { AppState } from 'src/app/shared/services/appState.state';
-import { CheckboxModule } from 'primeng/checkbox';
-import { DropdownModule } from 'primeng/dropdown';
-import { toObservable, toSignal } from '@angular/core/rxjs-interop';
 import { DeleteMods } from '../../delete/enums/deleteMods.enum';
 import { CategoryMods } from '../enums/categoryMods.enum';
+import { CategoryService } from '../services/category.service';
+import {
+  AddCategoryI,
+  CategoryFormI,
+  CategoryI,
+} from '../types/category.interface';
 import { initializeCategoryForm } from '../utils/category.utils';
-import { AddCategoryI } from '../types/addCategory.interface';
 
 @Component({
   standalone: true,
@@ -66,7 +68,7 @@ export class CategoryComponent implements OnInit, OnDestroy {
   @Input() mode: string | null = null;
   @Input() categoryId: number | null = null;
   @Input() label: string = 'Добавить';
-  @Input() header: string | undefined;
+  @Input() header?: string;
 
   form: FormGroup<CategoryFormI> = initializeCategoryForm();
   backendError: string | null = null;

@@ -11,3 +11,8 @@ export interface CategoryI {
   userId?: number;
   title: string | null;
 }
+
+export interface AddCategoryI {
+  title: string;
+  setAll: boolean;
+}

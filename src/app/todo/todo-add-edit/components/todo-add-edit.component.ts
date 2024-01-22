@@ -6,21 +6,21 @@ import {
   OnDestroy,
   OnInit,
 } from '@angular/core';
-import { ButtonModule } from 'primeng/button';
-import { TodoAddService } from '../services/todo-add.service';
-import { DialogModule } from 'primeng/dialog';
-import { InputTextModule } from 'primeng/inputtext';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { ButtonModule } from 'primeng/button';
 import { CalendarModule } from 'primeng/calendar';
+import { DialogModule } from 'primeng/dialog';
 import { DropdownModule } from 'primeng/dropdown';
-import { TaskI } from '../../todo-list/types/task.interface';
+import { InputTextModule } from 'primeng/inputtext';
 import { Subject, takeUntil } from 'rxjs';
 import { CategoryI } from 'src/app/shared/components/category/types/category.interface';
-import { TaskFormI } from '../types/task.interface';
-import { PriorityI } from '../types/priority.interface';
-import { TaskRequestI } from '../types/task.interface';
+import { PriorityDirective } from 'src/app/shared/directives/priority.directive';
 import { TrimOnBlurDirective } from 'src/app/shared/directives/trim-on-blur.directive';
 import { AppState } from 'src/app/shared/services/appState.state';
+import { TaskI } from '../../todo-list/types/task.interface';
+import { TodoAddService } from '../services/todo-add.service';
+import { PriorityI } from '../types/priority.interface';
+import { TaskFormI, TaskRequestI } from '../types/task.interface';
 import { initialTodoForm } from '../utils/todo.utils';
 @Component({
   standalone: true,
@@ -37,6 +37,7 @@ import { initialTodoForm } from '../utils/todo.utils';
     CalendarModule,
     DropdownModule,
     TrimOnBlurDirective,
+    PriorityDirective,
   ],
   providers: [TodoAddService],
 })

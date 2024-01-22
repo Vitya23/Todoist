@@ -6,7 +6,7 @@ import { Observable, map } from 'rxjs';
 import { CategoryI } from '../types/category.interface';
 import { AppState } from 'src/app/shared/services/appState.state';
 import { environment } from 'src/environments/environment';
-import { AddCategoryI } from '../types/addCategory.interface';
+import { AddCategoryI } from '../types/category.interface';
 
 @Injectable()
 export class CategoryService {

@@ -1,6 +1,7 @@
 <p-dialog
   [header]="task ? 'Изменение задачи' : 'Добавление задачи'"
   [(visible)]="visible"
+  [modal]="true"
 >
   <form (ngSubmit)="onSubmit()" [formGroup]="form" class="form">
     <input
@@ -45,15 +46,25 @@
             <div
               class="select__items"
               *ngIf="this.form.controls['priority'].value as selectedPriority"
+              highlightPriority
+              [priority]="selectedPriority.priority"
             >
               <i class="pi pi-flag"></i>
-              <div>{{ selectedPriority.title }}</div>
+              <div>
+                {{ selectedPriority.title }}
+              </div>
             </div>
           </ng-template>
-          <ng-template let-priority pTemplate="item">
-            <div class="select__items">
+          <ng-template let-option pTemplate="item">
+            <div
+              highlightPriority
+              [priority]="option.priority"
+              class="select__items"
+            >
               <i class="pi pi-flag"></i>
-              <div>{{ priority.title }}</div>
+              <div>
+                {{ option.title }}
+              </div>
             </div>
           </ng-template>
         </p-dropdown>

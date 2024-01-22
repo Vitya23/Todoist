@@ -5,12 +5,12 @@ import { AvatarModule } from 'primeng/avatar';
 import { MenuModule } from 'primeng/menu';
 import { HeaderService } from '../services/header.services';
 
-import { Subject, takeUntil } from 'rxjs';
 import { MenuItem } from 'primeng/api';
+import { Subject, takeUntil } from 'rxjs';
 
-import { CurrentUserI } from 'src/app/shared/types/currentUser.interface';
-import { UserService } from 'src/app/shared/services/user.service';
 import { MenubarModule } from 'primeng/menubar';
+import { UserService } from 'src/app/shared/services/user.service';
+import { CurrentUserI } from 'src/app/shared/types/currentUser.interface';
 
 @Component({
   standalone: true,
