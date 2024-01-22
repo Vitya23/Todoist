@@ -1,9 +1,4 @@
-import {
-  AbstractControl,
-  FormControl,
-  ValidationErrors,
-  ValidatorFn,
-} from '@angular/forms';
+import { AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
 
 export class PasswordValidators {
   static patternValidator(regex: RegExp, error: ValidationErrors): ValidatorFn {
