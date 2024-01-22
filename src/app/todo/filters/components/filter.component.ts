@@ -45,9 +45,9 @@ export class FilterComponent {
   @Output() onChangeField = new EventEmitter<any>();
   @Input() title: string | null = null;
   @Input() table: Table | null = null;
-  @Input() field: string | undefined;
-  @Input() optionLabel: string | undefined;
-  @Input() optionValue: string | undefined;
+  @Input() field?: string;
+  @Input() optionLabel?: string;
+  @Input() optionValue?: string;
   @Input() dropDownOption?: CategoryI[] | PriorityI[] | ChangeStatusI[];
 
   taskFields: taskFieldI[] = [

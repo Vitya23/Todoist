@@ -3,5 +3,5 @@
   [value]="status"
   [severity]="getSeverity(status)"
   (click)="changeStatus()"
-  [icon]="status === 'Ожидает' ? 'pi pi-check' : 'pi pi-times'"
+  [icon]="status === awaitStatus ? 'pi pi-check' : 'pi pi-times'"
 ></p-tag>

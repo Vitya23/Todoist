@@ -59,16 +59,16 @@ export class CategoryComponent implements OnInit, OnDestroy {
   @ViewChild('DelCategoryInsertionPoint', { read: ViewContainerRef })
   DelCategoryInsertionPoint: ViewContainerRef | undefined;
 
-  mods = CategoryMods;
-
-  category = signal<CategoryI>({ id: null, title: null });
-  categories: WritableSignal<CategoryI[] | null> = this.appState.categories;
-
   @Input() active: boolean = false;
   @Input() mode: string | null = null;
   @Input() categoryId: number | null = null;
   @Input() label: string = 'Добавить';
   @Input() header?: string;
+
+  readonly mods = CategoryMods;
+
+  category = signal<CategoryI>({ id: null, title: null });
+  categories: WritableSignal<CategoryI[] | null> = this.appState.categories;
 
   form: FormGroup<CategoryFormI> = initializeCategoryForm();
   backendError: string | null = null;
@@ -98,8 +98,9 @@ export class CategoryComponent implements OnInit, OnDestroy {
   }
 
   setCategory() {
-    if (this.categories()) {
-      const category = this.categories()?.find(
+    const categories = this.categories();
+    if (categories) {
+      const category = categories.find(
         (category) => category.id === this.categoryId
       );
       this.category.set(

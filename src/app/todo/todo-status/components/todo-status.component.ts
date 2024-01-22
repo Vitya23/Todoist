@@ -18,7 +18,7 @@ import { TodoStatusService } from '../services/todo-status.service';
   providers: [TodoStatusService],
 })
 export class TodoStatusComponent implements OnDestroy {
-  TaskStatus = TaskStatus;
+  readonly awaitStatus = TaskStatus.await;
   @Input() id: number | null = null;
   @Input() status: TaskStatus = TaskStatus.await;
   destroy$ = new Subject<void>();

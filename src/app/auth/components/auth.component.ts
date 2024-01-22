@@ -32,7 +32,7 @@ import { initialAuthForm } from '../utils/auth.utils';
 })
 export class AuthComponent implements OnInit, OnDestroy {
   form: FormGroup<AuthFormI> = initialAuthForm();
-  Title = Title;
+  readonly Title = Title;
   title: Title = Title.Login;
   destroy$ = new Subject<void>();
   submitting = false;
