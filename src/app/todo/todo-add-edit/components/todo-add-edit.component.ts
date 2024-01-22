@@ -41,8 +41,7 @@ import { initialTodoForm } from '../utils/todo.utils';
   providers: [TodoAddService],
 })
 export class TodoAddEditComponent implements OnInit, OnDestroy {
-  @Input() category?: CategoryI;
-  @Input() task?: TaskI;
+  @Input() task: TaskI | null = null;
 
   categories: CategoryI[] | null = this.appState.categories();
   priorities: PriorityI[] = this.appState.priorityItems;
@@ -75,12 +74,9 @@ export class TodoAddEditComponent implements OnInit, OnDestroy {
         category: this.task.category,
       });
     }
-    if (this.category) {
-      this.form.patchValue({ category: this.category.id });
-    }
   }
   onSubmit(): void {
-    if (this.task && this.form.value) {
+    if (this.task && this.form.valid) {
       this.todoAddService
         .editTask({ id: this.task.id, ...this.form.value } as TaskRequestI)
         .pipe(takeUntil(this.destroy$))

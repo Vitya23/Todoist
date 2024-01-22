@@ -39,12 +39,13 @@
                   title="Фильтр по"
                   [table]="table"
                   [dropDownOption]="priority"
+                  (onChangeField)="taskField = $event"
                   optionLabel="title"
                   optionValue="priority"
                 ></app-filter
                 ><p-sortIcon
-                  field="description"
-                  pSortableColumn="description"
+                  [field]="taskField"
+                  [pSortableColumn]="taskField"
                 ></p-sortIcon>
               </div>
             </th>

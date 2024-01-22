@@ -1,5 +1,11 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  EventEmitter,
+  Input,
+  Output,
+} from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CalendarModule } from 'primeng/calendar';
 import { DropdownModule } from 'primeng/dropdown';
@@ -37,6 +43,7 @@ export class FilterComponent {
   filterValue: string | null = null;
   taskField: string = 'description';
 
+  @Output() onChangeField = new EventEmitter<any>();
   @Input() title: string | null = null;
   @Input() table: Table | null = null;
   @Input() field: string | undefined;
@@ -57,6 +64,7 @@ export class FilterComponent {
       }
       if (!this.field) {
         this.table.filter(this.filterValue, this.taskField, 'contains');
+        this.onChangeField.emit(this.taskField);
       }
     }
   }

@@ -61,7 +61,7 @@ import { STATUS } from 'src/app/shared/utils/data.utils';
 
   providers: [TodoListService],
 })
-export class TodoListComponent implements OnInit {
+export class TodoListComponent {
   @ViewChild('ChildInsertionPoint', { read: ViewContainerRef })
   childInsertionPoint: ViewContainerRef | undefined;
 
@@ -71,6 +71,7 @@ export class TodoListComponent implements OnInit {
   status: ChangeStatusI[] = STATUS;
   selectedCategories: CategoryI | null = null;
   deleteMods = DeleteMods;
+  taskField: string = 'description';
 
   constructor(
     private todoListService: TodoListService,
@@ -79,8 +80,6 @@ export class TodoListComponent implements OnInit {
     this.todoListService.getTasks().pipe(takeUntilDestroyed()).subscribe();
     this.todoListService.getCategories().pipe(takeUntilDestroyed()).subscribe();
   }
-
-  ngOnInit(): void {}
 
   generateTodoEditComponent(task: TaskI): void {
     if (this.childInsertionPoint) {

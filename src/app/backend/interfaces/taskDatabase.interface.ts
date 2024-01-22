@@ -5,5 +5,5 @@ export interface taskDataBase {
   description: string;
   status: string;
   priority: number;
-  endDate: string;
+  endDate: Date;
 }

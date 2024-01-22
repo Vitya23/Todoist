@@ -49,7 +49,9 @@ export const toDoDataBase: toDoDataBaseI = {
       description: 'Закрыть таску',
       category: 1,
       priority: 1,
-      endDate: 'Fri Dec 29 2023 00:00:00 GMT+0300 (Москва, стандартное время)',
+      endDate: new Date(
+        'Sun Jan 28 2024 00:00:00 GMT+0300 (Москва, стандартное время)'
+      ),
 
       status: 'Ожидает',
     },
@@ -59,7 +61,9 @@ export const toDoDataBase: toDoDataBaseI = {
       description: 'Купить корм',
       category: 3,
       priority: 2,
-      endDate: 'Thu Dec 28 2023 00:00:00 GMT+0300 (Москва, стандартное время)',
+      endDate: new Date(
+        'Mon Jan 29 2024 00:00:00 GMT+0300 (Москва, стандартное время)'
+      ),
       status: 'Ожидает',
     },
     {
@@ -68,7 +72,9 @@ export const toDoDataBase: toDoDataBaseI = {
       description: 'Купить молоко',
       category: 3,
       priority: 3,
-      endDate: 'Thu Dec 28 2023 00:00:00 GMT+0300 (Москва, стандартное время)',
+      endDate: new Date(
+        'Wed Jan 24 2024 00:00:00 GMT+0300 (Москва, стандартное время)'
+      ),
       status: 'Выполнено',
     },
     {
@@ -77,7 +83,9 @@ export const toDoDataBase: toDoDataBaseI = {
       description: 'Убраться дома',
       category: 2,
       priority: 4,
-      endDate: 'Thu Dec 31 2023 00:00:00 GMT+0300 (Москва, стандартное время)',
+      endDate: new Date(
+        'Wed Jan 24 2024 00:00:00 GMT+0300 (Москва, стандартное время)'
+      ),
       status: 'Выполнено',
     },
   ],
