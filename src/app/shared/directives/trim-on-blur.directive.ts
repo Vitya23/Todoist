@@ -13,7 +13,8 @@ export class TrimOnBlurDirective {
 
   @HostListener('blur')
   onBlur(): void {
-    const control = this.formControlDir.control || this.formControlName.control;
+    const control =
+      this.formControlDir?.control || this.formControlName?.control;
     if (!control) {
       return;
     }
