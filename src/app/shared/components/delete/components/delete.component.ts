@@ -11,7 +11,7 @@ import { DeleteMods } from '../enums/deleteMods.enum';
   standalone: true,
   selector: 'app-delete',
   template: '<p-confirmDialog></p-confirmDialog>',
-  imports: [CommonModule, ButtonModule, ConfirmDialogModule],
+  imports: [ButtonModule, ConfirmDialogModule],
   providers: [DeleteService, ConfirmationService],
 })
 export class DeleteComponent implements OnInit, OnDestroy {

@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -21,13 +20,7 @@ import { CategoryMods } from '../../category/enums/categoryMods.enum';
   templateUrl: './menu.component.html',
   styleUrl: './menu.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [
-    CommonModule,
-    MenubarModule,
-    ButtonModule,
-    TieredMenuModule,
-    MenuModule,
-  ],
+  imports: [MenubarModule, ButtonModule, TieredMenuModule, MenuModule],
 })
 export class MenuComponent implements OnInit {
   @ViewChild('ChildInsertionPoint', { read: ViewContainerRef })

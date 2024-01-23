@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 
 import { AvatarModule } from 'primeng/avatar';
@@ -17,7 +16,7 @@ import { CurrentUserI } from 'src/app/shared/types/currentUser.interface';
   selector: 'app-header',
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss',
-  imports: [CommonModule, AvatarModule, MenuModule, MenubarModule],
+  imports: [AvatarModule, MenuModule, MenubarModule],
   providers: [HeaderService],
 })
 export class HeaderComponent implements OnInit, OnDestroy {

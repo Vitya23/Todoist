@@ -8,7 +8,7 @@ import { MessagesModule } from 'primeng/messages';
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [CommonModule, RouterOutlet, HeaderComponent, MessagesModule],
+  imports: [RouterOutlet, HeaderComponent, MessagesModule],
   providers: [UserService],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',

@@ -12,7 +12,7 @@
 >
   <ng-template pTemplate="content">
     <form [formGroup]="form" (ngSubmit)="onSubmit()">
-      @if(mods && mode !== mods.ADD){
+      @if(mode !== mods.ADD){
       <div class="categories">
         <p-dropdown
           *ngIf="categories() as categories"
