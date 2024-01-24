@@ -11,7 +11,7 @@ import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
 import { PasswordModule } from 'primeng/password';
 import { Subject, takeUntil } from 'rxjs';
-import { VALIDATOR_ERROR } from 'src/app/constants/validatorConstants';
+import { ErrorMessageComponent } from 'src/app/shared/components/error-message/error-message.component';
 import { Title } from '../enums/title.enum';
 import { AuthService } from '../services/auth.service';
 import { AuthFormI, AuthRequestI } from '../types/auth.interface';
@@ -29,6 +29,7 @@ import { initialAuthForm } from '../utils/auth.utils';
     ButtonModule,
     InputTextModule,
     PasswordModule,
+    ErrorMessageComponent,
   ],
 })
 export class AuthComponent implements OnInit, OnDestroy {
@@ -67,14 +68,6 @@ export class AuthComponent implements OnInit, OnDestroy {
         this.title = Title.Register;
       }
     });
-  }
-
-  getValidationErrorMessage(formControl: FormControl): string | null {
-    const errorKey = Object.keys(formControl.errors || {})[0];
-    const customError = VALIDATOR_ERROR.find(
-      (validatorError) => validatorError.errorAssociation === errorKey
-    );
-    return customError?.errorMessage || null;
   }
 
   onSubmit(): void {

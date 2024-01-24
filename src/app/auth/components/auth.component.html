@@ -24,11 +24,12 @@
         class="input"
         formControlName="email"
       />
-      <div *ngIf="form.controls['email'] as email" class="invalid-feedback">
-        <small *ngIf="email.errors && email.dirty">{{
-          getValidationErrorMessage(email)
-        }}</small>
+      @if(form.controls['email']; as email){
+      <div *ngIf="email.errors && email.dirty" class="invalid-feedback">
+        <app-error-message [errors]="email.errors"></app-error-message>
       </div>
+      }
+
       <label for="password" class="label">Пароль</label>
       <p-password
         inputId="password"
@@ -42,9 +43,7 @@
       />
       @if(form.controls['password'];as password){
       <div *ngIf="password.invalid && password.dirty" class="invalid-feedback">
-        <small>{{
-          getValidationErrorMessage(form.controls["password"])
-        }}</small>
+        <app-error-message [errors]="password.errors"></app-error-message>
       </div>
       } @if(form.controls['confirmPassword']; as confirmPassword){
       <label for="confirmPassword" class="label">Подтвердите пароль</label>
@@ -62,7 +61,9 @@
         *ngIf="confirmPassword.invalid && confirmPassword.dirty"
         class="invalid-feedback"
       >
-        <small>{{ getValidationErrorMessage(confirmPassword) }}</small>
+        <app-error-message
+          [errors]="confirmPassword.errors"
+        ></app-error-message>
       </div>
       }
       <div class="footer">

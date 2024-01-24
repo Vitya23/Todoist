@@ -22,7 +22,6 @@ export class PasswordValidators {
     if (confirmPassword.length < 8) {
       return control.get('confirmPassword')?.setErrors({ minlength: true });
     } else {
-      console.log(password !== confirmPassword);
       if (password !== confirmPassword) {
         return control.get('confirmPassword')?.setErrors({ misMatch: true });
       } else {
