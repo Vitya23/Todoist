@@ -20,12 +20,13 @@ export class PasswordValidators {
       return null;
     }
     if (confirmPassword.length < 8) {
-      return control.get('confirmPassword')?.setErrors({ minLength: true });
+      return control.get('confirmPassword')?.setErrors({ minlength: true });
     } else {
+      console.log(password !== confirmPassword);
       if (password !== confirmPassword) {
         return control.get('confirmPassword')?.setErrors({ misMatch: true });
       } else {
-        return null;
+        return control.get('confirmPassword')?.setErrors(null);
       }
     }
   }

@@ -11,6 +11,7 @@ import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
 import { PasswordModule } from 'primeng/password';
 import { Subject, takeUntil } from 'rxjs';
+import { VALIDATOR_ERROR } from 'src/app/constants/validatorConstants';
 import { Title } from '../enums/title.enum';
 import { AuthService } from '../services/auth.service';
 import { AuthFormI, AuthRequestI } from '../types/auth.interface';
@@ -68,28 +69,12 @@ export class AuthComponent implements OnInit, OnDestroy {
     });
   }
 
-  get passwordValid() {
-    return this.form.controls['password'].errors === null;
-  }
-  get minLengthValid() {
-    return !this.form.controls['password'].hasError('minlength');
-  }
-
-  get requireValid() {
-    return !this.form.controls['password'].hasError('required');
-  }
-
-  get requiresDigitValid() {
-    return !this.form.controls['password'].hasError('requiresDigit');
-  }
-  get requiresUppercaseValid() {
-    return !this.form.controls['password'].hasError('requiresUppercase');
-  }
-  get requiresLowercaseValid() {
-    return !this.form.controls['password'].hasError('requiresLowercase');
-  }
-  get requiresSpecialCharsValid() {
-    return !this.form.controls['password'].hasError('requiresSpecialChars');
+  getValidationErrorMessage(formControl: FormControl): string | null {
+    const errorKey = Object.keys(formControl.errors || {})[0];
+    const customError = VALIDATOR_ERROR.find(
+      (validatorError) => validatorError.errorAssociation === errorKey
+    );
+    return customError?.errorMessage || null;
   }
 
   onSubmit(): void {

@@ -24,16 +24,10 @@
         class="input"
         formControlName="email"
       />
-      <div
-        *ngIf="form.controls['email'].errors && form.controls['email'].dirty"
-        class="invalid-feedback"
-      >
-        <small *ngIf="form.controls['email'].errors['required']"
-          >Требуется адрес электронной почты</small
-        >
-        <small *ngIf="form.controls['email'].errors['email']"
-          >Введите коректную электронную почту</small
-        >
+      <div *ngIf="form.controls['email'] as email" class="invalid-feedback">
+        <small *ngIf="email.errors && email.dirty">{{
+          getValidationErrorMessage(email)
+        }}</small>
       </div>
       <label for="password" class="label">Пароль</label>
       <p-password
@@ -46,25 +40,13 @@
         [feedback]="false"
         formControlName="password"
       />
-      <div *ngIf="requireValid" class="invalid-feedback">
-        <small *ngIf="!requiresDigitValid"
-          >Должен содержать по крайней мере 1 цифру</small
-        >
-        <small *ngIf="!minLengthValid"
-          >Длина должна быть не менее 8 символов</small
-        >
-        <small *ngIf="!requiresLowercaseValid"
-          >Должен содержать по краней мере 1 символ нижнего регистра</small
-        >
-        <small *ngIf="!requiresUppercaseValid"
-          >Должен содержать по краней мере 1 символ верхнего регистра</small
-        >
-        <small *ngIf="!requiresSpecialCharsValid"
-          >Должен содержать по крайней мере 1 специальный символ
-          {{ "!@#$%^&*" }}</small
-        >
+      @if(form.controls['password'];as password){
+      <div *ngIf="password.invalid && password.dirty" class="invalid-feedback">
+        <small>{{
+          getValidationErrorMessage(form.controls["password"])
+        }}</small>
       </div>
-      @if(form.controls['confirmPassword']){
+      } @if(form.controls['confirmPassword']; as confirmPassword){
       <label for="confirmPassword" class="label">Подтвердите пароль</label>
       <p-password
         inputId="confirmPassword"
@@ -77,22 +59,10 @@
         formControlName="confirmPassword"
       />
       <div
-        *ngIf="
-          form.controls['confirmPassword'].errors &&
-          form.controls['confirmPassword'].dirty
-        "
+        *ngIf="confirmPassword.invalid && confirmPassword.dirty"
         class="invalid-feedback"
       >
-        <small *ngIf="form.controls['confirmPassword'].errors['required']"
-          >Подтвердите свой пароль!</small
-        >
-
-        <small *ngIf="form.controls['confirmPassword'].errors['minLength']"
-          >Длина должна быть не менее 8 символов</small
-        >
-        <small *ngIf="form.controls['confirmPassword'].errors['misMatch']"
-          >Пароли не совпадают</small
-        >
+        <small>{{ getValidationErrorMessage(confirmPassword) }}</small>
       </div>
       }
       <div class="footer">

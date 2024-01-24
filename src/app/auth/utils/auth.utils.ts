@@ -10,7 +10,6 @@ export function initialAuthForm(): FormGroup<AuthFormI> {
         null,
         Validators.compose([
           Validators.required,
-          Validators.minLength(8),
           PasswordValidators.patternValidator(new RegExp('(?=.*[0-9])'), {
             requiresDigit: true,
           }),
@@ -23,6 +22,7 @@ export function initialAuthForm(): FormGroup<AuthFormI> {
           PasswordValidators.patternValidator(new RegExp('(?=.*[!@#$%^&*])'), {
             requiresSpecialChars: true,
           }),
+          Validators.minLength(8),
         ])
       ),
     },

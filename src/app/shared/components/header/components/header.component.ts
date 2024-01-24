@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 
 import { AvatarModule } from 'primeng/avatar';
 import { MenuModule } from 'primeng/menu';
-import { HeaderService } from '../services/header.services';
+import { HeaderService } from '../services/header.service';
 
 import { MenuItem } from 'primeng/api';
 import { Subject, takeUntil } from 'rxjs';
@@ -21,12 +21,12 @@ import { CurrentUserI } from 'src/app/shared/types/currentUser.interface';
 })
 export class HeaderComponent implements OnInit, OnDestroy {
   currentUser: CurrentUserI | null = null;
-  items: MenuItem[] = this.sidebarService.userItems;
+  items: MenuItem[] = this.headerService.userItems;
   destroy$ = new Subject<void>();
 
   constructor(
     private userService: UserService,
-    private sidebarService: HeaderService
+    private headerService: HeaderService
   ) {}
   ngOnInit(): void {
     this.initializeValues();
@@ -42,7 +42,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
         },
 
         error: () => {
-          this.sidebarService.logout();
+          this.headerService.logout();
         },
       });
   }
