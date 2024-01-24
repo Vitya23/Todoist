@@ -36,12 +36,13 @@
         >
       </div>
       <label for="password" class="label">Пароль</label>
-      <input
-        id="password"
-        type="password"
+      <p-password
+        inputId="password"
         placeholder="Введите пароль"
-        pPassword
+        styleClass="width-100"
+        inputStyleClass="width-100"
         class="input"
+        [toggleMask]="true"
         [feedback]="false"
         formControlName="password"
       />
@@ -65,11 +66,12 @@
       </div>
       @if(form.controls['confirmPassword']){
       <label for="confirmPassword" class="label">Подтвердите пароль</label>
-      <input
-        id="confirmPassword"
-        type="password"
+      <p-password
+        inputId="confirmPassword"
         placeholder="Подтвердите пароль"
-        pPassword
+        styleClass="width-100"
+        inputStyleClass="width-100"
+        [toggleMask]="true"
         [feedback]="false"
         class="input"
         formControlName="confirmPassword"
