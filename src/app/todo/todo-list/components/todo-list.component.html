@@ -1,127 +1,112 @@
 <div class="wrapper">
-  <div class="table" *ngIf="tasks() as tasks">
-    <ng-container *ngIf="categories() as categories">
-      <p-table
-        #table
-        [value]="tasks"
-        [resizableColumns]="true"
-        [scrollable]="true"
-        [paginator]="true"
-        [rows]="5"
-        [showCurrentPageReport]="true"
-        currentPageReportTemplate="Показаны записи с {first} по {last} из {totalRecords}"
-        [globalFilterFields]="[
-          'description',
-          'category',
-          'endDate',
-          'priority'
-        ]"
-      >
-        <ng-template pTemplate="caption">
-          <div class="caption">
-            <app-menu></app-menu>
+  <div class="filter"></div>
+
+  <div class="table">
+    <p-table
+      #table
+      [value]="tasks() || []"
+      [resizableColumns]="true"
+      [scrollable]="true"
+      [paginator]="true"
+      [rows]="5"
+      [showCurrentPageReport]="true"
+      currentPageReportTemplate="Показаны записи с {first} по {last} из {totalRecords}"
+      [globalFilterFields]="['description', 'category', 'endDate', 'priority']"
+    >
+      <ng-template pTemplate="caption">
+        <div class="caption">
+          <app-menu></app-menu>
+          <div class="filters">
             <p-button
-              label="Очистить"
               icon="pi pi-filter-slash"
-              severity="info"
-              [outlined]="true"
+              [text]="true"
+              severity="primary"
               (click)="table.clear()"
               size="small"
             ></p-button>
+            <app-filter [table]="table"></app-filter>
           </div>
-        </ng-template>
-        <ng-template pTemplate="header">
-          <tr>
-            <th class="col">
-              <div class="col__item">
-                Задача
-                <app-filter
-                  title="Фильтр по"
-                  [table]="table"
-                  [dropDownOption]="priority"
-                  (onChangeField)="taskField = $event"
-                  optionLabel="title"
-                  optionValue="priority"
-                ></app-filter
-                ><p-sortIcon
-                  [field]="taskField"
-                  [pSortableColumn]="taskField"
-                ></p-sortIcon>
-              </div>
-            </th>
-            <th>
-              <div class="col__item">
-                Категория
-                <app-filter
-                  title="Фильтр по категории"
-                  [table]="table"
-                  [dropDownOption]="categories"
-                  field="category"
-                  optionLabel="title"
-                  optionValue="id"
-                ></app-filter>
-                <p-sortIcon
-                  field="category"
-                  pSortableColumn="category"
-                ></p-sortIcon>
-              </div>
-            </th>
-            <th class="col__item">
-              Статус
-              <app-filter
-                title="Фильтр по статусу"
-                [table]="table"
-                [dropDownOption]="status"
-                field="status"
-                optionLabel="status"
-                optionValue="status"
-              ></app-filter>
-              <p-sortIcon field="status" pSortableColumn="status"></p-sortIcon>
-            </th>
-            <th></th>
-          </tr>
-        </ng-template>
-        <ng-template pTemplate="body" let-task>
-          <tr>
-            <td>
-              <div class="table__description">
-                <p highlightPriority [priority]="task.priority">
-                  {{ task.description }}
-                </p>
-                <small class="date" title="Время окончания задачи">{{
-                  task.endDate | date : "d MMMM y"
-                }}</small>
-              </div>
-            </td>
-            <td>
-              <app-category [categoryId]="task.category"></app-category>
-            </td>
+        </div>
+      </ng-template>
+      <ng-template pTemplate="header">
+        <tr>
+          <th class="col">
+            <div class="col__item">
+              Задача
+              <p-sortIcon
+                [field]="taskField"
+                [pSortableColumn]="taskField"
+              ></p-sortIcon>
+            </div>
+          </th>
+          <th>
+            <div class="col__item">
+              Категория
+              <p-sortIcon
+                field="category"
+                pSortableColumn="category"
+              ></p-sortIcon>
+            </div>
+          </th>
 
-            <td class="table__status">
-              <app-todo-status
-                [id]="task.id"
-                [status]="task.status"
-              ></app-todo-status>
-            </td>
-            <td>
-              <p-button
-                [text]="true"
-                size="small"
-                icon="pi pi-pencil"
-                (click)="generateTodoEditComponent(task)"
-              ></p-button>
-              <p-button
-                [text]="true"
-                size="small"
-                icon="pi pi-times"
-                (click)="generateDeleteComponent(task.id, deleteMods.Task)"
-              ></p-button>
-            </td>
-          </tr>
-        </ng-template>
-      </p-table>
+          <th>
+            <div class="col__item">
+              Дата окончания
+              <p-sortIcon
+                field="endDate"
+                pSortableColumn="endDate"
+              ></p-sortIcon>
+            </div>
+          </th>
+          <th class="col__item">
+            Статус
+            <p-sortIcon field="status" pSortableColumn="status"></p-sortIcon>
+          </th>
+          <th></th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-task>
+        <tr>
+          <td>
+            <div class="table__description">
+              <p highlightPriority [priority]="task.priority">
+                {{ task.description }}
+              </p>
+            </div>
+          </td>
 
-      <ng-container #ChildInsertionPoint></ng-container>
-    </ng-container>
+          <td>
+            <app-category [categoryId]="task.category"></app-category>
+          </td>
+          <td>
+            <small class="date" title="Время окончания задачи">{{
+              task.endDate | date : "d MMMM y"
+            }}</small>
+          </td>
+          <td class="table__status">
+            <app-todo-status
+              [id]="task.id"
+              [status]="task.status"
+            ></app-todo-status>
+          </td>
+          <td>
+            <p-button
+              [text]="true"
+              size="small"
+              icon="pi pi-pencil"
+              (click)="generateTodoEditComponent(task)"
+            ></p-button>
+            <p-button
+              [text]="true"
+              size="small"
+              icon="pi pi-times"
+              (click)="generateDeleteComponent(task.id, deleteMods.Task)"
+            ></p-button>
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+
+    <ng-container #ChildInsertionPoint></ng-container>
   </div>
 </div>
