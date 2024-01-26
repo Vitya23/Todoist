@@ -1,18 +1,18 @@
 <div class="wrapper">
   <div class="block">
-    @if(title === Title.Login){
     <div class="header">
+      @if(title === Title.Login){
       <p>Добро пожаловать</p>
       <span>У Вас нет аккаунта?</span>
       <a routerLink="/register">Создай сегодня!</a>
-    </div>
-    } @else{
-    <div class="header">
+
+      } @else{
+
       <p>Добро пожаловать</p>
       <span>У Вас есть аккаунт</span>
       <a routerLink="/login">Войти!</a>
+      }
     </div>
-    }
 
     <form class="form" [formGroup]="form" (ngSubmit)="onSubmit()">
       <label for="email" class="label">Почта</label>

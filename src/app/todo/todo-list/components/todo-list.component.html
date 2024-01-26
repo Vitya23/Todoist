@@ -1,6 +1,4 @@
 <div class="wrapper">
-  <div class="filter"></div>
-
   <div class="table">
     <p-table
       #table
@@ -10,13 +8,12 @@
       [paginator]="true"
       [rows]="5"
       [showCurrentPageReport]="true"
-      currentPageReportTemplate="Показаны записи с {first} по {last} из {totalRecords}"
-      [globalFilterFields]="['description', 'category', 'endDate', 'priority']"
+      currentPageReportTemplate="Показаны задачи с {first} по {last} из {totalRecords}"
     >
       <ng-template pTemplate="caption">
         <div class="caption">
           <app-menu></app-menu>
-          <div class="filters">
+          <div class="table__filters">
             <app-filter [table]="table"></app-filter>
             <p-button
               icon="pi pi-filter-slash"
@@ -30,35 +27,26 @@
       </ng-template>
       <ng-template pTemplate="header">
         <tr>
-          <th class="col">
-            <div class="col__item">
-              Задача
-              <p-sortIcon
-                [field]="taskField"
-                [pSortableColumn]="taskField"
-              ></p-sortIcon>
-            </div>
+          <th>
+            Задача
+            <p-sortIcon
+              [field]="taskField"
+              [pSortableColumn]="taskField"
+            ></p-sortIcon>
           </th>
           <th>
-            <div class="col__item">
-              Категория
-              <p-sortIcon
-                field="category"
-                pSortableColumn="category"
-              ></p-sortIcon>
-            </div>
+            Категория
+            <p-sortIcon
+              field="category"
+              pSortableColumn="category"
+            ></p-sortIcon>
           </th>
 
           <th>
-            <div class="col__item">
-              Дата окончания
-              <p-sortIcon
-                field="endDate"
-                pSortableColumn="endDate"
-              ></p-sortIcon>
-            </div>
+            Дата окончания
+            <p-sortIcon field="endDate" pSortableColumn="endDate"></p-sortIcon>
           </th>
-          <th class="col__item">
+          <th>
             Статус
             <p-sortIcon field="status" pSortableColumn="status"></p-sortIcon>
           </th>
@@ -79,11 +67,11 @@
             <app-category [categoryId]="task.category"></app-category>
           </td>
           <td>
-            <small class="date" title="Время окончания задачи">{{
+            <small title="Время окончания задачи">{{
               task.endDate | date : "d MMMM y"
             }}</small>
           </td>
-          <td class="table__status">
+          <td>
             <app-todo-status
               [id]="task.id"
               [status]="task.status"

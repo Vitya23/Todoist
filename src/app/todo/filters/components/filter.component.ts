@@ -1,17 +1,15 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { CalendarModule } from 'primeng/calendar';
-import { DividerModule } from 'primeng/divider';
 import { DropdownModule } from 'primeng/dropdown';
 import { InputTextModule } from 'primeng/inputtext';
-import { OverlayPanel, OverlayPanelModule } from 'primeng/overlaypanel';
-import { ScrollPanelModule } from 'primeng/scrollpanel';
+import { SidebarModule } from 'primeng/sidebar';
 import { Table } from 'primeng/table';
 import { PriorityDirective } from 'src/app/shared/directives/priority.directive';
 import { AppState } from 'src/app/shared/services/appState.state';
 import { PriorityI } from '../../todo-add-edit/types/priority.interface';
-import { initialFilterForm } from '../utils/filter.utils';
 import { FilterFormI } from '../types/filterForm.interface';
+import { initialFilterForm } from '../utils/filter.utils';
 
 @Component({
   standalone: true,
@@ -25,13 +23,12 @@ import { FilterFormI } from '../types/filterForm.interface';
     CalendarModule,
     DropdownModule,
     PriorityDirective,
-    OverlayPanelModule,
-    ScrollPanelModule,
-    DividerModule,
+    SidebarModule,
   ],
 })
 export class FilterComponent {
   @Input() table: Table | null = null;
+  sidebarVisible: boolean = false;
   form: FormGroup<FilterFormI> = initialFilterForm();
   priorities: PriorityI[] = this.appState.priorityItems;
   categories = this.appState.categories;
@@ -39,13 +36,13 @@ export class FilterComponent {
 
   constructor(private appState: AppState) {}
 
-  applyFilter(overlay: OverlayPanel) {
+  applyFilter() {
     Object.entries(this.form.controls).forEach(([field, control]) => {
       if (control.value && this.table) {
         this.table.filter(control.value, field, 'contains');
       }
     });
-    overlay.hide();
+    this.sidebarVisible = false;
   }
   clearFilter() {
     if (this.table) {

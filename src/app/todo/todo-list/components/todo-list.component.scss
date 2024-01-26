@@ -6,52 +6,26 @@
   flex-direction: column;
 }
 
-.filters {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
-  p {
-    font-size: 14px;
-  }
-}
-
-.globalFilter {
-  width: 100%;
-}
-
-.ml {
-  margin-left: 10px;
-}
-
 .table {
   width: 85%;
+
+  .table__filters {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    p {
+      font-size: 14px;
+    }
+  }
 
   .caption {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 5px;
-  }
-  .col__item {
-    display: flex;
-    align-items: center;
-  }
-
-  .col__status {
-    text-align: center;
   }
 
   .table__description {
-    display: flex;
-    flex-direction: column;
-
-    .date {
-      margin-left: 5px;
-      font-size: 10px;
-      opacity: 0.7;
-    }
-
     p {
       margin: 0;
     }

@@ -29,3 +29,18 @@ body {
 .width-100 {
   width: 100%;
 }
+.w-17rem {
+  width: 17rem;
+}
+
+.filters__select {
+  height: 6vh;
+  max-height: 60px;
+
+  align-items: center;
+}
+.p-dropdown-label {
+  display: flex;
+  height: 100%;
+  align-items: center;
+}
