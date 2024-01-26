@@ -17,6 +17,7 @@
         <div class="caption">
           <app-menu></app-menu>
           <div class="filters">
+            <app-filter [table]="table"></app-filter>
             <p-button
               icon="pi pi-filter-slash"
               [text]="true"
@@ -24,7 +25,6 @@
               (click)="table.clear()"
               size="small"
             ></p-button>
-            <app-filter [table]="table"></app-filter>
           </div>
         </div>
       </ng-template>

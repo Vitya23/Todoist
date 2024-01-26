@@ -1,9 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  Input,
-  OnInit,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { ValidationErrors } from '@angular/forms';
 import { VALIDATOR_ERROR } from 'src/app/constants/validatorConstants';
 
@@ -13,10 +8,9 @@ import { VALIDATOR_ERROR } from 'src/app/constants/validatorConstants';
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: '<small>{{getValidationErrorMessage()}}</small>',
 })
-export class ErrorMessageComponent implements OnInit {
+export class ErrorMessageComponent {
   @Input() errors: ValidationErrors | null = null;
 
-  ngOnInit() {}
   getValidationErrorMessage(): string | null {
     const errorKey = Object.keys(this.errors || {})[0];
     const customError = VALIDATOR_ERROR.find(
