@@ -52,17 +52,21 @@
       </p-dropdown>
       <hr class="solid" />
 
+      @if(categories() ; as categories){
       <span class="label">Категория:</span>
       <p-dropdown
         styleClass="width-100 filters__select"
         placeholder="Выбрать"
         [showClear]="true"
-        [options]="categories() || []"
+        [options]="categories"
         formControlName="category"
         optionLabel="title"
         optionValue="id"
         appendTo="body"
+        [filter]="categories.length >= 5"
       ></p-dropdown>
+      }
+
       <hr class="solid" />
 
       <span class="label">Статус:</span>

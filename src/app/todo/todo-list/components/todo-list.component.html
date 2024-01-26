@@ -30,8 +30,8 @@
           <th>
             Задача
             <p-sortIcon
-              [field]="taskField"
-              [pSortableColumn]="taskField"
+              field="description"
+              pSortableColumn="description"
             ></p-sortIcon>
           </th>
           <th>
@@ -88,7 +88,7 @@
               [text]="true"
               size="small"
               icon="pi pi-times"
-              (click)="generateDeleteComponent(task.id, deleteMods.Task)"
+              (click)="generateDeleteComponent(task.id)"
             ></p-button>
           </td>
         </tr>

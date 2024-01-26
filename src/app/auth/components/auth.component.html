@@ -1,14 +1,11 @@
 <div class="wrapper">
   <div class="block">
     <div class="header">
-      @if(title === Title.Login){
       <p>Добро пожаловать</p>
+      @if(title === Title.Login){
       <span>У Вас нет аккаунта?</span>
       <a routerLink="/register">Создай сегодня!</a>
-
       } @else{
-
-      <p>Добро пожаловать</p>
       <span>У Вас есть аккаунт</span>
       <a routerLink="/login">Войти!</a>
       }

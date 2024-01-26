@@ -2,9 +2,7 @@ import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
-  ElementRef,
   ViewChild,
-  ViewChildren,
   ViewContainerRef,
 } from '@angular/core';
 import { ButtonModule } from 'primeng/button';
@@ -15,7 +13,6 @@ import { TaskI } from '../types/task.interface';
 import { AppState } from 'src/app/shared/services/appState.state';
 
 import { CategoryComponent } from 'src/app/shared/components/category/components/category.component';
-import { CategoryI } from 'src/app/shared/components/category/types/category.interface';
 import { DeleteComponent } from 'src/app/shared/components/delete/components/delete.component';
 import { PriorityDirective } from 'src/app/shared/directives/priority.directive';
 
@@ -24,9 +21,7 @@ import { DeleteMods } from 'src/app/shared/components/delete/enums/deleteMods.en
 import { MenuComponent } from 'src/app/shared/components/menu/components/menu.component';
 import { TodoAddEditComponent } from 'src/app/todo/todo-add-edit/components/todo-add-edit.component';
 import { FilterComponent } from '../../filters/components/filter.component';
-import { PriorityI } from '../../todo-add-edit/types/priority.interface';
 import { TodoStatusComponent } from '../../todo-status/components/todo-status.component';
-import { ChangeStatusI } from '../../todo-status/types/changeStatus.interface';
 
 @Component({
   standalone: true,
@@ -52,12 +47,6 @@ export class TodoListComponent {
   childInsertionPoint: ViewContainerRef | null = null;
 
   tasks = this.appState.task;
-  categories = this.appState.categories;
-  priority: PriorityI[] = this.appState.priorityItems;
-  status: ChangeStatusI[] = this.appState.statusItems;
-  selectedCategories: CategoryI | null = null;
-  deleteMods = DeleteMods;
-  taskField: string = 'description';
 
   constructor(
     private todoListService: TodoListService,
@@ -75,13 +64,13 @@ export class TodoListComponent {
       componentRef.instance.task = task;
     }
   }
-  generateDeleteComponent(id: number, mode: DeleteMods): void {
+  generateDeleteComponent(id: number): void {
     if (this.childInsertionPoint) {
       this.childInsertionPoint.clear();
       const componentRef =
         this.childInsertionPoint.createComponent(DeleteComponent);
       componentRef.instance.id = id;
-      componentRef.instance.mode = mode;
+      componentRef.instance.mode = DeleteMods.Task;
     }
   }
 }
