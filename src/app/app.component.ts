@@ -1,4 +1,4 @@
-import { Component, effect, inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { UserService } from './shared/services/user.service';
 import { AppState } from './shared/services/appState.state';
@@ -14,11 +14,5 @@ import { MessagesModule } from 'primeng/messages';
 })
 export class AppComponent {
   title = 'Todoist';
-  appState = inject(AppState);
-  isLoggedIn: boolean = false;
-  constructor() {
-    effect(() => {
-      this.isLoggedIn = this.appState.isLoggedInState();
-    });
-  }
+  isLoggedIn = inject(AppState).isLoggedInState;
 }

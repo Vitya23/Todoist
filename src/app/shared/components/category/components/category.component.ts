@@ -82,7 +82,15 @@ export class CategoryComponent implements OnInit, OnChanges, OnDestroy {
     private messageService: MessageService,
     private appState: AppState
   ) {
-    toSignal(toObservable(this.categories).pipe(tap(() => this.setCategory())));
+    toSignal(
+      toObservable(this.categories).pipe(
+        tap(() => {
+          if (!this.mode) {
+            this.setCategory();
+          }
+        })
+      )
+    );
   }
 
   ngOnInit(): void {

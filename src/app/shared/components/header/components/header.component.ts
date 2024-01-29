@@ -1,4 +1,10 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  OnDestroy,
+  OnInit,
+  signal,
+} from '@angular/core';
 
 import { AvatarModule } from 'primeng/avatar';
 import { MenuModule } from 'primeng/menu';
@@ -17,10 +23,11 @@ import { CurrentUserI } from 'src/app/shared/types/currentUser.interface';
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss',
   imports: [AvatarModule, MenuModule, MenubarModule],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [HeaderService],
 })
 export class HeaderComponent implements OnInit, OnDestroy {
-  currentUser: CurrentUserI | null = null;
+  currentUser = signal<CurrentUserI | null>(null);
   items: MenuItem[] = this.headerService.userItems;
   destroy$ = new Subject<void>();
 
@@ -38,7 +45,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: (currentUser: CurrentUserI) => {
-          this.currentUser = currentUser;
+          this.currentUser.set(currentUser);
         },
 
         error: () => {
