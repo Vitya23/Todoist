@@ -108,7 +108,6 @@ export class CategoryComponent implements OnInit, OnChanges, OnDestroy {
 
   setCategory() {
     const categories = this.categories();
-    console.log(categories);
     if (categories) {
       const category = categories.find(
         (category) => category.id === this.categoryId
