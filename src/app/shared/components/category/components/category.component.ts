@@ -3,8 +3,10 @@ import {
   ChangeDetectionStrategy,
   Component,
   Input,
+  OnChanges,
   OnDestroy,
   OnInit,
+  SimpleChanges,
   ViewChild,
   ViewContainerRef,
   WritableSignal,
@@ -55,7 +57,7 @@ import { initializeCategoryForm } from '../utils/category.utils';
   ],
   providers: [CategoryService],
 })
-export class CategoryComponent implements OnInit, OnDestroy {
+export class CategoryComponent implements OnInit, OnChanges, OnDestroy {
   @ViewChild('DelCategoryInsertionPoint', { read: ViewContainerRef })
   DelCategoryInsertionPoint: ViewContainerRef | undefined;
 
@@ -86,6 +88,13 @@ export class CategoryComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.addFormControls();
   }
+
+  ngOnChanges(changes: SimpleChanges) {
+    if (!changes['categoryId'].isFirstChange()) {
+      this.setCategory();
+    }
+  }
+
   addFormControls(): void {
     if (this.mode === this.mods.ADD) {
       this.form.addControl(
@@ -99,6 +108,7 @@ export class CategoryComponent implements OnInit, OnDestroy {
 
   setCategory() {
     const categories = this.categories();
+    console.log(categories);
     if (categories) {
       const category = categories.find(
         (category) => category.id === this.categoryId

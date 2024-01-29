@@ -73,4 +73,8 @@ export class TodoListComponent {
       componentRef.instance.mode = DeleteMods.Task;
     }
   }
+
+  trackByFunction(index: number, task: TaskI) {
+    return task.id;
+  }
 }
