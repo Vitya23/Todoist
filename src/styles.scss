@@ -32,3 +32,11 @@ body {
   height: 100%;
   align-items: center;
 }
+.p-paginator {
+  padding: 0.5rem 0.7rem;
+}
+@media screen and (max-width: 630px) {
+  .p-paginator .p-paginator-current {
+    width: 100%;
+  }
+}
