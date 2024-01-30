@@ -13,20 +13,23 @@ export class PasswordValidators {
     };
   }
 
-  static MatchValidator(control: any): ValidationErrors | null {
+  static MatchValidator(control: AbstractControl): ValidationErrors | null {
     const password: string = control.get('password')?.value;
     const confirmPassword: string = control.get('confirmPassword')?.value;
     if (!confirmPassword?.length) {
       return null;
     }
+    let error: ValidationErrors | null;
     if (confirmPassword.length < 8) {
-      return control.get('confirmPassword')?.setErrors({ minlength: true });
+      error = { minlength: true };
     } else {
       if (password !== confirmPassword) {
-        return control.get('confirmPassword')?.setErrors({ misMatch: true });
+        error = { misMatch: true };
       } else {
-        return control.get('confirmPassword')?.setErrors(null);
+        error = null;
       }
     }
+    control.get('confirmPassword')?.setErrors(error);
+    return error;
   }
 }
