@@ -1,12 +1,9 @@
 import { Injectable } from '@angular/core';
-import { Router } from '@angular/router';
 import { MenuItem } from 'primeng/api';
-import { AppState } from 'src/app/shared/services/appState.state';
+import { UserService } from 'src/app/shared/services/user.service';
 
 @Injectable()
-export class HeaderService {
-  constructor(private appState: AppState, private router: Router) {}
-
+export class HeaderService extends UserService {
   private readonly items: MenuItem[] = [
     {
       label: 'Меню',
@@ -24,11 +21,5 @@ export class HeaderService {
 
   get userItems(): MenuItem[] {
     return this.items;
-  }
-
-  logout(): void {
-    this.appState.isLoggedInState.set(false);
-    localStorage.clear();
-    this.router.navigateByUrl('/login');
   }
 }

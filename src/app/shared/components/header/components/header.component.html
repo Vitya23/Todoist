@@ -1,4 +1,4 @@
-@if(currentUser();as currentUser){
+@if(currentUser$ | async;as currentUser){
 <div class="wrapper">
   <p-menubar>
     <ng-template pTemplate="end">
