@@ -52,7 +52,7 @@ export class AuthComponent implements OnInit, OnDestroy {
   }
 
   addFormControls(): void {
-    if (this.title === this.Title.REGISTER) {
+    if (this.title === Title.REGISTER) {
       this.form.addControl(
         'confirmPassword',
         new FormControl(null, Validators.required)

@@ -71,13 +71,7 @@
           class="btn"
           pButton
           type="submit"
-          [disabled]="
-            submitting ||
-            (title === Title.REGISTER
-              ? form.invalid
-              : form.controls['password'].invalid ||
-                form.controls['email'].invalid)
-          "
+          [disabled]="submitting || this.form.invalid"
           [label]="title === Title.LOGIN ? 'Войти' : 'Зарегистрироваться'"
           icon="pi pi-user"
         ></button>

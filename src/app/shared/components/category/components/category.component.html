@@ -58,11 +58,7 @@
             [label]="label"
             severity="danger"
             [plain]="true"
-            [disabled]="
-              mode !== mods.DELETE
-                ? this.form.invalid
-                : this.form.controls['id']?.invalid
-            "
+            [disabled]="this.form.invalid"
           ></p-button>
           <p-button
             (click)="active = false"
