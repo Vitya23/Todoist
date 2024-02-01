@@ -6,7 +6,7 @@ export const VALIDATOR_ERROR = [
     errorAssociation: ErrorAssociation.REQUIRED,
   },
   {
-    errorMessage: 'Введите коректную электронную почту',
+    errorMessage: 'Введите корректную электронную почту',
     errorAssociation: ErrorAssociation.EMAIL,
   },
   {
@@ -18,11 +18,11 @@ export const VALIDATOR_ERROR = [
     errorAssociation: ErrorAssociation.MINLENGTH,
   },
   {
-    errorMessage: 'Должен содержать по краней мере 1 символ нижнего регистра',
+    errorMessage: 'Должен содержать по крайней мере 1 символ нижнего регистра',
     errorAssociation: ErrorAssociation.REQUIRES_LOWERCASE,
   },
   {
-    errorMessage: 'Должен содержать по краней мере 1 символ верхнего регистра',
+    errorMessage: 'Должен содержать по крайней мере 1 символ верхнего регистра',
     errorAssociation: ErrorAssociation.REQUIRES_UPPERCASE,
   },
   {
