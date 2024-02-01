@@ -3,9 +3,6 @@ import { CategoryFormI } from '../types/category.interface';
 
 export function initializeCategoryForm(): FormGroup<CategoryFormI> {
   return new FormGroup<CategoryFormI>({
-    title: new FormControl(null, [
-      Validators.required,
-      Validators.maxLength(30),
-    ]),
+    id: new FormControl(null, Validators.required),
   });
 }

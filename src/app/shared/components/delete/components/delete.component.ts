@@ -5,6 +5,18 @@ import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { Subject, takeUntil } from 'rxjs';
 import { DeleteMods } from '../enums/deleteMods.enum';
+import {
+  MessageDetail,
+  MessageSeverity,
+  MessageSummary,
+} from 'src/app/shared/enums/message.enum';
+import {
+  ConfirmationButtonStyle,
+  ConfirmationHeader,
+  ConfirmationLabel,
+  ConfirmationMessage,
+} from 'src/app/shared/enums/confirmation.enum';
+import { Icon } from 'src/app/shared/enums/icon.enum';
 
 @Component({
   standalone: true,
@@ -25,24 +37,28 @@ export class DeleteComponent implements OnInit, OnDestroy {
   ) {}
   ngOnInit() {
     this.confirmationService.confirm({
-      message: `Вы действительно хотите удалить ${
-        this.mode === DeleteMods.TASK ? 'задачу?' : 'категорию'
-      }`,
-      header: 'Информация',
-      icon: 'pi pi-info-circle',
-      acceptLabel: 'Да',
-      rejectLabel: 'Нет',
-      acceptButtonStyleClass: 'p-button-danger p-button-text',
-      rejectButtonStyleClass: 'p-button-text p-button-text',
-      acceptIcon: 'none',
-      rejectIcon: 'none',
+      message:
+        this.mode === DeleteMods.TASK
+          ? ConfirmationMessage.DELETE_TASK
+          : ConfirmationMessage.DELETE_CATEGORY,
+      header: ConfirmationHeader.DELETE_HEADER,
+      icon: Icon.INFO_CIRCLE,
+      acceptLabel: ConfirmationLabel.ACCEPT,
+      rejectLabel: ConfirmationLabel.REJECT,
+      acceptButtonStyleClass: ConfirmationButtonStyle.ACCEPT,
+      rejectButtonStyleClass: ConfirmationButtonStyle.REJECT,
+      acceptIcon: Icon.NONE,
+      rejectIcon: Icon.NONE,
 
       accept: () => {
         this.messageService.clear();
         this.messageService.add({
-          severity: 'success',
-          summary: this.mode === DeleteMods.TASK ? 'Задача' : 'Категория',
-          detail: 'успешно удалена',
+          severity: MessageSeverity.SUCCESS,
+          summary:
+            this.mode === DeleteMods.TASK
+              ? MessageSummary.TASK
+              : MessageSummary.CATEGORY,
+          detail: MessageDetail.DEL_SUCCESS,
         });
         if (this.mode === DeleteMods.TASK && this.id) {
           this.deleteService
@@ -60,9 +76,12 @@ export class DeleteComponent implements OnInit, OnDestroy {
       reject: () => {
         this.messageService.clear();
         this.messageService.add({
-          severity: 'error',
-          summary: this.mode === DeleteMods.TASK ? 'Задача' : 'Категория',
-          detail: 'не удалена',
+          severity: MessageSeverity.ERROR,
+          summary:
+            this.mode === DeleteMods.TASK
+              ? MessageSummary.TASK
+              : MessageSummary.CATEGORY,
+          detail: MessageDetail.DEL_ERROR,
         });
       },
     });

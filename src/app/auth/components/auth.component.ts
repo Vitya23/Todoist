@@ -12,7 +12,7 @@ import { InputTextModule } from 'primeng/inputtext';
 import { PasswordModule } from 'primeng/password';
 import { Subject, takeUntil } from 'rxjs';
 import { ErrorMessageComponent } from 'src/app/shared/components/error-message/error-message.component';
-import { Title } from '../enums/title.enum';
+import { AuthLabel, AuthPlaceholder, Title } from '../enums/auth.enum';
 import { AuthService } from '../services/auth.service';
 import { AuthFormI, AuthRequestI } from '../types/auth.interface';
 import { initialAuthForm } from '../utils/auth.utils';
@@ -34,7 +34,9 @@ import { initialAuthForm } from '../utils/auth.utils';
 })
 export class AuthComponent implements OnInit, OnDestroy {
   form: FormGroup<AuthFormI> = initialAuthForm();
-  readonly Title = Title;
+  Title = Title;
+  Label = AuthLabel;
+  Placeholder = AuthPlaceholder;
   title: Title = Title.LOGIN;
   destroy$ = new Subject<void>();
   submitting = false;

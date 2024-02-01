@@ -28,9 +28,14 @@ import { InputTextModule } from 'primeng/inputtext';
 import { Subject, takeUntil, tap } from 'rxjs';
 import { DeleteComponent } from 'src/app/shared/components/delete/components/delete.component';
 import { TrimOnBlurDirective } from 'src/app/shared/directives/trim-on-blur.directive';
+import {
+  MessageDetail,
+  MessageSeverity,
+  MessageSummary,
+} from 'src/app/shared/enums/message.enum';
 import { AppState } from 'src/app/shared/services/appState.state';
 import { DeleteMods } from '../../delete/enums/deleteMods.enum';
-import { CategoryMods } from '../enums/categoryMods.enum';
+import { CategoryMods, CategoryPlaceholder } from '../enums/category.enum';
 import { CategoryService } from '../services/category.service';
 import {
   AddCategoryI,
@@ -38,6 +43,7 @@ import {
   CategoryI,
 } from '../types/category.interface';
 import { initializeCategoryForm } from '../utils/category.utils';
+import { LabelConstant } from 'src/app/constants/labelConstants';
 
 @Component({
   standalone: true,
@@ -67,7 +73,9 @@ export class CategoryComponent implements OnInit, OnChanges, OnDestroy {
   @Input() label: string = 'Добавить';
   @Input() header?: string;
 
-  readonly mods = CategoryMods;
+  Mods = CategoryMods;
+  Placeholder = CategoryPlaceholder;
+  buttonCancelLabel = LabelConstant.CANCEL_LABEL;
 
   category = signal<CategoryI>({ id: null, title: null });
   categories: WritableSignal<CategoryI[] | null> = this.appState.categories;
@@ -104,13 +112,18 @@ export class CategoryComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   addFormControls(): void {
-    if (this.mode === this.mods.ADD) {
+    if (this.mode === this.Mods.ADD) {
       this.form.addControl(
         'setAll',
         new FormControl(false, { nonNullable: true })
       );
-    } else {
-      this.form.addControl('id', new FormControl(null, Validators.required));
+      this.form.removeControl('title');
+    }
+    if (this.mode !== this.Mods.DELETE) {
+      this.form.addControl(
+        'title',
+        new FormControl(null, [Validators.required, Validators.maxLength(30)])
+      );
     }
   }
 
@@ -129,33 +142,39 @@ export class CategoryComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   onSubmit(): void {
-    if (this.mode === this.mods.ADD) {
+    if (this.mode === this.Mods.ADD) {
       this.categoryService
         .addCategory(this.form.value as AddCategoryI)
         .pipe(takeUntil(this.destroy$))
         .subscribe({
           next: () => {
-            this.messageServiceAdd('success', 'успешно добавлена');
+            this.messageServiceAdd(
+              MessageSeverity.SUCCESS,
+              MessageDetail.ADD_SUCCESS
+            );
           },
           error: (err) => {
-            this.messageServiceAdd('error', err.error.message);
+            this.messageServiceAdd(MessageSeverity.ERROR, err.error.message);
           },
         });
     }
-    if (this.mode === this.mods.EDIT) {
+    if (this.mode === this.Mods.EDIT) {
       this.categoryService
         .editCategory(this.form.value as CategoryI)
         .pipe(takeUntil(this.destroy$))
         .subscribe({
           next: () => {
-            this.messageServiceAdd('success', 'успешно изменена');
+            this.messageServiceAdd(
+              MessageSeverity.SUCCESS,
+              MessageDetail.EDIT_SUCCESS
+            );
           },
           error: (err) => {
-            this.messageServiceAdd('error', err.error.message);
+            this.messageServiceAdd(MessageSeverity.ERROR, err.error.message);
           },
         });
     }
-    if (this.mode === this.mods.DELETE) {
+    if (this.mode === this.Mods.DELETE) {
       this.deleteCategory();
     }
     this.active = false;
@@ -165,7 +184,7 @@ export class CategoryComponent implements OnInit, OnChanges, OnDestroy {
     this.messageService.clear();
     this.messageService.add({
       severity: severity,
-      summary: 'Категория',
+      summary: MessageSummary.CATEGORY,
       detail: detail,
     });
   }

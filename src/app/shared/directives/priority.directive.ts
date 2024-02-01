@@ -1,4 +1,5 @@
 import { Directive, ElementRef, Input } from '@angular/core';
+import { HighlightColor } from '../enums/highlight.enum';
 
 @Directive({
   standalone: true,
@@ -14,16 +15,16 @@ export class PriorityDirective {
   private _highlightPriority(priority: number): void {
     switch (priority) {
       case 1:
-        this._el.nativeElement.style.color = 'var(--red-300)';
+        this._el.nativeElement.style.color = HighlightColor.RED;
         break;
       case 2:
-        this._el.nativeElement.style.color = 'var(--orange-200)';
+        this._el.nativeElement.style.color = HighlightColor.ORANGE;
         break;
       case 3:
-        this._el.nativeElement.style.color = 'var(--blue-200)';
+        this._el.nativeElement.style.color = HighlightColor.BLUE;
         break;
       case 4:
-        this._el.nativeElement.style.color = 'var(--surface-800)';
+        this._el.nativeElement.style.color = HighlightColor.DEFAULT;
         break;
     }
   }

@@ -12,7 +12,12 @@ import { MenubarModule } from 'primeng/menubar';
 import { TieredMenuModule } from 'primeng/tieredmenu';
 import { TodoAddEditComponent } from 'src/app/todo/todo-add-edit/components/todo-add-edit.component';
 import { CategoryComponent } from '../../category/components/category.component';
-import { CategoryMods } from '../../category/enums/categoryMods.enum';
+import { CategoryMods } from '../../category/enums/category.enum';
+import {
+  MainMenuLabel,
+  SecondaryMenuLabel,
+} from 'src/app/shared/enums/menu-item.enum';
+import { Icon } from 'src/app/shared/enums/icon.enum';
 
 @Component({
   standalone: true,
@@ -27,6 +32,7 @@ export class MenuComponent implements OnInit {
   childInsertionPoint: ViewContainerRef | null = null;
   categoryMods = CategoryMods;
   items: MenuItem[] = [];
+  buttonLabel = MainMenuLabel.MENU;
 
   ngOnInit(): void {
     this.initializeMenu();
@@ -35,20 +41,20 @@ export class MenuComponent implements OnInit {
   initializeMenu(): void {
     this.items = [
       {
-        label: 'Добавить',
-        icon: 'pi pi-plus',
+        label: MainMenuLabel.ADD,
+        icon: Icon.ADD,
         items: [
           {
-            label: 'Задачу',
-            icon: 'pi pi-book ',
+            label: SecondaryMenuLabel.TASK,
+            icon: Icon.TASK,
             command: () => {
               this.generateTodoAddComponent();
             },
           },
 
           {
-            label: 'Категорию',
-            icon: 'pi pi-table',
+            label: SecondaryMenuLabel.CATEGORY,
+            icon: Icon.CATEGORY,
             command: () => {
               this.generateCategoryAddComponent();
             },
@@ -56,12 +62,12 @@ export class MenuComponent implements OnInit {
         ],
       },
       {
-        label: 'Редактировать',
-        icon: 'pi pi-pencil',
+        label: MainMenuLabel.EDIT,
+        icon: Icon.EDIT,
         items: [
           {
-            label: 'Категорию',
-            icon: 'pi pi-table',
+            label: SecondaryMenuLabel.CATEGORY,
+            icon: Icon.CATEGORY,
             command: () => {
               this.generateCategoryEditComponent();
             },
@@ -69,12 +75,12 @@ export class MenuComponent implements OnInit {
         ],
       },
       {
-        label: 'Удалить',
-        icon: 'pi pi-trash',
+        label: MainMenuLabel.DELETE,
+        icon: Icon.DELETE,
         items: [
           {
-            label: 'Категорию',
-            icon: 'pi pi-table',
+            label: SecondaryMenuLabel.CATEGORY,
+            icon: Icon.CATEGORY,
             command: () => {
               this.generateCategoryDeleteComponent();
             },

@@ -12,7 +12,7 @@
 >
   <ng-template pTemplate="content">
     <form [formGroup]="form" (ngSubmit)="onSubmit()">
-      @if(mode !== mods.ADD){
+      @if(mode !== Mods.ADD){
       <div class="categories">
         <p-dropdown
           *ngIf="categories() as categories"
@@ -24,22 +24,22 @@
           optionLabel="title"
           optionValue="id"
           [filter]="categories.length >= 5"
-          placeholder="Выберите категорию"
+          [placeholder]="Placeholder.DROPDOWN"
           [filter]="categories.length >= 5"
         ></p-dropdown>
       </div>
-      } @if(mode !== mods.DELETE){
+      } @if(mode !== Mods.DELETE){
       <input
         trimOnBlur
         class="input"
         formControlName="title"
         type="text"
         pInputText
-        placeholder="Введите название"
+        [placeholder]="Placeholder.INPUT"
       />
       }
       <div class="footer">
-        @if(mode === mods.ADD){
+        @if(mode === Mods.ADD){
         <div class="footer__setAll">
           <p-checkbox
             [binary]="true"
@@ -63,7 +63,7 @@
           <p-button
             (click)="active = false"
             size="small"
-            label="Отмена"
+            [label]="buttonCancelLabel"
             [text]="true"
             [plain]="true"
           ></p-button>

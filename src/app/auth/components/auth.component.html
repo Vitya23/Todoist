@@ -16,7 +16,7 @@
       <input
         id="email"
         type="text"
-        placeholder="Введите почту"
+        [placeholder]="Placeholder.EMAIL"
         pInputText
         class="input"
         formControlName="email"
@@ -30,7 +30,7 @@
       <label for="password" class="label">Пароль</label>
       <p-password
         inputId="password"
-        placeholder="Введите пароль"
+        [placeholder]="Placeholder.PASSWORD"
         styleClass="width-100"
         inputStyleClass="width-100"
         class="input"
@@ -46,7 +46,7 @@
       <label for="confirmPassword" class="label">Подтвердите пароль</label>
       <p-password
         inputId="confirmPassword"
-        placeholder="Подтвердите пароль"
+        [placeholder]="Placeholder.CONFIRM_PASSWORD"
         styleClass="width-100"
         inputStyleClass="width-100"
         [toggleMask]="true"
@@ -72,7 +72,7 @@
           pButton
           type="submit"
           [disabled]="submitting || this.form.invalid"
-          [label]="title === Title.LOGIN ? 'Войти' : 'Зарегистрироваться'"
+          [label]="title === Title.LOGIN ? Label.LOGIN : Label.REGISTER"
           icon="pi pi-user"
         ></button>
       </div>
