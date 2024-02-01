@@ -35,7 +35,7 @@ import { initialAuthForm } from '../utils/auth.utils';
 export class AuthComponent implements OnInit, OnDestroy {
   form: FormGroup<AuthFormI> = initialAuthForm();
   readonly Title = Title;
-  title: Title = Title.Login;
+  title: Title = Title.LOGIN;
   destroy$ = new Subject<void>();
   submitting = false;
   backendError: string | null = null;
@@ -52,7 +52,7 @@ export class AuthComponent implements OnInit, OnDestroy {
   }
 
   addFormControls(): void {
-    if (this.title === this.Title.Register) {
+    if (this.title === this.Title.REGISTER) {
       this.form.addControl(
         'confirmPassword',
         new FormControl(null, Validators.required)
@@ -62,10 +62,10 @@ export class AuthComponent implements OnInit, OnDestroy {
 
   initializeValues(): void {
     this.route.url.pipe(takeUntil(this.destroy$)).subscribe((url) => {
-      if (url[0].path === Title.Login) {
-        this.title = Title.Login;
+      if (url[0].path === Title.LOGIN) {
+        this.title = Title.LOGIN;
       } else {
-        this.title = Title.Register;
+        this.title = Title.REGISTER;
       }
     });
   }
@@ -73,7 +73,7 @@ export class AuthComponent implements OnInit, OnDestroy {
   onSubmit(): void {
     this.submitting = true;
     this.backendError = null;
-    if (this.title === Title.Login && this.form.valid) {
+    if (this.title === Title.LOGIN && this.form.valid) {
       this.authService
         .login({ user: this.form.value } as AuthRequestI)
         .pipe(takeUntil(this.destroy$))
@@ -85,7 +85,7 @@ export class AuthComponent implements OnInit, OnDestroy {
           },
         });
     }
-    if (this.title === Title.Register && this.form.valid) {
+    if (this.title === Title.REGISTER && this.form.valid) {
       const { email, password } = this.form.value;
       this.authService
         .register({

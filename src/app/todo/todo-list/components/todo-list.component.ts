@@ -70,7 +70,7 @@ export class TodoListComponent {
       const componentRef =
         this.childInsertionPoint.createComponent(DeleteComponent);
       componentRef.instance.id = id;
-      componentRef.instance.mode = DeleteMods.Task;
+      componentRef.instance.mode = DeleteMods.TASK;
     }
   }
 

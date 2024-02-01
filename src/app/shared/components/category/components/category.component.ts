@@ -177,7 +177,7 @@ export class CategoryComponent implements OnInit, OnChanges, OnDestroy {
       const componentRef =
         this.DelCategoryInsertionPoint.createComponent(DeleteComponent);
       componentRef.instance.id = id;
-      componentRef.instance.mode = DeleteMods.Category;
+      componentRef.instance.mode = DeleteMods.CATEGORY;
     }
   }
 

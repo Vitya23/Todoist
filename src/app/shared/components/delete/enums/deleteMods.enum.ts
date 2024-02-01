@@ -1,4 +1,4 @@
 export const enum DeleteMods {
-  Task,
-  Category,
+  TASK,
+  CATEGORY,
 }

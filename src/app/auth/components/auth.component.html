@@ -2,7 +2,7 @@
   <div class="block">
     <div class="header">
       <p>Добро пожаловать</p>
-      @if(title === Title.Login){
+      @if(title === Title.LOGIN){
       <span>У Вас нет аккаунта?</span>
       <a routerLink="/register">Создай сегодня!</a>
       } @else{
@@ -73,12 +73,12 @@
           type="submit"
           [disabled]="
             submitting ||
-            (title === Title.Register
+            (title === Title.REGISTER
               ? form.invalid
               : form.controls['password'].invalid ||
                 form.controls['email'].invalid)
           "
-          [label]="title === Title.Login ? 'Войти' : 'Зарегистрироваться'"
+          [label]="title === Title.LOGIN ? 'Войти' : 'Зарегистрироваться'"
           icon="pi pi-user"
         ></button>
       </div>

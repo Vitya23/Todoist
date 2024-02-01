@@ -18,18 +18,18 @@ import { TodoStatusService } from '../services/todo-status.service';
   providers: [TodoStatusService],
 })
 export class TodoStatusComponent implements OnDestroy {
-  readonly awaitStatus = TaskStatus.await;
+  readonly awaitStatus = TaskStatus.AWAIT;
   @Input() id: number | null = null;
-  @Input() status: TaskStatus = TaskStatus.await;
+  @Input() status: TaskStatus = TaskStatus.AWAIT;
   destroy$ = new Subject<void>();
 
   constructor(private todoStatusService: TodoStatusService) {}
 
   changeStatus(): void {
-    if (this.status === TaskStatus.completed) {
-      this.status = TaskStatus.await;
+    if (this.status === TaskStatus.COMPLETED) {
+      this.status = TaskStatus.AWAIT;
     } else {
-      this.status = TaskStatus.completed;
+      this.status = TaskStatus.COMPLETED;
     }
     if (this.status && this.id) {
       this.todoStatusService
@@ -41,9 +41,9 @@ export class TodoStatusComponent implements OnDestroy {
 
   getSeverity(status: string) {
     switch (status) {
-      case TaskStatus.await:
+      case TaskStatus.AWAIT:
         return 'success';
-      case TaskStatus.completed:
+      case TaskStatus.COMPLETED:
         return 'danger';
     }
     return;

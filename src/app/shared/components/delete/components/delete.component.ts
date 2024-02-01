@@ -15,7 +15,7 @@ import { DeleteMods } from '../enums/deleteMods.enum';
 })
 export class DeleteComponent implements OnInit, OnDestroy {
   @Input() id: number | null = null;
-  @Input() mode: DeleteMods = DeleteMods.Task;
+  @Input() mode: DeleteMods = DeleteMods.TASK;
   destroy$ = new Subject<void>();
 
   constructor(
@@ -26,7 +26,7 @@ export class DeleteComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.confirmationService.confirm({
       message: `Вы действительно хотите удалить ${
-        this.mode === DeleteMods.Task ? 'задачу?' : 'категорию'
+        this.mode === DeleteMods.TASK ? 'задачу?' : 'категорию'
       }`,
       header: 'Информация',
       icon: 'pi pi-info-circle',
@@ -41,16 +41,16 @@ export class DeleteComponent implements OnInit, OnDestroy {
         this.messageService.clear();
         this.messageService.add({
           severity: 'success',
-          summary: this.mode === DeleteMods.Task ? 'Задача' : 'Категория',
+          summary: this.mode === DeleteMods.TASK ? 'Задача' : 'Категория',
           detail: 'успешно удалена',
         });
-        if (this.mode === DeleteMods.Task && this.id) {
+        if (this.mode === DeleteMods.TASK && this.id) {
           this.deleteService
             .deleteTask(this.id)
             .pipe(takeUntil(this.destroy$))
             .subscribe();
         }
-        if (this.mode === DeleteMods.Category && this.id) {
+        if (this.mode === DeleteMods.CATEGORY && this.id) {
           this.deleteService
             .deleteCategory(this.id)
             .pipe(takeUntil(this.destroy$))
@@ -61,7 +61,7 @@ export class DeleteComponent implements OnInit, OnDestroy {
         this.messageService.clear();
         this.messageService.add({
           severity: 'error',
-          summary: this.mode === DeleteMods.Task ? 'Задача' : 'Категория',
+          summary: this.mode === DeleteMods.TASK ? 'Задача' : 'Категория',
           detail: 'не удалена',
         });
       },
