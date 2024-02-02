@@ -3,6 +3,7 @@ import { CurrentUserI } from '../types/currentUser.interface';
 import { TaskI } from '../../todo/todo-list/types/task.interface';
 import { CategoryI } from '../components/category/types/category.interface';
 import { PriorityI } from 'src/app/todo/todo-add-edit/types/priority.interface';
+import { LocalStorage } from 'src/app/constants/localStorage';
 
 Injectable();
 export class AppState {
@@ -30,7 +31,7 @@ export class AppState {
   }
 
   constructor() {
-    if (localStorage.getItem('accessToken')) {
+    if (localStorage.getItem(LocalStorage.ACCESS_TOKEN)) {
       this.isLoggedInState.set(true);
     }
   }

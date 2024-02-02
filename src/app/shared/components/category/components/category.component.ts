@@ -43,7 +43,8 @@ import {
   CategoryI,
 } from '../types/category.interface';
 import { initializeCategoryForm } from '../utils/category.utils';
-import { LabelConstant } from 'src/app/constants/labelConstants';
+import { Label } from 'src/app/shared/enums/label.enum';
+import { Severity } from 'src/app/constants/severity';
 
 @Component({
   standalone: true,
@@ -70,12 +71,13 @@ export class CategoryComponent implements OnInit, OnChanges, OnDestroy {
   @Input() active: boolean = false;
   @Input() mode: string | null = null;
   @Input() categoryId: number | null = null;
-  @Input() label: string = 'Добавить';
+  @Input() label: string = Label.ADD;
   @Input() header?: string;
 
   Mods = CategoryMods;
   Placeholder = CategoryPlaceholder;
-  buttonCancelLabel = LabelConstant.CANCEL_LABEL;
+  buttonCancelLabel = Label.CANCEL;
+  severityInfo = Severity.INFO;
 
   category = signal<CategoryI>({ id: null, title: null });
   categories: WritableSignal<CategoryI[] | null> = this.appState.categories;
@@ -117,7 +119,7 @@ export class CategoryComponent implements OnInit, OnChanges, OnDestroy {
         'setAll',
         new FormControl(false, { nonNullable: true })
       );
-      this.form.removeControl('title');
+      this.form.removeControl('id');
     }
     if (this.mode !== this.Mods.DELETE) {
       this.form.addControl(

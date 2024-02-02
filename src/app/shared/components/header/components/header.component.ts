@@ -8,6 +8,7 @@ import { MenuItem } from 'primeng/api';
 
 import { CommonModule } from '@angular/common';
 import { MenubarModule } from 'primeng/menubar';
+import { Icons } from 'src/app/constants/icons';
 
 @Component({
   standalone: true,
@@ -22,4 +23,5 @@ export class HeaderComponent {
   headerService = inject(HeaderService);
   currentUser$ = this.headerService.getCurrentUser();
   items: MenuItem[] = this.headerService.userItems;
+  Icons = Icons;
 }

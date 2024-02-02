@@ -19,9 +19,12 @@ import { PriorityDirective } from 'src/app/shared/directives/priority.directive'
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { DeleteMods } from 'src/app/shared/components/delete/enums/deleteMods.enum';
 import { MenuComponent } from 'src/app/shared/components/menu/components/menu.component';
+import { Label } from 'src/app/shared/enums/label.enum';
 import { TodoAddEditComponent } from 'src/app/todo/todo-add-edit/components/todo-add-edit.component';
 import { FilterComponent } from '../../filters/components/filter.component';
 import { TodoStatusComponent } from '../../todo-status/components/todo-status.component';
+import { TodoHeader } from 'src/app/shared/enums/todo.enum';
+import { Icons } from 'src/app/constants/icons';
 
 @Component({
   standalone: true,
@@ -48,6 +51,8 @@ export class TodoListComponent {
 
   tasks = this.appState.task;
 
+  Icons = Icons;
+
   constructor(
     private todoListService: TodoListService,
     private appState: AppState
@@ -62,6 +67,8 @@ export class TodoListComponent {
       const componentRef =
         this.childInsertionPoint.createComponent(TodoAddEditComponent);
       componentRef.instance.task = task;
+      componentRef.instance.label = Label.EDIT;
+      componentRef.instance.header = TodoHeader.EDIT;
     }
   }
   generateDeleteComponent(id: number): void {

@@ -54,9 +54,9 @@ export class FakeBackendInterceptor implements HttpInterceptor {
           return editTask();
         case url.endsWith('/category') && method === 'PUT':
           return editCategory();
-        case url.endsWith('/task') && method === 'DELETE':
+        case url.includes('/task') && method === 'DELETE':
           return deleteTask();
-        case url.endsWith('/category') && method === 'DELETE':
+        case url.includes('/category') && method === 'DELETE':
           return deleteCategory();
         default:
           return next.handle(req);
@@ -182,10 +182,8 @@ export class FakeBackendInterceptor implements HttpInterceptor {
     function deleteTask() {
       const user = getUserByToken();
       if (!user) return error('Пожалуйста войдите снова');
-
-      toDoDataBase.tasks = toDoDataBase.tasks.filter(
-        (res) => res.id !== body?.id
-      );
+      const id = Number(url.split('/').at(-1));
+      toDoDataBase.tasks = toDoDataBase.tasks.filter((res) => res.id !== id);
       const resTasks = toDoDataBase.tasks.filter(
         (res) => res.userId === user?.id
       );
@@ -245,13 +243,14 @@ export class FakeBackendInterceptor implements HttpInterceptor {
     function deleteCategory() {
       const user = getUserByToken();
       if (!user) return error('Пожалуйста войдите снова');
-
+      const id = Number(url.split('/').at(-1));
+      console.log(id);
       categoriesDataBase.categories = categoriesDataBase.categories.filter(
-        (res) => res.id !== body.id
+        (res) => res.id !== id
       );
 
       toDoDataBase.tasks = toDoDataBase.tasks.map((defaultTask) => {
-        if (defaultTask.category === body.id) {
+        if (defaultTask.category === id) {
           return { ...defaultTask, category: null };
         }
         return defaultTask;

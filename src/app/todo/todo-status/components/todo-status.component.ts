@@ -6,8 +6,10 @@ import {
 } from '@angular/core';
 import { TagModule } from 'primeng/tag';
 import { Subject, takeUntil } from 'rxjs';
-import { TaskStatus } from '../enums/taskStatus.enum';
+import { TaskStatus } from 'src/app/shared/enums/todo.enum';
 import { TodoStatusService } from '../services/todo-status.service';
+import { Severity } from 'src/app/constants/severity';
+import { Icons } from 'src/app/constants/icons';
 
 @Component({
   standalone: true,
@@ -18,7 +20,6 @@ import { TodoStatusService } from '../services/todo-status.service';
   providers: [TodoStatusService],
 })
 export class TodoStatusComponent implements OnDestroy {
-  readonly awaitStatus = TaskStatus.AWAIT;
   @Input() id: number | null = null;
   @Input() status: TaskStatus = TaskStatus.AWAIT;
   destroy$ = new Subject<void>();
@@ -39,14 +40,13 @@ export class TodoStatusComponent implements OnDestroy {
     }
   }
 
-  getSeverity(status: string) {
-    switch (status) {
-      case TaskStatus.AWAIT:
-        return 'success';
-      case TaskStatus.COMPLETED:
-        return 'danger';
-    }
-    return;
+  get getSeverity() {
+    return this.status === TaskStatus.AWAIT
+      ? Severity.SUCCESS
+      : Severity.DANGER;
+  }
+  get getIcon() {
+    return this.status === TaskStatus.AWAIT ? Icons.CHECK : Icons.CLOSE;
   }
 
   ngOnDestroy(): void {

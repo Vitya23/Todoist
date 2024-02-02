@@ -1,4 +1,4 @@
-import { TaskStatus } from '../../todo-status/enums/taskStatus.enum';
+import { TaskStatus } from 'src/app/shared/enums/todo.enum';
 
 export interface TaskI {
   id: number;

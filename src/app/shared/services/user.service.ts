@@ -5,6 +5,7 @@ import { Observable, catchError, map, of } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { CurrentUserI } from '../types/currentUser.interface';
 import { AppState } from './appState.state';
+import { PagePath, RequestPath } from '../enums/path.enum';
 
 export abstract class UserService {
   private readonly http = inject(HttpClient);
@@ -12,21 +13,23 @@ export abstract class UserService {
   private readonly router = inject(Router);
 
   getCurrentUser(): Observable<CurrentUserI> {
-    return this.http.get<CurrentUserI>(environment.apiUrl + 'user').pipe(
-      map((currentUser) => {
-        this.appState.isLoggedInState.set(true);
-        this.appState.currentUserState.set(currentUser);
-        return currentUser;
-      }),
-      catchError((err) => {
-        this.logout();
-        return of(err);
-      })
-    );
+    return this.http
+      .get<CurrentUserI>(environment.apiUrl + RequestPath.USER)
+      .pipe(
+        map((currentUser) => {
+          this.appState.isLoggedInState.set(true);
+          this.appState.currentUserState.set(currentUser);
+          return currentUser;
+        }),
+        catchError((err) => {
+          this.logout();
+          return of(err);
+        })
+      );
   }
   logout(): void {
     this.appState.isLoggedInState.set(false);
     localStorage.clear();
-    this.router.navigateByUrl('/login');
+    this.router.navigateByUrl(PagePath.LOGIN);
   }
 }

@@ -6,6 +6,7 @@ import { AppState } from 'src/app/shared/services/appState.state';
 import { TaskI } from 'src/app/todo/todo-list/types/task.interface';
 import { CategoryI } from 'src/app/shared/components/category/types/category.interface';
 import { environment } from 'src/environments/environment';
+import { RequestPath } from 'src/app/shared/enums/path.enum';
 
 @Injectable()
 export class DeleteService {
@@ -13,9 +14,7 @@ export class DeleteService {
 
   deleteTask(id: number): Observable<void> {
     return this.http
-      .request<TaskI[]>('delete', environment.apiUrl + 'task', {
-        body: { id: id },
-      })
+      .delete<TaskI[]>(environment.apiUrl + RequestPath.DELETE_TASK + id)
       .pipe(
         map((tasks) => {
           this.appState.task.set(tasks);
@@ -24,9 +23,9 @@ export class DeleteService {
   }
   deleteCategory(id: number): Observable<void> {
     return this.http
-      .request<CategoryI[]>('delete', environment.apiUrl + 'category', {
-        body: { id: id },
-      })
+      .delete<CategoryI[]>(
+        environment.apiUrl + RequestPath.DELETE_CATEGORY + id
+      )
       .pipe(
         map((categories) => {
           this.appState.categories.set(categories);

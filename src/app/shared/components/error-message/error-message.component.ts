@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { ValidationErrors } from '@angular/forms';
-import { VALIDATOR_ERROR } from 'src/app/constants/validatorConstants';
+import { VALIDATOR_ERROR } from 'src/app/constants/validators';
 
 @Component({
   standalone: true,

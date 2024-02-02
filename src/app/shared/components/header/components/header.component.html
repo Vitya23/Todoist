@@ -10,8 +10,10 @@
           size="large"
           shape="circle"
         ></p-avatar>
-        <span>{{ currentUser.email.slice(0, 18) }}</span>
-        <i class="pi pi-chevron-down icon"></i>
+        <div class="username">
+          <span>{{ currentUser.email.slice(0, 18) }}</span>
+          <i [class]="Icons.CHEVRON_DOWN"></i>
+        </div>
       </div>
     </ng-template>
   </p-menubar>

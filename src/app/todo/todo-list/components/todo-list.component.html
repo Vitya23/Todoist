@@ -68,9 +68,7 @@
             <app-category [categoryId]="task.category"></app-category>
           </td>
           <td>
-            <small title="Время окончания задачи">{{
-              task.endDate | date : "d MMMM y"
-            }}</small>
+            <small>{{ task.endDate | date : "d MMMM y" }}</small>
           </td>
           <td>
             <app-todo-status
@@ -82,13 +80,13 @@
             <p-button
               [text]="true"
               size="small"
-              icon="pi pi-pencil"
+              [icon]="Icons.EDIT"
               (click)="generateTodoEditComponent(task)"
             ></p-button>
             <p-button
               [text]="true"
               size="small"
-              icon="pi pi-times"
+              [icon]="Icons.CLOSE"
               (click)="generateDeleteComponent(task.id)"
             ></p-button>
           </td>

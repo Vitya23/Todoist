@@ -1,7 +1,7 @@
 <p-tag
-  [style]="{ width: '7rem', cursor: 'pointer' }"
+  styleClass="tag"
   [value]="status"
-  [severity]="getSeverity(status)"
+  [severity]="getSeverity"
   (click)="changeStatus()"
-  [icon]="status === awaitStatus ? 'pi pi-check' : 'pi pi-times'"
+  [icon]="getIcon"
 ></p-tag>

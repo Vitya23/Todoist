@@ -1,7 +1,7 @@
 import { inject } from '@angular/core';
 import { ActivatedRouteSnapshot, CanActivateFn, Router } from '@angular/router';
 import { AppState } from '../services/appState.state';
-import { Path } from '../enums/path.enum';
+import { PagePath } from '../enums/path.enum';
 
 export const authGuard: CanActivateFn = (
   route: ActivatedRouteSnapshot
@@ -12,7 +12,7 @@ export const authGuard: CanActivateFn = (
     return true;
   }
 
-  router.navigate([Path.LOGIN], {
+  router.navigate([PagePath.LOGIN], {
     queryParams: { returnUrl: route.routeConfig?.path },
   });
   return false;

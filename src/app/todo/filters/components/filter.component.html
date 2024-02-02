@@ -1,12 +1,12 @@
 <p-sidebar position="right" styleClass="w-17rem" [(visible)]="sidebarVisible">
   <ng-template pTemplate="header"
     ><div class="header">
-      <i class="pi pi-filter"></i>
+      <i [class]="Icons.FILTER"></i>
       <p>Фильтры</p>
     </div></ng-template
   >
   <ng-template pTemplate="content">
-    <form action="" class="form" [formGroup]="form">
+    <form class="form" [formGroup]="form">
       <label for="description" class="label">Название:</label>
       <input
         class="filters__select"
@@ -14,7 +14,7 @@
         id="description"
         formControlName="description"
         type="text"
-        placeholder="Введите название"
+        [placeholder]="FilterPlaceholder.INPUT"
       />
       <hr class="solid" />
 
@@ -22,7 +22,7 @@
       <p-calendar
         inputId="calendarId"
         styleClass="width-100 filters__select"
-        placeholder="Выбрать"
+        [placeholder]="FilterPlaceholder.SELECT"
         formControlName="endDate"
         [showIcon]="true"
         [showClear]="true"
@@ -33,7 +33,7 @@
       <span class="label">Приоритет:</span>
       <p-dropdown
         styleClass="width-100 filters__select"
-        placeholder="Выбрать"
+        [placeholder]="FilterPlaceholder.SELECT"
         [showClear]="true"
         optionValue="priority"
         optionLabel="title"
@@ -43,7 +43,7 @@
       >
         <ng-template let-option pTemplate="item">
           <div class="select__items">
-            <i class="pi pi-flag"></i>
+            <i [class]="Icons.PRIORITY"></i>
             <div highlightPriority [priority]="option.priority">
               {{ option.title }}
             </div>
@@ -56,7 +56,7 @@
       <span class="label">Категория:</span>
       <p-dropdown
         styleClass="width-100 filters__select"
-        placeholder="Выбрать"
+        [placeholder]="FilterPlaceholder.SELECT"
         [showClear]="true"
         [options]="categories"
         formControlName="category"
@@ -72,9 +72,9 @@
       <span class="label">Статус:</span>
       <p-dropdown
         styleClass="width-100 filters__select"
-        placeholder="Выбрать"
+        [placeholder]="FilterPlaceholder.SELECT"
         [showClear]="true"
-        [options]="statuses"
+        [options]="statusItems"
         formControlName="status"
         optionLabel="status"
         optionValue="status"
@@ -85,15 +85,15 @@
   <ng-template pTemplate="footer">
     <div class="footer">
       <p-button
-        label="Очистить"
-        severity="danger"
+        [label]="Label.CLEAR"
+        [severity]="Severity.DANGER"
         size="small"
         [outlined]="true"
         (click)="clearFilter()"
       ></p-button>
       <p-button
-        label="Применить"
-        severity="info"
+        [label]="Label.APPLY"
+        [severity]="Severity.INFO"
         size="small"
         (click)="applyFilter()"
       ></p-button>
@@ -102,10 +102,10 @@
 </p-sidebar>
 <p-button
   (click)="sidebarVisible = true"
-  severity="success"
-  icon="pi pi-filter"
+  [severity]="Severity.SUCCESS"
+  [icon]="Icons.FILTER"
   iconPos="right"
   size="small"
   [text]="true"
-  label="Фильтры"
+  [label]="Label.FILTER"
 ></p-button>

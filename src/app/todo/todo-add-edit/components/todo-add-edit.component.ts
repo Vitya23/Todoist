@@ -22,6 +22,9 @@ import { TodoAddService } from '../services/todo-add.service';
 import { PriorityI } from '../types/priority.interface';
 import { TaskFormI, TaskRequestI } from '../types/task.interface';
 import { initialTodoForm } from '../utils/todo.utils';
+import { Label } from 'src/app/shared/enums/label.enum';
+import { Icons } from 'src/app/constants/icons';
+import { TodoPlaceholder } from 'src/app/shared/enums/todo.enum';
 @Component({
   standalone: true,
   selector: 'app-todo-add-edit',
@@ -43,15 +46,18 @@ import { initialTodoForm } from '../utils/todo.utils';
 })
 export class TodoAddEditComponent implements OnInit, OnDestroy {
   @Input() task: TaskI | null = null;
-
+  @Input() label: string = Label.ADD;
+  @Input() header?: string;
   categories: CategoryI[] | null = this.appState.categories();
   priorities: PriorityI[] = this.appState.priorityItems;
 
-  destroy$ = new Subject<void>();
+  Icons = Icons;
+  Placeholder = TodoPlaceholder;
 
   visible: boolean = true;
   minDate = new Date();
 
+  destroy$ = new Subject<void>();
   form: FormGroup<TaskFormI> = initialTodoForm();
 
   constructor(
@@ -71,7 +77,7 @@ export class TodoAddEditComponent implements OnInit, OnDestroy {
       this.form.setValue({
         description: this.task.description,
         endDate: new Date(this.task.endDate),
-        priority: selectedPriority ?? { title: 'Приоритет 1', priority: 1 },
+        priority: selectedPriority ?? null,
         category: this.task.category,
       });
     }

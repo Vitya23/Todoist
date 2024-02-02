@@ -12,5 +12,4 @@ export const enum MessageDetail {
   EDIT_SUCCESS = 'успешно изменена',
   ADD_SUCCESS = 'успешно добавлена',
   DEL_SUCCESS = 'успешно удалена',
-  DEL_ERROR = 'не удалена',
 }

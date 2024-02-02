@@ -7,6 +7,7 @@ import { AppState } from 'src/app/shared/services/appState.state';
 import { environment } from 'src/environments/environment';
 import { AddCategoryI, CategoryI } from '../types/category.interface';
 import { TaskI } from 'src/app/todo/todo-list/types/task.interface';
+import { RequestPath } from 'src/app/shared/enums/path.enum';
 
 @Injectable()
 export class CategoryService {
@@ -14,8 +15,11 @@ export class CategoryService {
   addCategory(category: AddCategoryI): Observable<void> {
     if (category.setAll === true) {
       const req = [
-        this.http.post<CategoryI[]>(environment.apiUrl + 'category', category),
-        this.http.get(environment.apiUrl + 'tasks'),
+        this.http.post<CategoryI[]>(
+          environment.apiUrl + RequestPath.CATEGORY,
+          category
+        ),
+        this.http.get(environment.apiUrl + RequestPath.TASKS),
       ];
       return forkJoin(req).pipe(
         map((response) => {
@@ -26,7 +30,7 @@ export class CategoryService {
     }
 
     return this.http
-      .post<CategoryI[]>(environment.apiUrl + 'category', category)
+      .post<CategoryI[]>(environment.apiUrl + RequestPath.CATEGORY, category)
       .pipe(
         map((response) => {
           this.appState.categories.set(response);

@@ -16,7 +16,7 @@ import {
   ConfirmationLabel,
   ConfirmationMessage,
 } from 'src/app/shared/enums/confirmation.enum';
-import { Icon } from 'src/app/shared/enums/icon.enum';
+import { Icons } from 'src/app/constants/icons';
 
 @Component({
   standalone: true,
@@ -42,13 +42,13 @@ export class DeleteComponent implements OnInit, OnDestroy {
           ? ConfirmationMessage.DELETE_TASK
           : ConfirmationMessage.DELETE_CATEGORY,
       header: ConfirmationHeader.DELETE_HEADER,
-      icon: Icon.INFO_CIRCLE,
+      icon: Icons.INFO_CIRCLE,
       acceptLabel: ConfirmationLabel.ACCEPT,
       rejectLabel: ConfirmationLabel.REJECT,
       acceptButtonStyleClass: ConfirmationButtonStyle.ACCEPT,
       rejectButtonStyleClass: ConfirmationButtonStyle.REJECT,
-      acceptIcon: Icon.NONE,
-      rejectIcon: Icon.NONE,
+      acceptIcon: Icons.NONE,
+      rejectIcon: Icons.NONE,
 
       accept: () => {
         this.messageService.clear();
@@ -72,17 +72,6 @@ export class DeleteComponent implements OnInit, OnDestroy {
             .pipe(takeUntil(this.destroy$))
             .subscribe();
         }
-      },
-      reject: () => {
-        this.messageService.clear();
-        this.messageService.add({
-          severity: MessageSeverity.ERROR,
-          summary:
-            this.mode === DeleteMods.TASK
-              ? MessageSummary.TASK
-              : MessageSummary.CATEGORY,
-          detail: MessageDetail.DEL_ERROR,
-        });
       },
     });
   }

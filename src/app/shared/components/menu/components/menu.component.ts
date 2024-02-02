@@ -12,12 +12,16 @@ import { MenubarModule } from 'primeng/menubar';
 import { TieredMenuModule } from 'primeng/tieredmenu';
 import { TodoAddEditComponent } from 'src/app/todo/todo-add-edit/components/todo-add-edit.component';
 import { CategoryComponent } from '../../category/components/category.component';
-import { CategoryMods } from '../../category/enums/category.enum';
 import {
-  MainMenuLabel,
-  SecondaryMenuLabel,
-} from 'src/app/shared/enums/menu-item.enum';
-import { Icon } from 'src/app/shared/enums/icon.enum';
+  CategoryHeader,
+  CategoryMods,
+} from '../../category/enums/category.enum';
+
+import { Label } from 'src/app/shared/enums/label.enum';
+import { MenuLabel } from 'src/app/shared/enums/menu-item.enum';
+import { TodoHeader } from 'src/app/shared/enums/todo.enum';
+import { Severity } from 'src/app/constants/severity';
+import { Icons } from 'src/app/constants/icons';
 
 @Component({
   standalone: true,
@@ -30,9 +34,12 @@ import { Icon } from 'src/app/shared/enums/icon.enum';
 export class MenuComponent implements OnInit {
   @ViewChild('ChildInsertionPoint', { read: ViewContainerRef })
   childInsertionPoint: ViewContainerRef | null = null;
+
+  Icons = Icons;
+  ButtonSeverity = Severity;
   categoryMods = CategoryMods;
   items: MenuItem[] = [];
-  buttonLabel = MainMenuLabel.MENU;
+  buttonLabel = Label.MENU;
 
   ngOnInit(): void {
     this.initializeMenu();
@@ -41,20 +48,20 @@ export class MenuComponent implements OnInit {
   initializeMenu(): void {
     this.items = [
       {
-        label: MainMenuLabel.ADD,
-        icon: Icon.ADD,
+        label: Label.ADD,
+        icon: Icons.ADD,
         items: [
           {
-            label: SecondaryMenuLabel.TASK,
-            icon: Icon.TASK,
+            label: MenuLabel.TASK,
+            icon: Icons.TASK,
             command: () => {
               this.generateTodoAddComponent();
             },
           },
 
           {
-            label: SecondaryMenuLabel.CATEGORY,
-            icon: Icon.CATEGORY,
+            label: MenuLabel.CATEGORY,
+            icon: Icons.CATEGORY,
             command: () => {
               this.generateCategoryAddComponent();
             },
@@ -62,12 +69,12 @@ export class MenuComponent implements OnInit {
         ],
       },
       {
-        label: MainMenuLabel.EDIT,
-        icon: Icon.EDIT,
+        label: Label.EDIT,
+        icon: Icons.EDIT,
         items: [
           {
-            label: SecondaryMenuLabel.CATEGORY,
-            icon: Icon.CATEGORY,
+            label: MenuLabel.CATEGORY,
+            icon: Icons.CATEGORY,
             command: () => {
               this.generateCategoryEditComponent();
             },
@@ -75,12 +82,12 @@ export class MenuComponent implements OnInit {
         ],
       },
       {
-        label: MainMenuLabel.DELETE,
-        icon: Icon.DELETE,
+        label: Label.DELETE,
+        icon: Icons.DELETE_MAIN,
         items: [
           {
-            label: SecondaryMenuLabel.CATEGORY,
-            icon: Icon.CATEGORY,
+            label: MenuLabel.CATEGORY,
+            icon: Icons.CATEGORY,
             command: () => {
               this.generateCategoryDeleteComponent();
             },
@@ -93,7 +100,10 @@ export class MenuComponent implements OnInit {
   generateTodoAddComponent() {
     if (this.childInsertionPoint) {
       this.childInsertionPoint.clear();
-      this.childInsertionPoint.createComponent(TodoAddEditComponent);
+      const componentRef =
+        this.childInsertionPoint.createComponent(TodoAddEditComponent);
+      componentRef.instance.label = Label.ADD;
+      componentRef.instance.header = TodoHeader.ADD;
     }
   }
   generateCategoryAddComponent() {
@@ -103,8 +113,8 @@ export class MenuComponent implements OnInit {
         this.childInsertionPoint.createComponent(CategoryComponent);
       componentRef.instance.active = true;
       componentRef.instance.mode = this.categoryMods.ADD;
-      componentRef.instance.label = 'Добавить';
-      componentRef.instance.header = 'Добавить категорию';
+      componentRef.instance.label = Label.ADD;
+      componentRef.instance.header = CategoryHeader.ADD;
     }
   }
   generateCategoryEditComponent() {
@@ -114,8 +124,8 @@ export class MenuComponent implements OnInit {
         this.childInsertionPoint.createComponent(CategoryComponent);
       componentRef.instance.active = true;
       componentRef.instance.mode = this.categoryMods.EDIT;
-      componentRef.instance.label = 'Сохранить';
-      componentRef.instance.header = 'Изменить категорию';
+      componentRef.instance.label = Label.EDIT;
+      componentRef.instance.header = CategoryHeader.EDIT;
     }
   }
   generateCategoryDeleteComponent() {
@@ -125,8 +135,8 @@ export class MenuComponent implements OnInit {
         this.childInsertionPoint.createComponent(CategoryComponent);
       componentRef.instance.active = true;
       componentRef.instance.mode = this.categoryMods.DELETE;
-      componentRef.instance.label = 'Удалить';
-      componentRef.instance.header = 'Удалить категорию';
+      componentRef.instance.label = Label.DELETE;
+      componentRef.instance.header = CategoryHeader.DELETE;
     }
   }
 }

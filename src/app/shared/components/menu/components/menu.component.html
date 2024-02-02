@@ -10,20 +10,20 @@
 <div class="pTired">
   <p-button
     (click)="pTired.toggle($event)"
-    icon="pi pi-bars"
+    [icon]="Icons.MENU"
     [outlined]="true"
     [label]="buttonLabel"
-    severity="info"
+    [severity]="ButtonSeverity.INFO"
     size="small"
   ></p-button>
 </div>
 <div class="menu">
   <p-button
     (click)="menu.toggle($event)"
-    icon="pi pi-bars"
+    [icon]="Icons.MENU"
     [outlined]="true"
     [label]="buttonLabel"
-    severity="info"
+    [severity]="ButtonSeverity.INFO"
     size="small"
   ></p-button>
 </div>

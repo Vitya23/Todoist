@@ -16,6 +16,8 @@ import { AuthLabel, AuthPlaceholder, Title } from '../enums/auth.enum';
 import { AuthService } from '../services/auth.service';
 import { AuthFormI, AuthRequestI } from '../types/auth.interface';
 import { initialAuthForm } from '../utils/auth.utils';
+import { Icons } from 'src/app/constants/icons';
+import { PagePath } from 'src/app/shared/enums/path.enum';
 
 @Component({
   selector: 'app-auth',
@@ -34,11 +36,15 @@ import { initialAuthForm } from '../utils/auth.utils';
 })
 export class AuthComponent implements OnInit, OnDestroy {
   form: FormGroup<AuthFormI> = initialAuthForm();
+
   Title = Title;
   Label = AuthLabel;
+  Icons = Icons;
   Placeholder = AuthPlaceholder;
   title: Title = Title.LOGIN;
+
   destroy$ = new Subject<void>();
+
   submitting = false;
   backendError: string | null = null;
 
@@ -80,7 +86,7 @@ export class AuthComponent implements OnInit, OnDestroy {
         .login({ user: this.form.value } as AuthRequestI)
         .pipe(takeUntil(this.destroy$))
         .subscribe({
-          next: () => this.router.navigateByUrl('/todo'),
+          next: () => this.router.navigateByUrl(PagePath.TODO),
           error: (err) => {
             this.backendError = err.error.message;
             this.submitting = false;
@@ -98,7 +104,7 @@ export class AuthComponent implements OnInit, OnDestroy {
         })
         .pipe(takeUntil(this.destroy$))
         .subscribe({
-          next: () => this.router.navigateByUrl('/todo'),
+          next: () => this.router.navigateByUrl(PagePath.TODO),
           error: (err) => {
             this.backendError = err.error.message;
             this.submitting = false;
