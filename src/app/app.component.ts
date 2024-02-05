@@ -5,6 +5,7 @@ import { HeaderComponent } from './shared/components/header/components/header.co
 import { MessagesModule } from 'primeng/messages';
 import { PrimeNGConfig } from 'primeng/api';
 import { ruLocale } from './locale';
+import { PagesTitle } from './shared/enums/pages-title.enums';
 @Component({
   selector: 'app-root',
   standalone: true,
@@ -13,7 +14,7 @@ import { ruLocale } from './locale';
   styleUrl: './app.component.scss',
 })
 export class AppComponent {
-  title = 'Todoist';
+  title = PagesTitle.MAIN;
   isLoggedIn = inject(AppState).isLoggedInState;
 
   constructor(private config: PrimeNGConfig) {}

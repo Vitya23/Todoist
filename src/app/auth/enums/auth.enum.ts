@@ -1,8 +1,3 @@
-export enum Title {
-  REGISTER = 'register',
-  LOGIN = 'login',
-}
-
 export enum AuthLabel {
   REGISTER = 'Зарегистрироваться',
   LOGIN = 'Войти',

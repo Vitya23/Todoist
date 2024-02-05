@@ -40,7 +40,7 @@ export class CategoryService {
 
   editCategory(category: CategoryI): Observable<void> {
     return this.http
-      .put<CategoryI[]>(environment.apiUrl + 'category', category)
+      .put<CategoryI[]>(environment.apiUrl + RequestPath.CATEGORY, category)
       .pipe(
         map((response) => {
           this.appState.categories.set(response);

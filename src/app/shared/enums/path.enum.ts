@@ -1,4 +1,4 @@
-export const enum PagePath {
+export enum PagePath {
   LOGIN = 'login',
   REGISTER = 'register',
   TODO = 'todo',

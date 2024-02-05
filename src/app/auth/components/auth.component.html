@@ -4,10 +4,10 @@
       <p>Добро пожаловать</p>
       @if(title === Title.LOGIN){
       <span>У Вас нет аккаунта?</span>
-      <a routerLink="/register">Создай сегодня!</a>
+      <a (click)="navigate(PagePath.REGISTER)">Создай сегодня!</a>
       } @else{
       <span>У Вас есть аккаунт</span>
-      <a routerLink="/login">Войти!</a>
+      <a (click)="navigate(PagePath.LOGIN)">Войти!</a>
       }
     </div>
 
